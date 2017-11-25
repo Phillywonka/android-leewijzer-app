@@ -19,6 +19,8 @@ import com.philip.leeswijzer_app.R
  */
 abstract class BaseActivity : Activity() {
 
+    private var currentNavItemId : Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
@@ -26,8 +28,12 @@ abstract class BaseActivity : Activity() {
     }
 
     private fun setupNavigationMenu() {
+        currentNavItemId = R.id.action_courses
+
         val bottomViewNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
         bottomViewNavigationView.setOnNavigationItemReselectedListener { view ->
+
+            if (this.currentNavItemId == currentNavItemId) return@setOnNavigationItemReselectedListener
 
             when (view.itemId) {
                 R.id.action_courses -> {

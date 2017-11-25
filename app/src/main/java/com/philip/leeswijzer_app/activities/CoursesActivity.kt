@@ -1,7 +1,9 @@
 package com.philip.leeswijzer_app.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.util.Log
+import com.philip.leeswijzer_app.R
+import com.philip.leeswijzer_app.fragments.SelectCourseFragment
 
 /**
  * Activity for presenting Course related data.
@@ -11,8 +13,21 @@ import android.os.PersistableBundle
  **/
 class CoursesActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Log.d("MoneyMonk", "courses : : ");
+        val selectCourseFragment = SelectCourseFragment()
+
+        this.fragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, selectCourseFragment, SelectCourseFragment.TAG)
+                .commit();
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.fragmentManager.popBackStack()
     }
 }
 

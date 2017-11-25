@@ -1,11 +1,22 @@
-package com.philip.leeswijzer_app
+package com.philip.leeswijzer_app.activities
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import com.philip.leeswijzer_app.R
 
+/**
+ * Abstract Activity class that contains the configuration methods for the bottom navigation
+ * bar.
+ *
+ * @see Activity
+ * @see BottomNavigationView
+ *
+ * @author Philip Wong
+ * @since 24-11-2017
+ */
 abstract class BaseActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +40,9 @@ abstract class BaseActivity : Activity() {
         }
     }
 
+    /**
+     * Start a new activity and hide de draw animations.
+     */
     private fun startActivity(context: Context, T: Class<out Any>) {
         val intent = Intent(context, T)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

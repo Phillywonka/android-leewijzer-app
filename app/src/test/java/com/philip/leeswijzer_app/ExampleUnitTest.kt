@@ -1,4 +1,4 @@
-package philip.com.leeswijzer_app
+package com.philip.leeswijzer_app
 
 import org.junit.Test
 

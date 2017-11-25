@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">leeswijzer-app</string>
+    <string name="vakken">vakken</string>
+    <string name="statistieken">statistieken</string>
 </resources>

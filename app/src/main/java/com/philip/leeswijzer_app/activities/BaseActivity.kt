@@ -27,16 +27,20 @@ abstract class BaseActivity : Activity() {
     private fun setupNavigationMenu() {
 
         val bottomViewNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
-        bottomViewNavigationView.setOnNavigationItemReselectedListener { view ->
+        bottomViewNavigationView.setOnNavigationItemSelectedListener { view ->
 
             when (view.itemId) {
                 R.id.action_courses -> {
                     this.startActivity(this, CoursesActivity::class.java)
+                    true
                 }
                 R.id.action_statistics -> {
                     this.startActivity(this, StatisticsActivity::class.java)
+                    true
                 }
+                else -> false
             }
+
         }
     }
 
@@ -46,7 +50,7 @@ abstract class BaseActivity : Activity() {
     private fun startActivity(context: Context, activityToStart: Class<out Any>) {
 
         // Return if the current class is the activity to start.
-        if (this.javaClass != activityToStart)
+        if (this.javaClass == activityToStart)
         {
             return
         }

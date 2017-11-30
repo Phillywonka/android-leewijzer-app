@@ -1,12 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_courses"
-          android:title="@string/vakken"
           android:icon="@drawable/ic_school"
-          android:enabled="true"
+          android:title="@string/vakken"
     />
     <item android:id="@+id/action_statistics"
           android:title="@string/statistieken"
           android:icon="@drawable/ic_insert_chart"
-          android:enabled="true"
     />
 </menu>

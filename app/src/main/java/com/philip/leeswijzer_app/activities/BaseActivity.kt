@@ -8,8 +8,7 @@ import android.support.design.widget.BottomNavigationView
 import com.philip.leeswijzer_app.R
 
 /**
- * Abstract Activity class that contains the configuration methods for the bottom navigation
- * bar.
+ * Abstract Activity class that contains the configuration methods for the bottom navigation bar.
  *
  * @see Activity
  * @see BottomNavigationView
@@ -19,8 +18,6 @@ import com.philip.leeswijzer_app.R
  */
 abstract class BaseActivity : Activity() {
 
-    private var currentNavItemId : Int = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
@@ -28,19 +25,16 @@ abstract class BaseActivity : Activity() {
     }
 
     private fun setupNavigationMenu() {
-        currentNavItemId = R.id.action_courses
 
         val bottomViewNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
         bottomViewNavigationView.setOnNavigationItemReselectedListener { view ->
 
-            if (this.currentNavItemId == currentNavItemId) return@setOnNavigationItemReselectedListener
-
             when (view.itemId) {
                 R.id.action_courses -> {
-                    this.startActivity(this.applicationContext, CoursesActivity::class.java)
+                    this.startActivity(this, CoursesActivity::class.java)
                 }
                 R.id.action_statistics -> {
-                    this.startActivity(this.applicationContext, StatisticsActivity::class.java)
+                    this.startActivity(this, StatisticsActivity::class.java)
                 }
             }
         }
@@ -49,8 +43,15 @@ abstract class BaseActivity : Activity() {
     /**
      * Start a new activity and hide de draw animations.
      */
-    private fun startActivity(context: Context, T: Class<out Any>) {
-        val intent = Intent(context, T)
+    private fun startActivity(context: Context, activityToStart: Class<out Any>) {
+
+        // Return if the current class is the activity to start.
+        if (this.javaClass != activityToStart)
+        {
+            return
+        }
+
+        val intent = Intent(context, activityToStart)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         this.startActivity(intent)
     }

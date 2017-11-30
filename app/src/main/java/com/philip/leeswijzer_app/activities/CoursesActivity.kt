@@ -1,7 +1,6 @@
 package com.philip.leeswijzer_app.activities
 
 import android.os.Bundle
-import android.util.Log
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.fragments.SelectCourseFragment
 
@@ -16,7 +15,6 @@ class CoursesActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("MoneyMonk", "courses : : ");
         val selectCourseFragment = SelectCourseFragment()
 
         this.fragmentManager

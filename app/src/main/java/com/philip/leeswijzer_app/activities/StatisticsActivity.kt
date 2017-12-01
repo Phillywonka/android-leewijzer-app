@@ -23,3 +23,4 @@ class StatisticsActivity : BaseActivity() {
                 .commit();
     }
 }
+

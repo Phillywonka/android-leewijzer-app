@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v7.app.AppCompatActivity
 import com.philip.leeswijzer_app.R
 
 /**
@@ -16,7 +17,7 @@ import com.philip.leeswijzer_app.R
  * @author Philip Wong
  * @since 24-11-2017
  */
-abstract class BaseActivity : Activity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

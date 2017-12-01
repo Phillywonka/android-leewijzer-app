@@ -19,7 +19,6 @@ class SelectCourseFragment : Fragment() {
 
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
 
-
     companion object {
         val TAG = "selectCourseFragment"
     }
@@ -30,6 +29,7 @@ class SelectCourseFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.activity.title = "Mijn vakken"
         this.setupCoursesRecyclerView(view!!)
     }
 
@@ -39,6 +39,9 @@ class SelectCourseFragment : Fragment() {
         coursesRecyclerViewAdapter = SelectCourseRecyclerViewAdapter(this.activity.applicationContext)
         coursesRecyclerView.adapter = coursesRecyclerViewAdapter
         coursesRecyclerView.layoutManager = LinearLayoutManager(this.activity)
-        coursesRecyclerViewAdapter.add(Course(Math.random().toString()))
+
+        for (i in 1..10) {
+            coursesRecyclerViewAdapter.add(Course("IOPR$i", "Software Engineering"))
+        }
     }
 }

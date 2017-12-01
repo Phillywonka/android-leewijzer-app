@@ -17,7 +17,7 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
     private var courses: MutableList<Course> = ArrayList()
 
     override fun onBindViewHolder(holder: CourseViewHolder?, position: Int) {
-        holder!!.setCourseName(this.courses[position].name)
+        holder!!.setCourse(this.courses[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CourseViewHolder {
@@ -29,8 +29,8 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
     }
 
     fun add(course: Course) {
-        this.courses.add(0, course)
-        notifyItemInserted(0)
+        this.courses.add(course)
+        notifyItemChanged(this.courses.size)
     }
 
     fun addAll(courses: ArrayList<Course>) {

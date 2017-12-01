@@ -1,7 +1,7 @@
 package com.philip.leeswijzer_app.activities
 
+
 import android.os.Bundle
-import android.util.Log
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.fragments.SelectCourseFragment
 
@@ -18,11 +18,10 @@ class CoursesActivity : BaseActivity() {
 
         val selectCourseFragment = SelectCourseFragment()
 
-        Log.d("Application", "CoursesActivity: onCreate: ")
         this.fragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, selectCourseFragment, SelectCourseFragment.TAG)
                 .commit()
     }
-}
 
+}

@@ -2,10 +2,14 @@ package com.philip.leeswijzer_app.fragments
 
 import android.app.Fragment
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.philip.leeswijzer_app.R
+import com.philip.leeswijzer_app.adapters.SelectCourseRecyclerViewAdapter
+import com.philip.leeswijzer_app.models.Course
 
 /**
  * @author Philip Wong
@@ -13,11 +17,28 @@ import com.philip.leeswijzer_app.R
  **/
 class SelectCourseFragment : Fragment() {
 
+    private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
+
+
     companion object {
         val TAG = "selectCourseFragment"
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater!!.inflate(R.layout.fragment_select_course, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.setupCoursesRecyclerView(view!!)
+    }
+
+    private fun setupCoursesRecyclerView(parent: View) {
+
+        val coursesRecyclerView = parent.findViewById<RecyclerView>(R.id.courses_recycler_view)
+        coursesRecyclerViewAdapter = SelectCourseRecyclerViewAdapter(this.activity.applicationContext)
+        coursesRecyclerView.adapter = coursesRecyclerViewAdapter
+        coursesRecyclerView.layoutManager = LinearLayoutManager(this.activity)
+        coursesRecyclerViewAdapter.add(Course(Math.random().toString()))
     }
 }

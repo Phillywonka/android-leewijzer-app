@@ -9,9 +9,9 @@ import com.philip.leeswijzer_app.viewholders.CourseViewHolder
 
 /**
  * @author Philip Wong
- * @since 30-11-17
+ * @since 01-12-17
  **/
-class SelectCourseRecyclerViewAdapter(private val context: Context)
+class SelectSectionRecyclerViewAdapter(private val context: Context)
     : RecyclerView.Adapter<CourseViewHolder>() {
 
     private var courses: MutableList<Course> = ArrayList()

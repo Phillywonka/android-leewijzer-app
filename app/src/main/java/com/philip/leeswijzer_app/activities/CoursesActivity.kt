@@ -3,7 +3,7 @@ package com.philip.leeswijzer_app.activities
 
 import android.os.Bundle
 import com.philip.leeswijzer_app.R
-import com.philip.leeswijzer_app.fragments.SelectCourseFragment
+import com.philip.leeswijzer_app.fragments.courses.SelectCourseFragment
 
 /**
  * Activity for presenting Course related data.

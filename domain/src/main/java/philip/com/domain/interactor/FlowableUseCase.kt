@@ -10,7 +10,6 @@ import org.buffer.android.boilerplate.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 
 
-
 /**
  * Abstract class for a UseCase that returns an instance of a [Single].
  */

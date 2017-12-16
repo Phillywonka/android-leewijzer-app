@@ -1,50 +1,60 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "philip.com.leeswijzer_app"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
-    }
-    buildToolsVersion '26.0.2'
-    dexOptions {
-        incremental true
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
+
+}
+
+ext {
+    rxKotlinVersion = '2.1.0'
+    rxAndroidVersion = '2.0.1'
+    assertJVersion = '3.8.0'
+    mockitoKotlinVersion = '1.5.0'
+    okHttpVersion = '3.8.1'
+    roomVersion = '1.0.0'
+    jUnitVersion = '4.12'
+    robolectricVersion = '3.4.2'
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.61'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.0'
-    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':domain')
+
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support:support-v4:26.1.0'
-    compile 'io.reactivex.rxjava2:rxkotlin:2.2.0'
-    implementation project(':data')
+    implementation "com.squareup.okhttp3:okhttp:${okHttpVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    implementation "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+
+    compile "android.arch.lifecycle:runtime:${roomVersion}"
+    compile "android.arch.lifecycle:extensions:${roomVersion}"
+    kapt "android.arch.lifecycle:compiler:${roomVersion}"
+
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.0'
+    testImplementation "junit:junit:${jUnitVersion}"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+    testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
+    testImplementation "org.robolectric:robolectric:${robolectricVersion}"
+    testImplementation "android.arch.core:core-testing:1.0.0"
 }

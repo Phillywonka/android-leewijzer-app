@@ -44,4 +44,5 @@ dependencies {
     testImplementation "org.assertj:assertj-core:${assertJVersion}"
     testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
     testImplementation 'com.android.support.test:runner:1.0.1'
+    testCompile project(path: ':data')
 }

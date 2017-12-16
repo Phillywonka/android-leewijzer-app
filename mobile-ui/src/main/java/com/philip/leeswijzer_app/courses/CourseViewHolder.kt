@@ -3,8 +3,8 @@ package com.philip.leeswijzer_app.courses
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import kotlinx.android.synthetic.main.row_course.view.*
-import philip.com.data.models.Course
+import android.widget.TextView
+import com.philip.leeswijzer_app.R
 
 /**
  * @author Philip Wong
@@ -12,9 +12,10 @@ import philip.com.data.models.Course
  **/
 class CourseViewHolder(view: CourseRowView) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-    fun setCourse(course: Course) {
-        itemView.course_name_text_view.text = course.name
-//        itemView.field_of_study.text = course.fieldOfStudy
+    var nameTextView: TextView
+
+    init {
+        nameTextView = view.findViewById(R.id.course_name_text_view)
     }
 
     override fun onClick(p0: View?) {

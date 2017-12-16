@@ -3,38 +3,37 @@ package com.philip.leeswijzer_app.sections
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.philip.leeswijzer_app.courses.CourseRowView
-import com.philip.leeswijzer_app.courses.CourseViewHolder
-import philip.com.data.models.Course
+import philip.com.data.models.SectionEntity
 
 /**
  * @author Philip Wong
  * @since 01-12-17
  **/
 class SelectSectionRecyclerViewAdapter(private val context: Context)
-    : RecyclerView.Adapter<CourseViewHolder>() {
+    : RecyclerView.Adapter<SectionViewHolder>() {
 
-    private var courses: MutableList<Course> = ArrayList()
+    private var sections: MutableList<SectionEntity> = ArrayList()
 
-    override fun onBindViewHolder(holder: CourseViewHolder?, position: Int) {
-        holder!!.setCourse(this.courses[position])
+    override fun onBindViewHolder(holder: SectionViewHolder, position: Int) {
+        val section = sections[position]
+        holder.nameTextView.text = section.name
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CourseViewHolder {
-        return CourseViewHolder(CourseRowView(this.context))
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionViewHolder {
+        return SectionViewHolder(SectionRowView(this.context))
     }
 
     override fun getItemCount(): Int {
-        return this.courses.size
+        return this.sections.size
     }
 
-    fun add(course: Course) {
-        this.courses.add(course)
-        notifyItemChanged(this.courses.size)
+    fun add(section: SectionEntity) {
+        this.sections.add(section)
+        notifyItemChanged(this.sections.size)
     }
 
-    fun addAll(courses: ArrayList<Course>) {
-        this.courses.addAll(courses)
+    fun addAll(sections: ArrayList<SectionEntity>) {
+        this.sections.addAll(sections)
         notifyDataSetChanged()
     }
 

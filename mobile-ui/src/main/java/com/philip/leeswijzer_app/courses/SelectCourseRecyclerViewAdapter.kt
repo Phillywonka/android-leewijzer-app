@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import philip.com.data.models.Course
+import org.buffer.android.boilerplate.presentation.model.CourseView
 
 /**
  * @author Philip Wong
@@ -14,14 +14,14 @@ import philip.com.data.models.Course
 class SelectCourseRecyclerViewAdapter(private val context: Context)
     : RecyclerView.Adapter<CourseViewHolder>() {
 
-    private var courses: MutableList<Course> = ArrayList()
+    private var courses: MutableList<CourseView> = ArrayList()
 
-    private lateinit var onItemClickListener : View.OnClickListener
+    private lateinit var onItemClickListener: View.OnClickListener
 
-    override fun onBindViewHolder(holder: CourseViewHolder?, position: Int) {
-        Log.d("Application", "SelectCourseRecyclerViewAdapter: onBindViewHolder: ")
-        holder!!.itemView.setOnClickListener({this.onItemClickListener.onClick(holder.itemView)})
-        holder.setCourse(this.courses[position])
+    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
+        val course = courses[position]
+        holder.nameTextView.text = course.name
+        holder.itemView.setOnClickListener({ this.onItemClickListener.onClick(holder.itemView) })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CourseViewHolder {
@@ -32,13 +32,13 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
         return this.courses.size
     }
 
-    fun add(course: Course) {
+    fun add(course: CourseView) {
         this.courses.add(course)
         this.notifyItemChanged(this.courses.size)
     }
 
-    fun addAll(courses: ArrayList<Course>) {
-        this.courses.addAll(courses)
+    fun addAll(courseViews: ArrayList<CourseView>) {
+        this.courses.addAll(courseViews)
         this.notifyDataSetChanged()
     }
 

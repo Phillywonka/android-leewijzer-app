@@ -6,7 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
-import org.buffer.android.boilerplate.domain.executor.PostExecutionThread
+import philip.com.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 
 

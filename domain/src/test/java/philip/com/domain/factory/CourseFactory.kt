@@ -1,7 +1,9 @@
-package org.buffer.android.boilerplate.domain.test.factory
+package philip.com.domain.factory
 
 import org.buffer.android.boilerplate.domain.model.Course
-import org.buffer.android.boilerplate.domain.test.factory.DataFactory.Factory.randomUuid
+import philip.com.domain.SectionFactory
+import philip.com.domain.factory.DataFactory.Factory.randomInt
+import philip.com.domain.factory.DataFactory.Factory.randomUuid
 
 /**
  * Factory class for Course related instances
@@ -19,7 +21,7 @@ class CourseFactory {
         }
 
         fun makeCourse(): Course {
-            return Course(randomUuid(), randomUuid())
+            return Course(randomUuid(), randomUuid(), SectionFactory.makeSectionList(randomInt()))
         }
 
     }

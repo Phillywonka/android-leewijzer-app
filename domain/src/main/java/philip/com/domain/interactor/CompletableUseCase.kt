@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
-import org.buffer.android.boilerplate.domain.executor.PostExecutionThread
+import philip.com.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 
 /**

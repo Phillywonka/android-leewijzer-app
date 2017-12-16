@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.domain.executor
+package philip.com.domain.executor
 
 import io.reactivex.Scheduler
 

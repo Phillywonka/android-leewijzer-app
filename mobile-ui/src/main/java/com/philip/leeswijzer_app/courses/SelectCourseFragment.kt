@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.sections.SelectSectionsFragment
-import philip.com.data.models.Course
-import philip.com.data.models.Section
+import org.buffer.android.boilerplate.presentation.model.CourseView
+import philip.com.data.models.SectionEntity
 
 /**
  * @author Philip Wong
@@ -58,11 +58,11 @@ class SelectCourseFragment : Fragment() {
         coursesRecyclerView.layoutManager = LinearLayoutManager(this.activity)
 
 
-        val sections = ArrayList<Section>()
-        sections.add(Section("Polymorfism"))
+        val sections = ArrayList<SectionEntity>()
+        sections.add(SectionEntity(1L, "Polymorfism", false))
 
         for (i in 1..10) {
-            coursesRecyclerViewAdapter.add(Course("IOPR$i", "Software Engineering", sections))
+            coursesRecyclerViewAdapter.add(CourseView("IOPR$i", "Software Engineering"))
         }
 
 

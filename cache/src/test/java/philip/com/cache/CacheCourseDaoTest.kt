@@ -9,34 +9,34 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import philip.com.cache.database.CourseDatabase
+import philip.com.cache.database.CacheDatabase
 import philip.com.cache.factory.CourseFactory
 
 @RunWith(RobolectricTestRunner::class)
 open class CacheCourseDaoTest {
 
-    private lateinit var coursesDatabase: CourseDatabase
+    private lateinit var coursesCacheDatabase: CacheDatabase
 
     @Before
     fun initDb() {
-        coursesDatabase = Room.inMemoryDatabaseBuilder(
+        coursesCacheDatabase = Room.inMemoryDatabaseBuilder(
                 RuntimeEnvironment.application.baseContext,
-                CourseDatabase::class.java)
+                CacheDatabase::class.java)
                 .allowMainThreadQueries()
                 .build()
     }
 
     @After
     fun closeDb() {
-        coursesDatabase.close()
+        coursesCacheDatabase.close()
     }
 
     @Test
     fun insertCoursesSavesData() {
         val cachedCourse = CourseFactory.makeCachedCourse()
-        coursesDatabase.cachedCourseDao().insertCourse(cachedCourse)
+        coursesCacheDatabase.cachedCourseDao().insertCourse(cachedCourse)
 
-        val students = coursesDatabase.cachedCourseDao().loadAllCourses()
+        val students = coursesCacheDatabase.cachedCourseDao().loadAllCourses()
         assertThat(students.isNotEmpty(), `is`(true))
     }
 
@@ -45,18 +45,18 @@ open class CacheCourseDaoTest {
         val cachedCourses = CourseFactory.makeCachedCourseList(5)
 
         cachedCourses.forEach {
-            coursesDatabase.cachedCourseDao().insertCourse(it)
+            coursesCacheDatabase.cachedCourseDao().insertCourse(it)
         }
 
-        val retrievedCourses = coursesDatabase.cachedCourseDao().loadAllCourses()
+        val retrievedCourses = coursesCacheDatabase.cachedCourseDao().loadAllCourses()
         assertThat(retrievedCourses, `is`(cachedCourses))
     }
 
     @Test
     fun removeCourseDeletesData() {
         val cachedCourse = CourseFactory.makeCachedCourse()
-        coursesDatabase.cachedCourseDao().insertCourse(cachedCourse)
-        coursesDatabase.cachedCourseDao().clearCourses()
-        assertThat(coursesDatabase.cachedCourseDao().loadAllCourses().isEmpty(), `is`(true))
+        coursesCacheDatabase.cachedCourseDao().insertCourse(cachedCourse)
+        coursesCacheDatabase.cachedCourseDao().clearCourses()
+        assertThat(coursesCacheDatabase.cachedCourseDao().loadAllCourses().isEmpty(), `is`(true))
     }
 }

@@ -9,34 +9,34 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import philip.com.cache.database.StudentDatabase
+import philip.com.cache.database.CacheDatabase
 import philip.com.cache.factory.StudentFactory
 
 @RunWith(RobolectricTestRunner::class)
 open class CachedStudentDaoTest {
 
-    private lateinit var coursesDatabase: StudentDatabase
+    private lateinit var cacheDatabase: CacheDatabase
 
     @Before
     fun initDb() {
-        coursesDatabase = Room.inMemoryDatabaseBuilder(
+        cacheDatabase = Room.inMemoryDatabaseBuilder(
                 RuntimeEnvironment.application.baseContext,
-                StudentDatabase::class.java)
+                CacheDatabase::class.java)
                 .allowMainThreadQueries()
                 .build()
     }
 
     @After
     fun closeDb() {
-        coursesDatabase.close()
+        cacheDatabase.close()
     }
 
     @Test
     fun insertStudentsSavesData() {
-        val cachedCourse = StudentFactory.makeCachedStudent()
-        coursesDatabase.cachedStudentDao().insertStudent(cachedCourse)
+        val cachedStudent = StudentFactory.makeCachedStudent()
+        cacheDatabase.cachedStudentDao().insertStudent(cachedStudent)
 
-        val students = coursesDatabase.cachedStudentDao().loadAllStudents()
+        val students = cacheDatabase.cachedStudentDao().loadAllStudents()
         assertThat(students.isNotEmpty(), `is`(true))
     }
 
@@ -45,18 +45,18 @@ open class CachedStudentDaoTest {
         val cachedStudents = StudentFactory.makeCachedStudentList(5)
 
         cachedStudents.forEach {
-            coursesDatabase.cachedStudentDao().insertStudent(it)
+            cacheDatabase.cachedStudentDao().insertStudent(it)
         }
 
-        val retrievedCourses = coursesDatabase.cachedStudentDao().loadAllStudents()
-        assertThat(retrievedCourses, `is`(cachedStudents))
+        val retrievedStudents = cacheDatabase.cachedStudentDao().loadAllStudents()
+        assertThat(retrievedStudents, `is`(cachedStudents))
     }
 
     @Test
     fun removeStudentDeletesData() {
         val cachedStudent = StudentFactory.makeCachedStudent()
-        coursesDatabase.cachedStudentDao().insertStudent(cachedStudent)
-        coursesDatabase.cachedStudentDao().clearStudents()
-        assertThat(coursesDatabase.cachedStudentDao().loadAllStudents().isEmpty(), `is`(true))
+        cacheDatabase.cachedStudentDao().insertStudent(cachedStudent)
+        cacheDatabase.cachedStudentDao().clearStudents()
+        assertThat(cacheDatabase.cachedStudentDao().loadAllStudents().isEmpty(), `is`(true))
     }
 }

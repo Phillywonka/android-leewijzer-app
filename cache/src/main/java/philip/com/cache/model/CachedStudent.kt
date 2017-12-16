@@ -15,4 +15,5 @@ data class CachedStudent(
         val number: String,
         val name: String,
         val password: String,
-        val fieldOfStudy: String)
+        val fieldOfStudy: String
+)

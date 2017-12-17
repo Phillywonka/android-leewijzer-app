@@ -39,6 +39,7 @@ ext {
     assertJVersion = '3.8.0'
     mockitoKotlinVersion = '1.5.0'
     okHttpVersion = '3.8.1'
+    roomVersion = '1.0.0'
 }
 
 dependencies {
@@ -47,6 +48,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
     implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+
+    compile "android.arch.persistence.room:rxjava2:$roomVersion"
 
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
@@ -57,4 +60,5 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
     implementation project(':presentation')
+    compile project(path: ':cache')
 }

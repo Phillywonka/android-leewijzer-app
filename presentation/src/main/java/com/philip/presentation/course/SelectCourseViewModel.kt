@@ -6,9 +6,9 @@ import android.arch.lifecycle.ViewModel
 import io.reactivex.subscribers.DisposableSubscriber
 import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
 import org.buffer.android.boilerplate.domain.model.Course
-import org.buffer.android.boilerplate.presentation.data.Resource
+import com.philip.presentation.data.Resource
 import org.buffer.android.boilerplate.presentation.data.ResourceState
-import org.buffer.android.boilerplate.presentation.mapper.CourseMapper
+import com.philip.presentation.mapper.CourseMapper
 import org.buffer.android.boilerplate.presentation.model.CourseView
 
 open class SelectCourseViewModel internal constructor(

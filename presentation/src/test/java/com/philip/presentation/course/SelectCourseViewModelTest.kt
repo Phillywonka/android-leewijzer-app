@@ -8,7 +8,7 @@ import io.reactivex.subscribers.DisposableSubscriber
 import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
 import org.buffer.android.boilerplate.domain.model.Course
 import org.buffer.android.boilerplate.presentation.data.ResourceState
-import org.buffer.android.boilerplate.presentation.mapper.CourseMapper
+import com.philip.presentation.mapper.CourseMapper
 import org.buffer.android.boilerplate.presentation.model.CourseView
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.nullValue

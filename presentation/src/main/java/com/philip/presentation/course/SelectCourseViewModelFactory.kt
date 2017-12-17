@@ -3,8 +3,8 @@ package org.buffer.android.boilerplate.presentation.browse
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.philip.presentation.course.SelectCourseViewModel
+import com.philip.presentation.mapper.CourseMapper
 import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
-import org.buffer.android.boilerplate.presentation.mapper.CourseMapper
 
 open class SelectCourseViewModelFactory(
         private val getCourses: GetCourses,

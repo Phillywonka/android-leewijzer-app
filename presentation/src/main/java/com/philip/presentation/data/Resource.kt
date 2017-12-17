@@ -1,4 +1,6 @@
-package org.buffer.android.boilerplate.presentation.data
+package com.philip.presentation.data
+
+import org.buffer.android.boilerplate.presentation.data.ResourceState
 
 open class Resource<out T> constructor(val status: ResourceState, val data: T?, val message: String?) {
 

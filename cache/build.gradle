@@ -3,39 +3,67 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 26
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        multiDexEnabled = true
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    dexOptions {
+        preDexLibraries = false
+        dexInProcess = false
+        javaMaxHeapSize "4g"
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'org.robolectric:robolectric:3.4.2'
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    annotationProcessor "com.android.support:support-annotations:27.0.2"
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    kapt "android.arch.persistence.room:compiler:1.0.0"
+    def cacheDependencies = rootProject.ext.cacheDependencies
+    def cacheTestDependencies = rootProject.ext.cacheTestDependencies
+    compileOnly cacheDependencies.javaxAnnotation
     implementation project(':data')
+    implementation cacheDependencies.kotlin
+    implementation cacheDependencies.javaxInject
+    implementation cacheDependencies.rxKotlin
+    implementation cacheDependencies.gson
+    implementation cacheDependencies.roomRuntime
+    kapt cacheDependencies.roomCompiler
+    testImplementation cacheTestDependencies.junit
+    testImplementation cacheTestDependencies.kotlinJUnit
+    testImplementation cacheTestDependencies.mockito
+    testImplementation cacheTestDependencies.assertj
+    testImplementation cacheTestDependencies.robolectric
+    testImplementation cacheTestDependencies.archTesting
+    testImplementation cacheTestDependencies.roomTesting
 }
-repositories {
-    mavenCentral()
-}
+

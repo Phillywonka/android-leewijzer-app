@@ -28,7 +28,7 @@ abstract class CacheDatabase : RoomDatabase() {
             synchronized(sLock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            CacheDatabase::class.java, "courses.db")
+                            CacheDatabase::class.java, "leeswijzer.db")
                             .build()
                 }
                 return INSTANCE!!

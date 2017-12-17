@@ -3,9 +3,9 @@ package org.buffer.android.boilerplate.data
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import org.buffer.android.boilerplate.data.mapper.CourseMapper
-import philip.com.data.source.CourseDataStoreFactory
 import org.buffer.android.boilerplate.domain.repository.CourseRepository
 import philip.com.data.models.CourseEntity
+import philip.com.data.source.CourseDataStoreFactory
 
 /**
  * Provides an implementation of the [CourseRepository] interface for communicating to and from

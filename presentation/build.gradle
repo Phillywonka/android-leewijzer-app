@@ -50,7 +50,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:${roomVersion}"
 
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.0'
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "junit:junit:${jUnitVersion}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
     testImplementation "org.assertj:assertj-core:${assertJVersion}"

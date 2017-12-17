@@ -1,8 +1,10 @@
 package com.philip.leeswijzer_app.courses
 
-import android.app.Fragment
 import android.app.FragmentTransaction
+import android.arch.lifecycle.ViewModelProviders
+import android.arch.persistence.room.Room
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -11,8 +13,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.sections.SelectSectionsFragment
+import com.philip.presentation.course.SelectCourseViewModel
+import philip.com.cache.PreferencesHelper
+import philip.com.cache.mapper.CourseEntityMapper
+import org.buffer.android.boilerplate.data.CourseDataRepository
+import org.buffer.android.boilerplate.data.source.CourseCacheDataStore
+import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
+import org.buffer.android.boilerplate.presentation.browse.SelectCourseViewModelFactory
+import com.philip.presentation.mapper.CourseMapper
+import org.buffer.android.boilerplate.data.source.CourseRemoteDataStore
 import org.buffer.android.boilerplate.presentation.model.CourseView
+import philip.com.cache.CourseCacheImpl
+import philip.com.cache.database.CacheDatabase
 import philip.com.data.models.SectionEntity
+import philip.com.data.source.CourseDataStoreFactory
 
 /**
  * @author Philip Wong
@@ -21,19 +35,37 @@ import philip.com.data.models.SectionEntity
 class SelectCourseFragment : Fragment() {
 
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
+    lateinit var viewModelFactory: SelectCourseViewModelFactory
+    private lateinit var selectCourseViewModel: SelectCourseViewModel
 
     companion object {
         val TAG = "selectCourseFragment"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val courseCache = CourseCacheImpl(
+                this.buildDataBase(),
+                CourseEntityMapper(),
+                PreferencesHelper(context))
+
+        viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
+                CourseDataStoreFactory(courseCache, CourseCacheDataStore(
+                        courseCache), CourseRemoteDataStore()), CourseMapper())))
+
+        selectCourseViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(SelectCourseViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater!!.inflate(R.layout.fragment_select_course, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.activity.title = "Mijn vakken"
-        this.setupCoursesRecyclerView(view!!)
+        this.setupCoursesRecyclerView(view)
     }
 
     private fun setupCoursesRecyclerView(parent: View) {
@@ -66,5 +98,11 @@ class SelectCourseFragment : Fragment() {
         }
 
 
+    }
+
+    fun buildDataBase(): CacheDatabase {
+        return Room.databaseBuilder(this.context,
+                CacheDatabase::class.java, "leeswijzer.db")
+                .build()
     }
 }

@@ -3,9 +3,10 @@ package philip.com.data
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import philip.com.data.mapper.CourseMapper
-import org.buffer.android.boilerplate.domain.repository.CourseRepository
+import philip.com.domain.repository.CourseRepository
 import philip.com.data.models.CourseEntity
 import philip.com.data.source.CourseDataStoreFactory
+import philip.com.domain.model.Course
 
 /**
  * Provides an implementation of the [CourseRepository] interface for communicating to and from
@@ -14,7 +15,7 @@ import philip.com.data.source.CourseDataStoreFactory
 class CourseDataRepository(private val factory: CourseDataStoreFactory,
                            private val courseMapper: CourseMapper) :
         CourseRepository {
-    override fun saveCourses(courses: List<org.buffer.android.boilerplate.domain.model.Course>): Completable {
+    override fun saveCourses(courses: List<Course>): Completable {
         val courseEntities = mutableListOf<CourseEntity>()
         courses.map { courseEntities.add(courseMapper.mapToEntity(it)) }
         return factory.retrieveCacheDataStore().saveCourses(courseEntities)
@@ -24,7 +25,7 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
         return factory.retrieveCacheDataStore().clearCourses()
     }
 
-    override fun getCourses(): Flowable<List<org.buffer.android.boilerplate.domain.model.Course>> {
+    override fun getCourses(): Flowable<List<Course>> {
         return factory.retrieveCacheDataStore().isCached()
                 .flatMapPublisher {
                     factory.retrieveDataStore(it).getCourses()

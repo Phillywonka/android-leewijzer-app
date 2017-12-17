@@ -4,14 +4,14 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
-import philip.com.domain.executor.PostExecutionThread
-import philip.com.domain.interactor.browse.GetCourses
-import org.buffer.android.boilerplate.domain.model.Course
-import org.buffer.android.boilerplate.domain.repository.CourseRepository
 import org.junit.Before
 import org.junit.Test
+import philip.com.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 import philip.com.domain.factory.CourseFactory
+import philip.com.domain.interactor.browse.GetCourses
+import philip.com.domain.model.Course
+import philip.com.domain.repository.CourseRepository
 
 class GetCoursesTest {
 

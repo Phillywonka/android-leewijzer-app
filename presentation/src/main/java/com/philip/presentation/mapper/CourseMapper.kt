@@ -1,6 +1,6 @@
 package com.philip.presentation.mapper
 
-import org.buffer.android.boilerplate.domain.model.Course
+import philip.com.domain.model.Course
 import org.buffer.android.boilerplate.presentation.mapper.Mapper
 import com.philip.presentation.model.CourseView
 

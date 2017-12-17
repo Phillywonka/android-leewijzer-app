@@ -4,18 +4,18 @@ import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import philip.com.data.mapper.CourseMapper
 import org.buffer.android.boilerplate.data.repository.CourseDataStore
-import philip.com.data.source.CourseCacheDataStore
-import philip.com.data.source.CourseDataStoreFactory
-import philip.com.data.source.CourseRemoteDataStore
-import org.buffer.android.boilerplate.domain.model.Course
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import philip.com.data.mapper.CourseMapper
 import philip.com.data.models.CourseEntity
+import philip.com.data.source.CourseCacheDataStore
+import philip.com.data.source.CourseDataStoreFactory
+import philip.com.data.source.CourseRemoteDataStore
 import philip.com.data.test.factory.CourseFactory
+import philip.com.domain.model.Course
 
 @RunWith(JUnit4::class)
 class CourseDataRepositoryTest {

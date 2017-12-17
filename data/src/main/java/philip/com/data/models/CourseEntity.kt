@@ -5,5 +5,4 @@ package philip.com.data.models
  * @since 01-12-17
  **/
 data class CourseEntity(val name: String,
-                        val fieldOfStudy: String,
-                        val sections: List<SectionEntity>)
+                        val fieldOfStudy: String)

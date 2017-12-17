@@ -1,8 +1,8 @@
 package philip.com.domain.interactor.browse
 
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.domain.model.Course
-import org.buffer.android.boilerplate.domain.repository.CourseRepository
+import philip.com.domain.model.Course
+import philip.com.domain.repository.CourseRepository
 import philip.com.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 import philip.com.domain.interactor.FlowableUseCase

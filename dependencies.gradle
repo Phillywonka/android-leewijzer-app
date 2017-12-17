@@ -121,6 +121,7 @@ ext {
 
     domainTestDependencies = [
             junit  : "junit:junit:${jUnitVersion}",
+            kotlinJUnit: "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             mockito: "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             assertj: "org.assertj:assertj-core:${assertJVersion}"
     ]

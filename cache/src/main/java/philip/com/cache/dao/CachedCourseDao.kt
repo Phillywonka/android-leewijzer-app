@@ -1,4 +1,4 @@
-package com.philip.leeswijzer_app.storage.cache
+package philip.com.cache.dao
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert

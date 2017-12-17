@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import com.philip.leeswijzer_app.storage.cache.CachedCourseDao
+import philip.com.cache.dao.CachedCourseDao
 import com.philip.leeswijzer_app.storage.cache.CachedStudentDao
 import philip.com.cache.model.CachedCourse
 import philip.com.cache.model.CachedStudent

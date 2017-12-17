@@ -21,7 +21,7 @@ open class CourseEntityMapper: EntityMapper<CachedCourse, CourseEntity> {
      * Map a [CachedCourse] instance to a [CourseEntity] instance
      */
     override fun mapFromCached(type: CachedCourse): CourseEntity {
-        return CourseEntity(type.name, type.fieldOfStudy, ArrayList())
+        return CourseEntity(type.name, type.fieldOfStudy)
     }
 
 }

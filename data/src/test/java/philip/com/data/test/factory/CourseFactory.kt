@@ -1,9 +1,8 @@
 package philip.com.data.test.factory
 
-import org.buffer.android.boilerplate.data.test.factory.DataFactory.Factory.randomInt
 import org.buffer.android.boilerplate.data.test.factory.DataFactory.Factory.randomUuid
-import org.buffer.android.boilerplate.domain.model.Course
 import philip.com.data.models.CourseEntity
+import philip.com.domain.model.Course
 
 /**
  * Factory class for Course related instances
@@ -15,12 +14,11 @@ class CourseFactory {
         fun makeCourseEntity(): CourseEntity {
             return CourseEntity(
                     randomUuid(),
-                    randomUuid(),
-                    SectionFactory.makeSectionEntityList(randomInt()))
+                    randomUuid())
         }
 
         fun makeCourse(): Course {
-            return Course(randomUuid(), randomUuid(), SectionFactory.makeSectionList(randomInt()))
+            return Course(randomUuid(), randomUuid())
         }
 
         fun makeCourseEntityList(count: Int): List<CourseEntity> {

@@ -1,7 +1,6 @@
 package com.philip.leeswijzer_app.courses
 
 import android.app.FragmentTransaction
-import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,26 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.philip.leeswijzer_app.R
-import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.sections.SelectSectionsFragment
 import com.philip.presentation.course.SelectCourseViewModel
 import com.philip.presentation.course.SelectCourseViewModelFactory
-import com.philip.presentation.mapper.CourseMapper
 import com.philip.presentation.model.CourseView
 import philip.com.cache.CourseCacheImpl
 import philip.com.cache.PreferencesHelper
 import philip.com.cache.database.CacheDatabase
 import philip.com.cache.mapper.CourseEntityMapper
-import philip.com.data.CourseDataRepository
-import philip.com.data.executor.JobExecutor
-import philip.com.data.mapper.SectionMapper
 import philip.com.data.models.SectionEntity
-import philip.com.data.source.CourseCacheDataStore
-import philip.com.data.source.CourseDataStoreFactory
-import philip.com.data.source.CourseRemoteDataStore
-import philip.com.domain.interactor.browse.GetCourses
-import philip.com.remote.CourseRemoteImpl
-import philip.com.remote.CourseServiceFactory
 
 /**
  * @author Philip Wong
@@ -55,15 +43,15 @@ class SelectCourseFragment : Fragment() {
                 CourseEntityMapper(),
                 PreferencesHelper(context))
 
-        viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
-                CourseDataStoreFactory(courseCache, CourseCacheDataStore(
-                        courseCache), CourseRemoteDataStore(CourseRemoteImpl(
-                        CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()
-                ))), philip.com.data.mapper.CourseMapper(SectionMapper())),
-                JobExecutor(), UiThread()), CourseMapper())
+//        viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
+//                CourseDataStoreFactory(courseCache, CourseCacheDataStore(
+//                        courseCache), CourseRemoteDataStore(CourseRemoteImpl(
+//                        CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()
+//                ))), philip.com.data.mapper.CourseMapper(SectionMapper())),
+//                JobExecutor(), UiThread()), CourseMapper())
 
-        selectCourseViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(SelectCourseViewModel::class.java)
+//        selectCourseViewModel = ViewModelProviders.of(this, viewModelFactory)
+//                .get(SelectCourseViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {

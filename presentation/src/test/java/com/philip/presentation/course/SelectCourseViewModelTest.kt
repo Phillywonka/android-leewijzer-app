@@ -6,7 +6,7 @@ import com.philip.presentation.test.factory.CourseFactory
 import com.philip.presentation.test.factory.DataFactory
 import io.reactivex.subscribers.DisposableSubscriber
 import philip.com.domain.interactor.browse.GetCourses
-import org.buffer.android.boilerplate.domain.model.Course
+import philip.com.domain.model.Course
 import org.buffer.android.boilerplate.presentation.data.ResourceState
 import com.philip.presentation.mapper.CourseMapper
 import com.philip.presentation.model.CourseView

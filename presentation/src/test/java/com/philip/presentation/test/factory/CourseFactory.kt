@@ -2,7 +2,7 @@ package com.philip.presentation.test.factory
 
 import com.philip.presentation.model.CourseView
 import com.philip.presentation.test.factory.DataFactory.Factory.randomUuid
-import org.buffer.android.boilerplate.domain.model.Course
+import philip.com.domain.model.Course
 
 /**
  * Factory class for Course related instances

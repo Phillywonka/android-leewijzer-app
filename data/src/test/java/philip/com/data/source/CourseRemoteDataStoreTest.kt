@@ -3,12 +3,12 @@ package philip.com.data.source
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.data.repository.CourseRemote
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import philip.com.data.models.CourseEntity
+import philip.com.data.repository.CourseRemote
 import philip.com.data.test.factory.CourseFactory
 
 @RunWith(JUnit4::class)

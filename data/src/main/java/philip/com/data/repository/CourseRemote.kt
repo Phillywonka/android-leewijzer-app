@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.data.repository
+package philip.com.data.repository
 
 import io.reactivex.Flowable
 import philip.com.data.models.CourseEntity

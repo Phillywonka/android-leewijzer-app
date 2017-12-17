@@ -7,7 +7,7 @@ import com.philip.presentation.data.Resource
 import com.philip.presentation.mapper.CourseMapper
 import com.philip.presentation.model.CourseView
 import io.reactivex.subscribers.DisposableSubscriber
-import org.buffer.android.boilerplate.domain.model.Course
+import philip.com.domain.model.Course
 import org.buffer.android.boilerplate.presentation.data.ResourceState
 import philip.com.domain.interactor.browse.GetCourses
 

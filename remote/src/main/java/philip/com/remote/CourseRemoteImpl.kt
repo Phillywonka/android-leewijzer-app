@@ -1,7 +1,7 @@
 package philip.com.remote
 
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.data.repository.CourseRemote
+import philip.com.data.repository.CourseRemote
 import philip.com.data.models.CourseEntity
 import philip.com.remote.mapper.CourseEntityMapper
 

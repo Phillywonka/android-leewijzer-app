@@ -19,55 +19,55 @@ class CourseDataStoreFactoryTest {
 
     private lateinit var courseCache: CourseCache
     private lateinit var courseCacheDataStore: CourseCacheDataStore
-    private lateinit var bufferooRemoteDataStore: CourseRemoteDataStore
+    private lateinit var courseRemoteDataStore: CourseRemoteDataStore
 
     @Before
     fun setUp() {
         courseCache = mock()
         courseCacheDataStore = mock()
-        bufferooRemoteDataStore = mock()
+        courseRemoteDataStore = mock()
         courseDataStoreFactory = CourseDataStoreFactory(courseCache,
-                courseCacheDataStore, bufferooRemoteDataStore)
+                courseCacheDataStore, courseRemoteDataStore)
     }
 
     //<editor-fold desc="Retrieve Data Store">
     @Test
     fun retrieveDataStoreWhenNotCachedReturnsRemoteDataStore() {
         stubBufferooCacheIsCached(Single.just(false))
-        val bufferooDataStore = courseDataStoreFactory.retrieveDataStore(false)
-        assert(bufferooDataStore is CourseRemoteDataStore)
+        val courseDataStore = courseDataStoreFactory.retrieveDataStore(false)
+        assert(courseDataStore is CourseRemoteDataStore)
     }
 
     @Test
     fun retrieveDataStoreWhenCacheExpiredReturnsRemoteDataStore() {
         stubBufferooCacheIsCached(Single.just(true))
         stubBufferooCacheIsExpired(true)
-        val bufferooDataStore = courseDataStoreFactory.retrieveDataStore(true)
-        assert(bufferooDataStore is CourseRemoteDataStore)
+        val courseDataStore = courseDataStoreFactory.retrieveDataStore(true)
+        assert(courseDataStore is CourseRemoteDataStore)
     }
 
     @Test
     fun retrieveDataStoreReturnsCacheDataStore() {
         stubBufferooCacheIsCached(Single.just(true))
         stubBufferooCacheIsExpired(false)
-        val bufferooDataStore = courseDataStoreFactory.retrieveDataStore(true)
-        assert(bufferooDataStore is CourseCacheDataStore)
+        val courseDataStore = courseDataStoreFactory.retrieveDataStore(true)
+        assert(courseDataStore is CourseCacheDataStore)
     }
     //</editor-fold>
 
     //<editor-fold desc="Retrieve Remote Data Store">
     @Test
     fun retrieveRemoteDataStoreReturnsRemoteDataStore() {
-        val bufferooDataStore = courseDataStoreFactory.retrieveRemoteDataStore()
-        assert(bufferooDataStore is CourseRemoteDataStore)
+        val courseDataStore = courseDataStoreFactory.retrieveRemoteDataStore()
+        assert(courseDataStore is CourseRemoteDataStore)
     }
     //</editor-fold>
 
     //<editor-fold desc="Retrieve Cache Data Store">
     @Test
     fun retrieveCacheDataStoreReturnsCacheDataStore() {
-        val bufferooDataStore = courseDataStoreFactory.retrieveCacheDataStore()
-        assert(bufferooDataStore is CourseCacheDataStore)
+        val courseDataStore = courseDataStoreFactory.retrieveCacheDataStore()
+        assert(courseDataStore is CourseCacheDataStore)
     }
     //</editor-fold>
 

@@ -1,13 +1,13 @@
 package philip.com.data.mapper
 
 import junit.framework.Assert.assertEquals
-import org.buffer.android.boilerplate.domain.model.Course
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import philip.com.data.models.CourseEntity
 import philip.com.data.test.factory.CourseFactory
+import philip.com.domain.model.Course
 
 @RunWith(JUnit4::class)
 class CourseMapperTest {
@@ -16,7 +16,7 @@ class CourseMapperTest {
 
     @Before
     fun setUp() {
-        courseMapper = CourseMapper(SectionMapper())
+        courseMapper = CourseMapper()
     }
 
     @Test

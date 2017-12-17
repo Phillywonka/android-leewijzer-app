@@ -1,8 +1,8 @@
-package org.buffer.android.boilerplate.domain.repository
+package philip.com.domain.repository
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.domain.model.Course
+import philip.com.domain.model.Course
 
 /**
  * Interface defining methods for how the data layer can pass data to and from the Domain layer.

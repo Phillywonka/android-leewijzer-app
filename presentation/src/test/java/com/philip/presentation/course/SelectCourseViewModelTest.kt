@@ -5,11 +5,11 @@ import com.nhaarman.mockito_kotlin.*
 import com.philip.presentation.test.factory.CourseFactory
 import com.philip.presentation.test.factory.DataFactory
 import io.reactivex.subscribers.DisposableSubscriber
-import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
+import philip.com.domain.interactor.browse.GetCourses
 import org.buffer.android.boilerplate.domain.model.Course
 import org.buffer.android.boilerplate.presentation.data.ResourceState
 import com.philip.presentation.mapper.CourseMapper
-import org.buffer.android.boilerplate.presentation.model.CourseView
+import com.philip.presentation.model.CourseView
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
@@ -156,7 +156,7 @@ class SelectCourseViewModelTest {
     //</editor-fold>
 
     private fun stubCourseMapperMapToView(courseView: CourseView,
-                                            course: Course) {
+                                          course: Course) {
         whenever(courseMapper.mapToView(course))
                 .thenReturn(courseView)
     }

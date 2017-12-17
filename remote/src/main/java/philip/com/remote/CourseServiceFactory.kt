@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.remote
+package philip.com.remote
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -14,15 +14,15 @@ import java.util.concurrent.TimeUnit
  * Provide "make" methods to create instances of [CourseService]
  * and its related dependencies, such as OkHttpClient, Gson, etc.
  */
-object BufferooServiceFactory {
+object CourseServiceFactory {
 
-    fun makeBuffeoorService(isDebug: Boolean): CourseService {
+    fun makeCourseService(isDebug: Boolean): CourseService {
         val okHttpClient = makeOkHttpClient(
                 makeLoggingInterceptor(isDebug))
-        return makeBufferooService(okHttpClient, makeGson())
+        return makeCourseService(okHttpClient, makeGson())
     }
 
-    private fun makeBufferooService(okHttpClient: OkHttpClient, gson: Gson): CourseService {
+    private fun makeCourseService(okHttpClient: OkHttpClient, gson: Gson): CourseService {
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://joe-birch-dsdb.squarespace.com/s/")
                 .client(okHttpClient)

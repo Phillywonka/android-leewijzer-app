@@ -4,12 +4,11 @@ import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import org.buffer.android.boilerplate.data.CourseDataRepository
-import org.buffer.android.boilerplate.data.mapper.CourseMapper
+import philip.com.data.mapper.CourseMapper
 import org.buffer.android.boilerplate.data.repository.CourseDataStore
-import org.buffer.android.boilerplate.data.source.CourseCacheDataStore
+import philip.com.data.source.CourseCacheDataStore
 import philip.com.data.source.CourseDataStoreFactory
-import org.buffer.android.boilerplate.data.source.CourseRemoteDataStore
+import philip.com.data.source.CourseRemoteDataStore
 import org.buffer.android.boilerplate.domain.model.Course
 import org.junit.Before
 import org.junit.Test

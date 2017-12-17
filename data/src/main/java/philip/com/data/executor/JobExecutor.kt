@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.data.executor
+package philip.com.data.executor
 
 import philip.com.domain.executor.ThreadExecutor
 import java.util.concurrent.LinkedBlockingQueue

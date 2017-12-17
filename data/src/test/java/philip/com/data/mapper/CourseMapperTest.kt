@@ -1,8 +1,6 @@
 package philip.com.data.mapper
 
 import junit.framework.Assert.assertEquals
-import org.buffer.android.boilerplate.data.mapper.CourseMapper
-import org.buffer.android.boilerplate.data.mapper.SectionMapper
 import org.buffer.android.boilerplate.domain.model.Course
 import org.junit.Before
 import org.junit.Test

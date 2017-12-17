@@ -1,10 +1,9 @@
-package org.buffer.android.boilerplate.presentation.browse
+package com.philip.presentation.course
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.philip.presentation.course.SelectCourseViewModel
 import com.philip.presentation.mapper.CourseMapper
-import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
+import philip.com.domain.interactor.browse.GetCourses
 
 open class SelectCourseViewModelFactory(
         private val getCourses: GetCourses,

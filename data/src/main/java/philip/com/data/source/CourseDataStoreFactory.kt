@@ -1,8 +1,6 @@
 package philip.com.data.source
 
 import org.buffer.android.boilerplate.data.repository.CourseDataStore
-import org.buffer.android.boilerplate.data.source.CourseCacheDataStore
-import org.buffer.android.boilerplate.data.source.CourseRemoteDataStore
 import philip.com.data.repository.CourseCache
 
 /**

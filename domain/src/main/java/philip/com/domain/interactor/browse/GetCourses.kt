@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.domain.interactor.browse
+package philip.com.domain.interactor.browse
 
 import io.reactivex.Flowable
 import org.buffer.android.boilerplate.domain.model.Course

@@ -4,7 +4,6 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
 import org.buffer.android.boilerplate.data.repository.CourseRemote
-import org.buffer.android.boilerplate.data.source.CourseRemoteDataStore
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

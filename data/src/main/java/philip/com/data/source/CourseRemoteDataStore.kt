@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.data.source
+package philip.com.data.source
 
 import io.reactivex.Completable
 import io.reactivex.Flowable

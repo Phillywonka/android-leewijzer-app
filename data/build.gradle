@@ -1,52 +1,24 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin'
 
-android {
-    compileSdkVersion 26
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
-
-
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-}
-
-ext {
-    rxKotlinVersion = '2.1.0'
-    rxAndroidVersion = '2.0.1'
-    assertJVersion = '3.8.0'
-    mockitoKotlinVersion = '1.5.0'
-}
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def dataDependencies = rootProject.ext.dataDependencies
+    def dataTestDependencies = rootProject.ext.dataTestDependencies
 
-    implementation "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
-    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+    compile project(':domain')
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    testImplementation "org.assertj:assertj-core:${assertJVersion}"
-    testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile project(path: ':domain')
+    compile dataDependencies.javaxAnnotation
+
+    implementation dataDependencies.kotlin
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.rxKotlin
+
+    testImplementation dataTestDependencies.junit
+    testImplementation dataTestDependencies.kotlinJUnit
+    testImplementation dataTestDependencies.mockito
+    testImplementation dataTestDependencies.assertj
 }
-repositories {
-    mavenCentral()
-}
+

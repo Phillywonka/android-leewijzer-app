@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.presentation.model
+package com.philip.presentation.model
 
 /**
  * Representation for a [CourseView] instance for this layers Model representation

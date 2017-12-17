@@ -2,7 +2,7 @@ package com.philip.presentation.mapper
 
 import org.buffer.android.boilerplate.domain.model.Course
 import org.buffer.android.boilerplate.presentation.mapper.Mapper
-import org.buffer.android.boilerplate.presentation.model.CourseView
+import com.philip.presentation.model.CourseView
 
 /**
  * Map a [CourseView] to and from a [Course] instance when data is moving between

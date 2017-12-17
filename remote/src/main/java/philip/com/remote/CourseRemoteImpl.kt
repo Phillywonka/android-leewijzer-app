@@ -1,18 +1,17 @@
-package org.buffer.android.boilerplate.remote
+package philip.com.remote
 
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.data.model.CourseEntity
 import org.buffer.android.boilerplate.data.repository.CourseRemote
+import philip.com.data.models.CourseEntity
 import philip.com.remote.mapper.CourseEntityMapper
-import javax.inject.Inject
 
 /**
  * Remote implementation for retrieving Course instances. This class implements the
  * [CourseRemote] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class CourseRemoteImpl @Inject constructor(private val courseService: CourseService,
-                                           private val entityMapper: CourseEntityMapper):
+class CourseRemoteImpl (private val courseService: CourseService,
+                        private val entityMapper: CourseEntityMapper):
         CourseRemote {
 
     /**

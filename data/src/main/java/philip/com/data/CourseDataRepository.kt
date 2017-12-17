@@ -1,8 +1,8 @@
-package org.buffer.android.boilerplate.data
+package philip.com.data
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.data.mapper.CourseMapper
+import philip.com.data.mapper.CourseMapper
 import org.buffer.android.boilerplate.domain.repository.CourseRepository
 import philip.com.data.models.CourseEntity
 import philip.com.data.source.CourseDataStoreFactory

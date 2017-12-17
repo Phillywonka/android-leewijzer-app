@@ -1,5 +1,6 @@
 package philip.com.remote.mapper
 
+import philip.com.data.models.CourseEntity
 import philip.com.remote.model.CourseModel
 
 
@@ -13,7 +14,7 @@ open class CourseEntityMapper: EntityMapper<CourseModel, philip.com.data.models.
      * Map an instance of a [CourseModel] to a [CourseEntity] model
      */
     override fun mapFromRemote(type: CourseModel): CourseEntity {
-        return CourseEntity(type.name, type.fieldOfStudy)
+        return CourseEntity(type.name, type.fieldOfStudy, ArrayList())
     }
 
 }

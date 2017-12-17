@@ -3,15 +3,15 @@ package com.philip.presentation.course
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import io.reactivex.subscribers.DisposableSubscriber
-import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
-import org.buffer.android.boilerplate.domain.model.Course
 import com.philip.presentation.data.Resource
-import org.buffer.android.boilerplate.presentation.data.ResourceState
 import com.philip.presentation.mapper.CourseMapper
-import org.buffer.android.boilerplate.presentation.model.CourseView
+import com.philip.presentation.model.CourseView
+import io.reactivex.subscribers.DisposableSubscriber
+import org.buffer.android.boilerplate.domain.model.Course
+import org.buffer.android.boilerplate.presentation.data.ResourceState
+import philip.com.domain.interactor.browse.GetCourses
 
-open class SelectCourseViewModel internal constructor(
+open class SelectCourseViewModel(
         private val getCourses: GetCourses,
         private val courseMapper: CourseMapper) : ViewModel() {
 

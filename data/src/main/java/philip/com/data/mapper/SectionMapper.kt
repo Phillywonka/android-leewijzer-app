@@ -1,5 +1,6 @@
-package org.buffer.android.boilerplate.data.mapper
+package philip.com.data.mapper
 
+import org.buffer.android.boilerplate.data.mapper.Mapper
 import org.buffer.android.boilerplate.domain.model.Course
 import org.buffer.android.boilerplate.domain.model.Section
 import philip.com.data.models.CourseEntity

@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
 import philip.com.domain.executor.PostExecutionThread
-import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
+import philip.com.domain.interactor.browse.GetCourses
 import org.buffer.android.boilerplate.domain.model.Course
 import org.buffer.android.boilerplate.domain.repository.CourseRepository
 import org.junit.Before

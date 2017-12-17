@@ -1,8 +1,8 @@
 package com.philip.presentation.test.factory
 
+import com.philip.presentation.model.CourseView
 import com.philip.presentation.test.factory.DataFactory.Factory.randomUuid
 import org.buffer.android.boilerplate.domain.model.Course
-import org.buffer.android.boilerplate.presentation.model.CourseView
 
 /**
  * Factory class for Course related instances
@@ -20,7 +20,7 @@ class CourseFactory {
         }
 
         fun makeCourseModel(): Course {
-            return Course(randomUuid(), randomUuid())
+            return Course(randomUuid(), randomUuid(), ArrayList())
         }
 
         fun makeCourseViewList(count: Int): List<CourseView> {

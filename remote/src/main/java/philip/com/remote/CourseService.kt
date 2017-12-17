@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.remote
+package philip.com.remote
 
 import io.reactivex.Flowable
 import philip.com.remote.model.CourseModel

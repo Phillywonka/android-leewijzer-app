@@ -5,7 +5,6 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import org.buffer.android.boilerplate.data.source.CourseCacheDataStore
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

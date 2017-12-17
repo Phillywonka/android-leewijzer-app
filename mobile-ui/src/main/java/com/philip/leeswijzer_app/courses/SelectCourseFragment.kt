@@ -12,21 +12,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.philip.leeswijzer_app.R
+import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.sections.SelectSectionsFragment
 import com.philip.presentation.course.SelectCourseViewModel
-import philip.com.cache.PreferencesHelper
-import philip.com.cache.mapper.CourseEntityMapper
-import org.buffer.android.boilerplate.data.CourseDataRepository
-import org.buffer.android.boilerplate.data.source.CourseCacheDataStore
-import org.buffer.android.boilerplate.domain.interactor.browse.GetCourses
-import org.buffer.android.boilerplate.presentation.browse.SelectCourseViewModelFactory
+import com.philip.presentation.course.SelectCourseViewModelFactory
 import com.philip.presentation.mapper.CourseMapper
-import org.buffer.android.boilerplate.data.source.CourseRemoteDataStore
-import org.buffer.android.boilerplate.presentation.model.CourseView
+import com.philip.presentation.model.CourseView
 import philip.com.cache.CourseCacheImpl
+import philip.com.cache.PreferencesHelper
 import philip.com.cache.database.CacheDatabase
+import philip.com.cache.mapper.CourseEntityMapper
+import philip.com.data.CourseDataRepository
+import philip.com.data.executor.JobExecutor
+import philip.com.data.mapper.SectionMapper
 import philip.com.data.models.SectionEntity
+import philip.com.data.source.CourseCacheDataStore
 import philip.com.data.source.CourseDataStoreFactory
+import philip.com.data.source.CourseRemoteDataStore
+import philip.com.domain.interactor.browse.GetCourses
+import philip.com.remote.CourseRemoteImpl
+import philip.com.remote.CourseServiceFactory
 
 /**
  * @author Philip Wong
@@ -52,7 +57,10 @@ class SelectCourseFragment : Fragment() {
 
         viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
                 CourseDataStoreFactory(courseCache, CourseCacheDataStore(
-                        courseCache), CourseRemoteDataStore()), CourseMapper())))
+                        courseCache), CourseRemoteDataStore(CourseRemoteImpl(
+                        CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()
+                ))), philip.com.data.mapper.CourseMapper(SectionMapper())),
+                JobExecutor(), UiThread()), CourseMapper())
 
         selectCourseViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(SelectCourseViewModel::class.java)

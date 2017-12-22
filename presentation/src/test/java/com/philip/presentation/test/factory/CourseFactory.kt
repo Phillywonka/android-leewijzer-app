@@ -20,7 +20,7 @@ class CourseFactory {
         }
 
         fun makeCourseModel(): Course {
-            return Course(randomUuid(), randomUuid(), ArrayList())
+            return Course(randomUuid(), randomUuid())
         }
 
         fun makeCourseViewList(count: Int): List<CourseView> {

@@ -3,9 +3,9 @@ package philip.com.data.source
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import org.buffer.android.boilerplate.data.repository.CourseDataStore
 import philip.com.data.models.CourseEntity
 import philip.com.data.repository.CourseCache
+import philip.com.data.repository.CourseDataStore
 
 /**
  * Implementation of the [CourseDataStore] interface to provide a means of communicating

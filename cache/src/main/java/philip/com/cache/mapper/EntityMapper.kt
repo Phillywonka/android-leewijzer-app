@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.cache.mapper
+package philip.com.cache.mapper
 
 /**
  * Interface for model mappers. It provides helper methods that facilitate

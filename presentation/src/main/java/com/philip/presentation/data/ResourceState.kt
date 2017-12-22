@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.presentation.data
+package com.philip.presentation.data
 
 /**
  * Represents the state in which a [Resource] is currently in

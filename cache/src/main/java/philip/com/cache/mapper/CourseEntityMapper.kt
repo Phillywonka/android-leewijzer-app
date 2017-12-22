@@ -1,6 +1,5 @@
 package philip.com.cache.mapper
 
-import org.buffer.android.boilerplate.cache.mapper.EntityMapper
 import philip.com.cache.model.CachedCourse
 import philip.com.data.models.CourseEntity
 

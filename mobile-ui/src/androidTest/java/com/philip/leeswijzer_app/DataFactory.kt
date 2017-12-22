@@ -1,4 +1,4 @@
-package philip.com.data.test.factory
+package com.philip.leeswijzer_app
 
 import java.util.concurrent.ThreadLocalRandom
 

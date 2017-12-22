@@ -1,7 +1,7 @@
 package philip.com.data.source
 
-import org.buffer.android.boilerplate.data.repository.CourseDataStore
 import philip.com.data.repository.CourseCache
+import philip.com.data.repository.CourseDataStore
 
 /**
  * Create an instance of a CourseDataStore

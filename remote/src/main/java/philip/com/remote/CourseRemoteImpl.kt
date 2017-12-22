@@ -1,8 +1,8 @@
 package philip.com.remote
 
 import io.reactivex.Flowable
-import philip.com.data.repository.CourseRemote
 import philip.com.data.models.CourseEntity
+import philip.com.data.repository.CourseRemote
 import philip.com.remote.mapper.CourseEntityMapper
 
 /**
@@ -10,8 +10,8 @@ import philip.com.remote.mapper.CourseEntityMapper
  * [CourseRemote] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class CourseRemoteImpl (private val courseService: CourseService,
-                        private val entityMapper: CourseEntityMapper):
+class CourseRemoteImpl(private val courseService: CourseService,
+                       private val entityMapper: CourseEntityMapper) :
         CourseRemote {
 
     /**
@@ -19,12 +19,13 @@ class CourseRemoteImpl (private val courseService: CourseService,
      */
     override fun getCourses(): Flowable<List<CourseEntity>> {
         return courseService.getCourses()
-                .map { it.team }
+                .map { it.courses }
                 .map {
                     val entities = mutableListOf<CourseEntity>()
-                    it.forEach { entities.add(entityMapper.mapFromRemote(it)) }
+                    it.forEach {
+                        entities.add(entityMapper.mapFromRemote(it))
+                    }
                     entities
                 }
     }
-
 }

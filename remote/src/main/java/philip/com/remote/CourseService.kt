@@ -9,11 +9,14 @@ import retrofit2.http.GET
  */
 interface CourseService {
 
-    @GET("team.json")
+    @GET("/showCourses.php")
     fun getCourses(): Flowable<CourseResponse>
 
+    @GET("/student/{student}/course/{courses")
+    fun getCoursesForStudent(): Flowable<CourseResponse>
+
     class CourseResponse {
-        lateinit var team: List<CourseModel>
+        lateinit var courses: List<CourseModel>
     }
 
 }

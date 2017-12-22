@@ -9,7 +9,7 @@ import org.junit.Test
 import philip.com.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 import philip.com.domain.factory.CourseFactory
-import philip.com.domain.interactor.browse.GetCourses
+import philip.com.domain.interactor.course.GetCourses
 import philip.com.domain.model.Course
 import philip.com.domain.repository.CourseRepository
 

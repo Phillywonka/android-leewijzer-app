@@ -1,9 +1,9 @@
 package philip.com.domain
 
-import org.buffer.android.boilerplate.domain.model.Section
 import philip.com.domain.factory.DataFactory.Factory.randomBoolean
 import philip.com.domain.factory.DataFactory.Factory.randomLong
 import philip.com.domain.factory.DataFactory.Factory.randomUuid
+import philip.com.domain.model.Section
 
 /**
  * Factory class for Course related instances
@@ -21,7 +21,7 @@ class SectionFactory {
         }
 
         fun makeSection(): Section {
-            return Section(randomLong(), randomUuid(), randomBoolean())
+            return Section(randomLong(), randomUuid(), randomBoolean(), randomUuid())
         }
 
     }

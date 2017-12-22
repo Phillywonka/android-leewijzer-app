@@ -3,10 +3,10 @@ package philip.com.data
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import philip.com.data.mapper.CourseMapper
-import philip.com.domain.repository.CourseRepository
 import philip.com.data.models.CourseEntity
 import philip.com.data.source.CourseDataStoreFactory
 import philip.com.domain.model.Course
+import philip.com.domain.repository.CourseRepository
 
 /**
  * Provides an implementation of the [CourseRepository] interface for communicating to and from
@@ -15,6 +15,7 @@ import philip.com.domain.model.Course
 class CourseDataRepository(private val factory: CourseDataStoreFactory,
                            private val courseMapper: CourseMapper) :
         CourseRepository {
+
     override fun saveCourses(courses: List<Course>): Completable {
         val courseEntities = mutableListOf<CourseEntity>()
         courses.map { courseEntities.add(courseMapper.mapToEntity(it)) }
@@ -36,6 +37,10 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
                 .flatMap {
                     saveCourses(it).toSingle { it }.toFlowable()
                 }
+    }
+
+    override fun getCoursesForStudent(studentNumber: String): Flowable<List<Course>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

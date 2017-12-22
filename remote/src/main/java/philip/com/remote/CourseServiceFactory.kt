@@ -24,7 +24,7 @@ object CourseServiceFactory {
 
     private fun makeCourseService(okHttpClient: OkHttpClient, gson: Gson): CourseService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://joe-birch-dsdb.squarespace.com/s/")
+                .baseUrl("http://192.168.64.2/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))

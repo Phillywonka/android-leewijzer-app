@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.domain.model
+package philip.com.domain.model
 
 /**
  * Representation for a [Section] fetched from an external layer data source
@@ -6,5 +6,6 @@ package org.buffer.android.boilerplate.domain.model
 data class Section(
         val id: Long,
         val name: String,
-        val isChecked: Boolean)
+        val isChecked: Boolean,
+        val courseName: String)
 

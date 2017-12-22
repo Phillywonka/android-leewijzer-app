@@ -2,30 +2,28 @@ package com.philip.presentation.course
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockito_kotlin.*
+import com.philip.presentation.mapper.CourseMapper
+import com.philip.presentation.model.CourseView
 import com.philip.presentation.test.factory.CourseFactory
 import com.philip.presentation.test.factory.DataFactory
 import io.reactivex.subscribers.DisposableSubscriber
-import philip.com.domain.interactor.browse.GetCourses
-import philip.com.domain.model.Course
-import org.buffer.android.boilerplate.presentation.data.ResourceState
-import com.philip.presentation.mapper.CourseMapper
-import com.philip.presentation.model.CourseView
+import com.philip.presentation.data.ResourceState
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Captor
 import org.mockito.Mock
+import org.robolectric.RobolectricTestRunner
+import philip.com.domain.interactor.course.GetCourses
+import philip.com.domain.model.Course
 
-@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class SelectCourseViewModelTest {
 
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
+    @get:Rule var instanttaskexecutorrule = InstantTaskExecutorRule()
 
     @Mock lateinit var getCourses: GetCourses
     @Mock lateinit var courseMapper: CourseMapper
@@ -79,7 +77,7 @@ class SelectCourseViewModelTest {
         verify(getCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(list)
 
-        assertThat(coursesViewModel.getCourses().value?.data, `is`(viewList))
+        assert(coursesViewModel.getCourses().value?.data == viewList)
     }
 
     @Test
@@ -95,7 +93,7 @@ class SelectCourseViewModelTest {
         verify(getCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(list)
 
-        assertThat(coursesViewModel.getCourses().value?.message, `is`(nullValue()))
+        assert(coursesViewModel.getCourses().value?.message == null)
     }
     //</editor-fold>
 
@@ -107,7 +105,7 @@ class SelectCourseViewModelTest {
         verify(getCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException())
 
-        assertThat(coursesViewModel.getCourses().value?.status, `is`(ResourceState.ERROR))
+        assert(coursesViewModel.getCourses().value?.status == ResourceState.ERROR)
     }
 
     @Test
@@ -117,7 +115,7 @@ class SelectCourseViewModelTest {
         verify(getCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException())
 
-        assertThat(coursesViewModel.getCourses().value?.data, `is`(nullValue()))
+        assert(coursesViewModel.getCourses().value?.data == null)
     }
 
     @Test
@@ -128,7 +126,7 @@ class SelectCourseViewModelTest {
         verify(getCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException(errorMessage))
 
-        assertThat(coursesViewModel.getCourses().value?.message, `is`(errorMessage))
+        assert(coursesViewModel.getCourses().value?.message == errorMessage)
     }
     //</editor-fold>
 
@@ -137,21 +135,21 @@ class SelectCourseViewModelTest {
     fun getCoursesReturnsLoading() {
         coursesViewModel.getCourses()
 
-        assertThat(coursesViewModel.getCourses().value?.status, `is`(ResourceState.LOADING))
+        assert(coursesViewModel.getCourses().value?.status == ResourceState.LOADING)
     }
 
     @Test
     fun getCoursesContainsNoDataWhenLoading() {
         coursesViewModel.getCourses()
 
-        assertThat(coursesViewModel.getCourses().value?.data, `is`(nullValue()))
+        assert(coursesViewModel.getCourses().value?.data == null)
     }
 
     @Test
     fun getCoursesContainsNoMessageWhenLoading() {
         coursesViewModel.getCourses()
 
-        assertThat(coursesViewModel.getCourses().value?.data, `is`(nullValue()))
+        assert(coursesViewModel.getCourses().value?.data == null)
     }
     //</editor-fold>
 

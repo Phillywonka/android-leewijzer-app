@@ -9,7 +9,7 @@ import philip.com.domain.model.Course
  * This is to be implemented by the data layer, setting the requirements for the
  * operations that need to be implemented
  */
-interface CourseRepository {
+interface SectionRepository {
 
     fun clearCourses(): Completable
 

@@ -4,12 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.philip.presentation.data.Resource
+import com.philip.presentation.data.ResourceState
 import com.philip.presentation.mapper.CourseMapper
 import com.philip.presentation.model.CourseView
 import io.reactivex.subscribers.DisposableSubscriber
+import philip.com.domain.interactor.course.GetCourses
 import philip.com.domain.model.Course
-import org.buffer.android.boilerplate.presentation.data.ResourceState
-import philip.com.domain.interactor.browse.GetCourses
 
 open class SelectCourseViewModel(
         private val getCourses: GetCourses,

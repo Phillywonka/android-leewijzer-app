@@ -1,5 +1,6 @@
 package philip.com.cache
 
+import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -41,6 +42,7 @@ class CourseCacheImpl (val coursesDatabase: CacheDatabase,
      * Save the given list of [CourseEntity] instances to the database.
      */
     override fun saveCourses(courses: List<CourseEntity>): Completable {
+        Log.d("Application", "CourseCacheImpl: saveCourses: ")
         return Completable.defer {
             courses.forEach {
                 coursesDatabase.cachedCourseDao().insertCourse(
@@ -54,6 +56,7 @@ class CourseCacheImpl (val coursesDatabase: CacheDatabase,
      * Retrieve a list of [CourseEntity] instances from the database.
      */
     override fun getCourses(): Flowable<List<CourseEntity>> {
+        Log.d("Application", "CourseCacheImpl: getCourses: ")
         return Flowable.defer {
             Flowable.just(coursesDatabase.cachedCourseDao().loadAllCourses())
         }.map {

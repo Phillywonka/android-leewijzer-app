@@ -1,6 +1,6 @@
 package philip.com.data.test.factory
 
-import org.buffer.android.boilerplate.data.test.factory.DataFactory.Factory.randomUuid
+import philip.com.data.test.factory.DataFactory.Factory.randomUuid
 import philip.com.data.models.CourseEntity
 import philip.com.domain.model.Course
 

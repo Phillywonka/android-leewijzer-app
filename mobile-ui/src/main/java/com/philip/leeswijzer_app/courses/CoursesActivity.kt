@@ -13,7 +13,6 @@ import com.philip.leeswijzer_app.R
  **/
 class CoursesActivity : BaseActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

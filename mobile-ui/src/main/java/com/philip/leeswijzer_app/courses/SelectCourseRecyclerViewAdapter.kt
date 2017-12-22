@@ -37,8 +37,8 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
         this.notifyItemChanged(this.courses.size)
     }
 
-    fun addAll(courseViews: ArrayList<CourseView>) {
-        this.courses.addAll(courseViews)
+    fun addAll(courseViews: List<CourseView>?) {
+        this.courses.addAll(courseViews!!)
         this.notifyDataSetChanged()
     }
 

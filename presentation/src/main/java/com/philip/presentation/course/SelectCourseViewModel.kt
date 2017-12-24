@@ -33,7 +33,7 @@ open class SelectCourseViewModel(
 
     fun fetchCourses() {
         coursesLiveData.postValue(Resource(ResourceState.LOADING, null, null))
-        return getCourses.execute(CourseSubscriber())
+        return getCourses.execute(CourseSubscriber(), null)
     }
 
     inner class CourseSubscriber : DisposableSubscriber<List<Course>>() {

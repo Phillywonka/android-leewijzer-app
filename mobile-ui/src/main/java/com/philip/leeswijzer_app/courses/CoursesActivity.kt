@@ -36,9 +36,12 @@ class CoursesActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (fragment !is SelectCourseFragment) {
             supportFragmentManager.popBackStack()
             supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            supportActionBar!!.title = SelectCourseFragment.TITLE
         }
     }
 }

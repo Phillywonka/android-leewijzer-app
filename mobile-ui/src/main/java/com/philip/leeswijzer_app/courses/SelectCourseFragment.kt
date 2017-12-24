@@ -48,6 +48,7 @@ class SelectCourseFragment : Fragment() {
 
     companion object {
         val TAG = "selectCourseFragment"
+        val TITLE = "Mijn vakken"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +93,6 @@ class SelectCourseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.activity.title = "Mijn vakken"
         this.setupCoursesRecyclerView(view)
     }
 

@@ -29,6 +29,7 @@ ext {
     glideVersion = '4.0.0'
     daggerVersion = '2.13'
     glassfishAnnotationVersion = '10.0-b28'
+    mpAndroidChartVersion = '3.0.3'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -120,10 +121,10 @@ ext {
     ]
 
     domainTestDependencies = [
-            junit  : "junit:junit:${jUnitVersion}",
+            junit      : "junit:junit:${jUnitVersion}",
             kotlinJUnit: "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
-            mockito: "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
-            assertj: "org.assertj:assertj-core:${assertJVersion}"
+            mockito    : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            assertj    : "org.assertj:assertj-core:${assertJVersion}"
     ]
 
     presentationDependencies = [
@@ -168,6 +169,7 @@ ext {
             roomRuntime        : "android.arch.persistence.room:runtime:${roomVersion}",
             roomCompiler       : "android.arch.persistence.room:compiler:${roomVersion}",
             roomRxJava         : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            mpAndroidChart     : "com.github.PhilJay:MPAndroidChart:v${mpAndroidChartVersion}"
     ]
 
     mobileUiTestDependencies = [

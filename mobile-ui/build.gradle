@@ -71,6 +71,7 @@ dependencies {
     implementation mobileUiDependencies.supportRecyclerView
     implementation mobileUiDependencies.supportDesign
     implementation mobileUiDependencies.rxAndroid
+    implementation mobileUiDependencies.mpAndroidChart
 
     compile presentationDependencies.archRuntime
     compile presentationDependencies.archExtensions

@@ -12,6 +12,6 @@ import com.philip.leeswijzer_app.R
 class SectionRowView(context: Context?) : RelativeLayout(context) {
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.row_course, this)
+        LayoutInflater.from(context).inflate(R.layout.row_section, this)
     }
 }

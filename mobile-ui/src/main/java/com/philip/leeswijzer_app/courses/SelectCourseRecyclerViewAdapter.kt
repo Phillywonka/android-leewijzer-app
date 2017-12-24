@@ -2,8 +2,6 @@ package com.philip.leeswijzer_app.courses
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import com.philip.presentation.model.CourseView
 
@@ -16,12 +14,12 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
 
     private var courses: MutableList<CourseView> = ArrayList()
 
-    private lateinit var onItemClickListener: View.OnClickListener
+    private lateinit var onItemClickListener: OnCourseViewItemClickListener
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val course = courses[position]
         holder.nameTextView.text = course.name
-        holder.itemView.setOnClickListener({ this.onItemClickListener.onClick(holder.itemView) })
+        holder.itemView.setOnClickListener({ this.onItemClickListener.onClick(course) })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CourseViewHolder {
@@ -42,10 +40,11 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
         this.notifyDataSetChanged()
     }
 
-    fun setOnItemClickLister(onItemClickListener: View.OnClickListener) {
-        Log.d("Application", "SelectCourseRecyclerViewAdapter: setOnItemClickLister: ")
+    fun setOnItemClickListener(onItemClickListener: OnCourseViewItemClickListener) {
         this.onItemClickListener = onItemClickListener
     }
 
-
+    interface OnCourseViewItemClickListener {
+        fun onClick(courseView: CourseView)
+    }
 }

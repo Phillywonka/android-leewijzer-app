@@ -9,7 +9,7 @@
     tools:context=".courses.SelectCourseFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/courses_recycler_view"
+        android:id="@+id/sections_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

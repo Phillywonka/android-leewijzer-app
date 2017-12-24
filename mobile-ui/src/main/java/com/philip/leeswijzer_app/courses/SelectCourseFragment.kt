@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
+import com.philip.leeswijzer_app.courses.SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener
 import com.philip.leeswijzer_app.sections.SelectSectionsFragment
 import com.philip.presentation.course.SelectCourseViewModel
 import com.philip.presentation.course.SelectCourseViewModelFactory
@@ -84,6 +85,7 @@ class SelectCourseFragment : Fragment() {
             ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: " + message)
         }
     }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater!!.inflate(R.layout.fragment_select_course, container, false)
     }
@@ -98,18 +100,7 @@ class SelectCourseFragment : Fragment() {
 
         val coursesRecyclerView = parent.findViewById<RecyclerView>(R.id.courses_recycler_view)
         coursesRecyclerViewAdapter = SelectCourseRecyclerViewAdapter(this.activity.applicationContext)
-        coursesRecyclerViewAdapter.setOnItemClickLister(View.OnClickListener {
-            val selectSectionsFragment = SelectSectionsFragment()
-
-            val fragmentTransaction = fragmentManager.beginTransaction()
-
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.replace(R.id.fragment_container,
-                    selectSectionsFragment,
-                    SelectSectionsFragment.TAG)
-            fragmentTransaction.addToBackStack(SelectSectionsFragment.TAG);
-            fragmentTransaction.commit()
-        })
+        coursesRecyclerViewAdapter.setOnItemClickListener(onCourseItemClickListener)
 
         coursesRecyclerView.adapter = coursesRecyclerViewAdapter
         coursesRecyclerView.layoutManager = LinearLayoutManager(this.activity)
@@ -124,5 +115,20 @@ class SelectCourseFragment : Fragment() {
         return Room.databaseBuilder(this.context,
                 CacheDatabase::class.java, "leeswijzer.db")
                 .build().getInstance(this.context)
+    }
+
+    private val onCourseItemClickListener = object : OnCourseViewItemClickListener {
+        override fun onClick(courseView: CourseView) {
+            val selectSectionsFragment = SelectSectionsFragment.newInstance(courseView.name)
+
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            fragmentTransaction.replace(R.id.fragment_container,
+                    selectSectionsFragment,
+                    SelectSectionsFragment.TAG)
+            fragmentTransaction.addToBackStack(SelectSectionsFragment.TAG)
+            fragmentTransaction.commit()
+        }
     }
 }

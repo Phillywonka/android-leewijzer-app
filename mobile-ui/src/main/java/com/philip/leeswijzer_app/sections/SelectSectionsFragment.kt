@@ -40,9 +40,15 @@ class SelectSectionsFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.activity.title = this.arguments.getString("course_name")
-        (this.activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        this.setupActionBar()
         this.setupCoursesRecyclerView(view!!)
+    }
+
+    private fun setupActionBar() {
+        val supportActionBar = (this.activity as AppCompatActivity).supportActionBar!!
+        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar.title = this.arguments.getString("course_name")
+
     }
 
     private fun setupCoursesRecyclerView(parent: View) {

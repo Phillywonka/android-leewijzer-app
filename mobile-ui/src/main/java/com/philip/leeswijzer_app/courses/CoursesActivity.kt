@@ -37,6 +37,7 @@ class CoursesActivity : BaseActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(false)
             supportActionBar!!.title = SelectCourseFragment.TITLE
         }
+
     }
 
     private fun addSelectCourseFragment() {

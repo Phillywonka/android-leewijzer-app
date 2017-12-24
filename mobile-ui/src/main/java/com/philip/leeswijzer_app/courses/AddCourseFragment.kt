@@ -1,11 +1,12 @@
 package com.philip.leeswijzer_app.courses
 
+import android.app.FragmentTransaction
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -24,7 +25,6 @@ import com.philip.presentation.model.CourseView
 import philip.com.cache.CourseCacheImpl
 import philip.com.cache.PreferencesHelper
 import philip.com.cache.database.CacheDatabase
-import philip.com.cache.mapper.CourseEntityMapper
 import philip.com.data.CourseDataRepository
 import philip.com.data.executor.JobExecutor
 import philip.com.data.mapper.CourseMapper
@@ -35,20 +35,22 @@ import philip.com.data.source.course.CourseRemoteDataStore
 import philip.com.domain.interactor.course.GetCourses
 import philip.com.remote.CourseRemoteImpl
 import philip.com.remote.CourseServiceFactory
+import philip.com.remote.mapper.CourseEntityMapper
 
 /**
  * @author Philip Wong
  * @since 25-11-17
  **/
-class SelectCourseFragment : Fragment() {
+class AddCourseFragment : Fragment() {
 
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
     private lateinit var viewModelFactory: SelectCourseViewModelFactory
     private lateinit var selectCourseViewModel: SelectCourseViewModel
+    private lateinit var addCourseButton: FloatingActionButton
 
     companion object {
-        val TAG = "selectCourseFragment"
-        val TITLE = "Mijn vakken"
+        val TAG = "addCourseFragment"
+        val TITLE = "Vak toevoegen"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,13 +87,13 @@ class SelectCourseFragment : Fragment() {
     private fun initViewModel() {
         val courseCache = CourseCacheImpl(
                 this.buildDataBase(),
-                CourseEntityMapper(),
+                philip.com.cache.mapper.CourseEntityMapper(),
                 PreferencesHelper(context))
 
         viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
                 CourseDataStoreFactory(courseCache, CourseCacheDataStore(
                         courseCache), CourseRemoteDataStore(CourseRemoteImpl(
-                        CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()
+                        CourseServiceFactory.makeCourseService(true), CourseEntityMapper()
                 ))), CourseMapper()),
                 JobExecutor(), UiThread()), com.philip.presentation.mapper.CourseMapper())
 
@@ -119,7 +121,6 @@ class SelectCourseFragment : Fragment() {
     }
 
     private val onCourseItemClickListener = object : OnCourseViewItemClickListener {
-
         override fun onClick(courseView: CourseView) {
             val selectSectionsFragment = SelectSectionsFragment.newInstance(courseView.name)
 

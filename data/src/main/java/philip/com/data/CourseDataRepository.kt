@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import philip.com.data.mapper.CourseMapper
 import philip.com.data.models.CourseEntity
-import philip.com.data.source.CourseDataStoreFactory
+import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.domain.model.Course
 import philip.com.domain.repository.CourseRepository
 

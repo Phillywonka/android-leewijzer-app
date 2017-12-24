@@ -2,7 +2,7 @@ package philip.com.remote
 
 import io.reactivex.Flowable
 import philip.com.data.models.CourseEntity
-import philip.com.data.repository.CourseRemote
+import philip.com.data.repository.course.CourseRemote
 import philip.com.remote.mapper.CourseEntityMapper
 
 /**

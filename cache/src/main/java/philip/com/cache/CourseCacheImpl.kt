@@ -7,16 +7,16 @@ import io.reactivex.Single
 import philip.com.cache.database.CacheDatabase
 import philip.com.cache.mapper.CourseEntityMapper
 import philip.com.data.models.CourseEntity
-import philip.com.data.repository.CourseCache
+import philip.com.data.repository.course.CourseCache
 
 /**
  * Cached implementation for retrieving and saving Course instances. This class implements the
  * [CourseCache] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class CourseCacheImpl (val coursesDatabase: CacheDatabase,
-                       private val entityMapper: CourseEntityMapper,
-                       private val preferencesHelper: PreferencesHelper) :
+class CourseCacheImpl(val coursesDatabase: CacheDatabase,
+                      private val entityMapper: CourseEntityMapper,
+                      private val preferencesHelper: PreferencesHelper) :
         CourseCache {
 
     private val EXPIRATION_TIME = (60 * 10 * 1000).toLong()

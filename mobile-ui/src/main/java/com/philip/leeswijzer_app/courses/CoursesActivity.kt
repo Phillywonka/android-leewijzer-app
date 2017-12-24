@@ -16,13 +16,7 @@ class CoursesActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val selectCourseFragment = SelectCourseFragment()
-
-        this.supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragment_container, selectCourseFragment, SelectCourseFragment.TAG)
-                .commit()
+        addSelectCourseFragment()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -43,5 +37,14 @@ class CoursesActivity : BaseActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(false)
             supportActionBar!!.title = SelectCourseFragment.TITLE
         }
+    }
+
+    private fun addSelectCourseFragment() {
+        val selectCourseFragment = SelectCourseFragment()
+
+        this.supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, selectCourseFragment, SelectCourseFragment.TAG)
+                .commit()
     }
 }

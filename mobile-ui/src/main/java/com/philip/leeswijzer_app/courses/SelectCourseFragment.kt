@@ -108,7 +108,6 @@ class SelectCourseFragment : Fragment() {
 
         val sections = ArrayList<SectionEntity>()
         sections.add(SectionEntity(1L, "Polymorfism", false, "IOPR1"))
-
     }
 
     fun buildDataBase(): CacheDatabase {
@@ -124,10 +123,10 @@ class SelectCourseFragment : Fragment() {
             val fragmentTransaction = fragmentManager.beginTransaction()
 
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            fragmentTransaction.replace(R.id.fragment_container,
+            fragmentTransaction.add(R.id.fragment_container,
                     selectSectionsFragment,
                     SelectSectionsFragment.TAG)
-            fragmentTransaction.addToBackStack(SelectSectionsFragment.TAG)
+            fragmentTransaction.addToBackStack(SelectCourseFragment.TAG)
             fragmentTransaction.commit()
         }
     }

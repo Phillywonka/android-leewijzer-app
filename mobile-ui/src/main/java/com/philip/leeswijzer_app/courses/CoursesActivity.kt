@@ -2,6 +2,7 @@ package com.philip.leeswijzer_app.courses
 
 
 import android.os.Bundle
+import android.view.MenuItem
 import com.philip.leeswijzer_app.BaseActivity
 import com.philip.leeswijzer_app.R
 
@@ -24,4 +25,20 @@ class CoursesActivity : BaseActivity() {
                 .commit()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                this.onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        }
+    }
 }

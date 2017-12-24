@@ -2,6 +2,7 @@ package com.philip.leeswijzer_app.sections
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -40,6 +41,7 @@ class SelectSectionsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.activity.title = this.arguments.getString("course_name")
+        (this.activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         this.setupCoursesRecyclerView(view!!)
     }
 

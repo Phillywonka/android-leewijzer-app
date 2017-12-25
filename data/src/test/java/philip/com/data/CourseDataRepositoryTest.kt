@@ -11,9 +11,6 @@ import org.junit.runners.JUnit4
 import philip.com.data.mapper.CourseMapper
 import philip.com.data.models.CourseEntity
 import philip.com.data.repository.CourseDataStore
-import philip.com.data.source.CourseCacheDataStore
-import philip.com.data.source.CourseDataStoreFactory
-import philip.com.data.source.CourseRemoteDataStore
 import philip.com.data.test.factory.CourseFactory
 import philip.com.domain.model.Course
 

@@ -18,6 +18,8 @@ interface CourseDataStore {
 
     fun getCourses(): Flowable<List<CourseEntity>>
 
+    fun getAllCourses(): Flowable<List<CourseEntity>>
+
     fun isCached(): Single<Boolean>
 
 }

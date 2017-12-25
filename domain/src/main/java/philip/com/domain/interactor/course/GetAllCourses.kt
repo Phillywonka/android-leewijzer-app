@@ -16,7 +16,7 @@ open class GetAllCourses(private val courseRepository: CourseRepository,
         FlowableUseCase<List<Course>, Void?>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(params: Void?): Flowable<List<Course>> {
-        return courseRepository.getCourses()
+        return courseRepository.getAllCourses()
     }
 
 }

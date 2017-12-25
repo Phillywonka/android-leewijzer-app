@@ -16,6 +16,19 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
                            private val courseMapper: CourseMapper) :
         CourseRepository {
 
+    override fun getAllCourses(): Flowable<List<Course>> {
+        return factory.retrieveCacheDataStore().isCached()
+                .flatMapPublisher {
+                    factory.retrieveDataStore(it).getCourses()
+                }
+                .flatMap {
+                    Flowable.just(it.map { courseMapper.mapFromEntity(it) })
+                }
+                .flatMap {
+                    saveCourses(it).toSingle { it }.toFlowable()
+                }
+    }
+
     override fun saveCourses(courses: List<Course>): Completable {
         val courseEntities = mutableListOf<CourseEntity>()
         courses.map { courseEntities.add(courseMapper.mapToEntity(it)) }

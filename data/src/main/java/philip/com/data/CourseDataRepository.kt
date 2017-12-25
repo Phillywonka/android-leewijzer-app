@@ -16,11 +16,8 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
                            private val courseMapper: CourseMapper) :
         CourseRepository {
 
-    override fun getAllCourses(): Flowable<List<Course>> {
-        return factory.retrieveRemoteDataStore().getAllCourses()
-                .flatMap {
-                    Flowable.just(it.map { courseMapper.mapFromEntity(it) })
-                }
+    override fun clearCourses(): Completable {
+        return factory.retrieveCacheDataStore().clearCourses()
     }
 
     override fun saveCourses(courses: List<Course>): Completable {
@@ -29,14 +26,17 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
         return factory.retrieveCacheDataStore().saveCourses(courseEntities)
     }
 
-    override fun clearCourses(): Completable {
-        return factory.retrieveCacheDataStore().clearCourses()
+    override fun getAllCourses(): Flowable<List<Course>> {
+        return factory.retrieveRemoteDataStore().getAllCourses()
+                .flatMap {
+                    Flowable.just(it.map { courseMapper.mapFromEntity(it) })
+                }
     }
 
-    override fun getCourses(): Flowable<List<Course>> {
+    override fun getSelectedCourses(studentNumber: String): Flowable<List<Course>> {
         return factory.retrieveCacheDataStore().isCached()
                 .flatMapPublisher {
-                    factory.retrieveDataStore(it).getCourses()
+                    factory.retrieveDataStore(it).getSelectedCourses(studentNumber)
                 }
                 .flatMap {
                     Flowable.just(it.map { courseMapper.mapFromEntity(it) })
@@ -46,8 +46,5 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
                 }
     }
 
-    override fun getCoursesForStudent(studentNumber: String): Flowable<List<Course>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
 }

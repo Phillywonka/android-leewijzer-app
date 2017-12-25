@@ -12,7 +12,7 @@ interface CourseRemote {
     /**
      * Retrieve a list of Courses, from the remote
      */
-    fun getCourses(): Flowable<List<CourseEntity>>
+    fun getSelectedCourses(studentNumber: String): Flowable<List<CourseEntity>>
 
     /**
      * Retrieve a list all available of Courses, from the remote

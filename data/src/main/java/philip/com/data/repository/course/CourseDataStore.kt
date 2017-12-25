@@ -16,7 +16,7 @@ interface CourseDataStore {
 
     fun saveCourses(courses: List<CourseEntity>): Completable
 
-    fun getCourses(): Flowable<List<CourseEntity>>
+    fun getSelectedCourses(studentNumber: String): Flowable<List<CourseEntity>>
 
     fun getAllCourses(): Flowable<List<CourseEntity>>
 

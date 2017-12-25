@@ -10,7 +10,7 @@ import retrofit2.http.GET
 interface CourseService {
 
     @GET("/showCourses.php")
-    fun getCourses(): Flowable<CourseResponse>
+    fun getSelectedCourses(studentNumber: String): Flowable<CourseResponse>
 
     @GET("/showCourses.php")
     fun getAllCourses(): Flowable<CourseResponse>

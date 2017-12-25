@@ -33,7 +33,7 @@ open class CourseCacheDataStore(private val courseCache: CourseCache) : CourseDa
     /**
      * Retrieve a list of [CourseEntity] instance from the cache
      */
-    override fun getCourses(): Flowable<List<CourseEntity>> {
+    override fun getSelectedCourses(studentNumber: String): Flowable<List<CourseEntity>> {
         return courseCache.getCourses()
     }
 

@@ -25,8 +25,8 @@ open class CourseRemoteDataStore(private val courseRemote: CourseRemote)
     /**
      * Retrieve a list of [CourseEntity] instances from the API
      */
-    override fun getCourses(): Flowable<List<CourseEntity>> {
-        return courseRemote.getCourses()
+    override fun getSelectedCourses(studentNumber: String): Flowable<List<CourseEntity>> {
+        return courseRemote.getSelectedCourses(studentNumber)
     }
 
     override fun getAllCourses(): Flowable<List<CourseEntity>> {

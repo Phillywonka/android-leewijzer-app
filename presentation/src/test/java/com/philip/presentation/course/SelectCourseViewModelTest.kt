@@ -25,7 +25,7 @@ class SelectCourseViewModelTest {
 
     @get:Rule var instanttaskexecutorrule = InstantTaskExecutorRule()
 
-    @Mock lateinit var getCourses: GetCourses
+    @Mock lateinit var getSelectedCourses: GetCourses
     @Mock lateinit var courseMapper: CourseMapper
 
     @Captor
@@ -36,16 +36,16 @@ class SelectCourseViewModelTest {
     @Before
     fun setUp() {
         captor = argumentCaptor<DisposableSubscriber<List<Course>>>()
-        getCourses = mock()
+        getSelectedCourses = mock()
         courseMapper = mock()
-        coursesViewModel = SelectCourseViewModel(getCourses, courseMapper)
+        coursesViewModel = SelectCourseViewModel(getSelectedCourses, courseMapper)
     }
 
     @Test
     fun getCoursesExecutesUseCase() {
         coursesViewModel.getCourses()
 
-        verify(getCourses, times(1)).execute(any(), anyOrNull())
+        verify(getSelectedCourses, times(1)).execute(any(), anyOrNull())
     }
 
     //<editor-fold desc="Success">
@@ -58,7 +58,7 @@ class SelectCourseViewModelTest {
 
         coursesViewModel.getCourses()
 
-        verify(getCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(list)
 
         assertThat(coursesViewModel.getCourses().value?.status, `is`(ResourceState.SUCCESS))
@@ -74,7 +74,7 @@ class SelectCourseViewModelTest {
 
         coursesViewModel.getCourses()
 
-        verify(getCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(list)
 
         assert(coursesViewModel.getCourses().value?.data == viewList)
@@ -90,7 +90,7 @@ class SelectCourseViewModelTest {
 
         coursesViewModel.getCourses()
 
-        verify(getCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(list)
 
         assert(coursesViewModel.getCourses().value?.message == null)
@@ -102,7 +102,7 @@ class SelectCourseViewModelTest {
     fun getCoursesReturnsError() {
         coursesViewModel.getCourses()
 
-        verify(getCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException())
 
         assert(coursesViewModel.getCourses().value?.status == ResourceState.ERROR)
@@ -112,7 +112,7 @@ class SelectCourseViewModelTest {
     fun getCoursesFailsAndContainsNoData() {
         coursesViewModel.getCourses()
 
-        verify(getCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException())
 
         assert(coursesViewModel.getCourses().value?.data == null)
@@ -123,7 +123,7 @@ class SelectCourseViewModelTest {
         val errorMessage = DataFactory.randomUuid()
         coursesViewModel.getCourses()
 
-        verify(getCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException(errorMessage))
 
         assert(coursesViewModel.getCourses().value?.message == errorMessage)

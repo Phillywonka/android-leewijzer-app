@@ -15,10 +15,10 @@ class CourseRemoteImpl(private val courseService: CourseService,
         CourseRemote {
 
     /**
-     * Retrieve a list of [CourseEntity] instances from the [CourseService].
+     * Retrieve a list of selected [CourseEntity] instances from the [CourseService].
      */
-    override fun getCourses(): Flowable<List<CourseEntity>> {
-        return courseService.getCourses()
+    override fun getSelectedCourses(studentNumber: String): Flowable<List<CourseEntity>> {
+        return courseService.getSelectedCourses(studentNumber)
                 .map { it.courses }
                 .map {
                     val entities = mutableListOf<CourseEntity>()

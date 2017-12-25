@@ -12,7 +12,7 @@ import philip.com.domain.interactor.course.GetCourses
 import philip.com.domain.model.Course
 
 open class SelectCourseViewModel(
-        private val getCourses: GetCourses,
+        private val getSelectedCourses: GetCourses,
         private val courseMapper: CourseMapper) : ViewModel() {
 
     private val coursesLiveData: MutableLiveData<Resource<List<CourseView>>> =
@@ -23,7 +23,7 @@ open class SelectCourseViewModel(
     }
 
     override fun onCleared() {
-        getCourses.dispose()
+        getSelectedCourses.dispose()
         super.onCleared()
     }
 
@@ -33,7 +33,7 @@ open class SelectCourseViewModel(
 
     fun fetchCourses() {
         coursesLiveData.postValue(Resource(ResourceState.LOADING, null, null))
-        return getCourses.execute(CourseSubscriber(), null)
+        return getSelectedCourses.execute(CourseSubscriber(),"1085328")
     }
 
     inner class CourseSubscriber : DisposableSubscriber<List<Course>>() {

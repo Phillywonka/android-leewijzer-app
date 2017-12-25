@@ -16,7 +16,7 @@ open class GetSelectedCourses(private val courseRepository: CourseRepository,
         FlowableUseCase<List<Course>, String>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(params: String): Flowable<List<Course>> {
-        return courseRepository.getCoursesForStudent(params)
+        return courseRepository.getSelectedCourses(params)
     }
 
 }

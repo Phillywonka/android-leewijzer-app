@@ -30,7 +30,7 @@ class CourseRemoteImplTest {
     @Test
     fun getCoursesCompletes() {
         stubCourseServiceGetCourses(Flowable.just(CourseFactory.makeCourseResponse()))
-        val testObserver = courseRemoteImpl.getCourses().test()
+        val testObserver = courseRemoteImpl.getSelectedCourses().test()
         testObserver.assertComplete()
     }
 
@@ -43,14 +43,14 @@ class CourseRemoteImplTest {
             courseEntities.add(entityMapper.mapFromRemote(it))
         }
 
-        val testObserver = courseRemoteImpl.getCourses().test()
+        val testObserver = courseRemoteImpl.getSelectedCourses().test()
         testObserver.assertValue(courseEntities)
     }
     //</editor-fold>
 
     private fun stubCourseServiceGetCourses(observable:
                                                 Flowable<CourseService.CourseResponse>) {
-        whenever(courseService.getCourses())
+        whenever(courseService.getSelectedCourses())
                 .thenReturn(observable)
     }
 }

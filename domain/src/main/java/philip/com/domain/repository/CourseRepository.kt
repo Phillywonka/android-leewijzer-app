@@ -15,10 +15,8 @@ interface CourseRepository {
 
     fun saveCourses(courses: List<Course>): Completable
 
-    fun getCourses(): Flowable<List<Course>>
-
     fun getAllCourses(): Flowable<List<Course>>
 
-    fun getCoursesForStudent(studentNumber: String): Flowable<List<Course>>
+    fun getSelectedCourses(studentNumber: String): Flowable<List<Course>>
 
 }

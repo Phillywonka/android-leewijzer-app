@@ -9,13 +9,13 @@ import org.junit.Test
 import philip.com.domain.executor.PostExecutionThread
 import philip.com.domain.executor.ThreadExecutor
 import philip.com.domain.factory.CourseFactory
-import philip.com.domain.interactor.course.GetCourses
+import philip.com.domain.interactor.course.GetSelectedCourses
 import philip.com.domain.model.Course
 import philip.com.domain.repository.CourseRepository
 
-class GetCoursesTest {
+class GetSelectedCoursesTest {
 
-    private lateinit var getCourses: GetCourses
+    private lateinit var getSelectedCourses: GetSelectedCourses
 
     private lateinit var mockThreadExecutor: ThreadExecutor
     private lateinit var mockPostExecutionThread: PostExecutionThread
@@ -26,20 +26,20 @@ class GetCoursesTest {
         mockThreadExecutor = mock()
         mockPostExecutionThread = mock()
         mockCourseRepository = mock()
-        getCourses = GetCourses(mockCourseRepository, mockThreadExecutor,
+        getSelectedCourses = GetSelectedCourses(mockCourseRepository, mockThreadExecutor,
                 mockPostExecutionThread)
     }
 
     @Test
     fun buildUseCaseObservableCallsRepository() {
-        getCourses.buildUseCaseObservable(null)
-        verify(mockCourseRepository).getCourses()
+        getSelectedCourses.buildUseCaseObservable("1085328")
+        verify(mockCourseRepository).getSelectedCourses("1085328")
     }
 
     @Test
     fun buildUseCaseObservableCompletes() {
         stubCourseRepositoryGetCourses(Flowable.just(CourseFactory.makeCourseList(2)))
-        val testObserver = getCourses.buildUseCaseObservable(null).test()
+        val testObserver = getSelectedCourses.buildUseCaseObservable("1085328").test()
         testObserver.assertComplete()
     }
 
@@ -47,12 +47,12 @@ class GetCoursesTest {
     fun buildUseCaseObservableReturnsData() {
         val courses = CourseFactory.makeCourseList(2)
         stubCourseRepositoryGetCourses(Flowable.just(courses))
-        val testObserver = getCourses.buildUseCaseObservable(null).test()
+        val testObserver = getSelectedCourses.buildUseCaseObservable("1085328").test()
         testObserver.assertValue(courses)
     }
 
     private fun stubCourseRepositoryGetCourses(single: Flowable<List<Course>>) {
-        whenever(mockCourseRepository.getCourses())
+        whenever(mockCourseRepository.getSelectedCourses("1085328"))
                 .thenReturn(single)
     }
 

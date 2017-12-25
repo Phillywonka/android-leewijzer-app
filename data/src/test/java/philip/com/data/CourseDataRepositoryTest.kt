@@ -90,7 +90,7 @@ class CourseDataRepositoryTest {
         stubCourseCacheDataStoreGetCourses(Flowable.just(
                 CourseFactory.makeCourseEntityList(2)))
         stubCourseCacheSaveCourses(Completable.complete())
-        val testObserver = courseDataRepository.getCourses().test()
+        val testObserver = courseDataRepository.getSelectedCourses().test()
         testObserver.assertComplete()
     }
 
@@ -105,7 +105,7 @@ class CourseDataRepositoryTest {
             stubCourseMapperMapFromEntity(courseEntities[index], course) }
         stubCourseCacheDataStoreGetCourses(Flowable.just(courseEntities))
 
-        val testObserver = courseDataRepository.getCourses().test()
+        val testObserver = courseDataRepository.getSelectedCourses().test()
         testObserver.assertValue(courses)
     }
 

@@ -32,7 +32,6 @@ import philip.com.data.mapper.CourseMapper
 import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.data.source.course.CourseRemoteDataStore
-import philip.com.domain.interactor.course.GetCourses
 import philip.com.remote.CourseRemoteImpl
 import philip.com.remote.CourseServiceFactory
 
@@ -90,7 +89,7 @@ class SelectCourseFragment : Fragment() {
                 CourseEntityMapper(),
                 PreferencesHelper(context))
 
-        viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
+        viewModelFactory = SelectCourseViewModelFactory(GetSelectedCourses(CourseDataRepository(
                 CourseDataStoreFactory(courseCache, CourseCacheDataStore(
                         courseCache), CourseRemoteDataStore(CourseRemoteImpl(
                         CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()

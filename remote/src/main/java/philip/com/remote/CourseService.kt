@@ -12,6 +12,9 @@ interface CourseService {
     @GET("/showCourses.php")
     fun getCourses(): Flowable<CourseResponse>
 
+    @GET("/showCourses.php")
+    fun getAllCourses(): Flowable<CourseResponse>
+
     @GET("/student/{student}/course/{courses")
     fun getCoursesForStudent(): Flowable<CourseResponse>
 

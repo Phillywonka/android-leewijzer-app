@@ -10,8 +10,13 @@ import philip.com.data.models.CourseEntity
 interface CourseRemote {
 
     /**
-     * Retrieve a list of Courses, from the cache
+     * Retrieve a list of Courses, from the remote
      */
     fun getCourses(): Flowable<List<CourseEntity>>
+
+    /**
+     * Retrieve a list all available of Courses, from the remote
+     */
+    fun getAllCourses(): Flowable<List<CourseEntity>>
 
 }

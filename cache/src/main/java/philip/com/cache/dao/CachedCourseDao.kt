@@ -16,7 +16,7 @@ import philip.com.cache.model.CachedCourse
 interface CachedCourseDao {
 
     @Query(CourseConstants.QUERY_COURSES)
-    fun loadAllCourses(): List<CachedCourse>
+    fun loadSelectedCourses(): List<CachedCourse>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCourse(student: CachedCourse)

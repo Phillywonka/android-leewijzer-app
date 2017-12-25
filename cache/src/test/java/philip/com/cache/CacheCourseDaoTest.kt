@@ -36,7 +36,7 @@ open class CacheCourseDaoTest {
         val cachedCourse = CourseFactory.makeCachedCourse()
         coursesCacheDatabase.cachedCourseDao().insertCourse(cachedCourse)
 
-        val students = coursesCacheDatabase.cachedCourseDao().loadAllCourses()
+        val students = coursesCacheDatabase.cachedCourseDao().loadSelectedCourses()
         assertThat(students.isNotEmpty(), `is`(true))
     }
 
@@ -48,7 +48,7 @@ open class CacheCourseDaoTest {
             coursesCacheDatabase.cachedCourseDao().insertCourse(it)
         }
 
-        val retrievedCourses = coursesCacheDatabase.cachedCourseDao().loadAllCourses()
+        val retrievedCourses = coursesCacheDatabase.cachedCourseDao().loadSelectedCourses()
         assertThat(retrievedCourses, `is`(cachedCourses))
     }
 
@@ -57,6 +57,6 @@ open class CacheCourseDaoTest {
         val cachedCourse = CourseFactory.makeCachedCourse()
         coursesCacheDatabase.cachedCourseDao().insertCourse(cachedCourse)
         coursesCacheDatabase.cachedCourseDao().clearCourses()
-        assertThat(coursesCacheDatabase.cachedCourseDao().loadAllCourses().isEmpty(), `is`(true))
+        assertThat(coursesCacheDatabase.cachedCourseDao().loadSelectedCourses().isEmpty(), `is`(true))
     }
 }

@@ -37,8 +37,11 @@ open class CourseCacheDataStore(private val courseCache: CourseCache) : CourseDa
         return courseCache.getCourses()
     }
 
+    /**
+     * Retrieve a list of all available [CourseEntity] instance from the cache
+     */
     override fun getAllCourses(): Flowable<List<CourseEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException()
     }
 
     /**

@@ -28,4 +28,20 @@ class CourseRemoteImpl(private val courseService: CourseService,
                     entities
                 }
     }
+
+    /**
+     * Retrieve a list of all available [CourseEntity] instances from the [CourseService].
+     */
+    override fun getAllCourses(): Flowable<List<CourseEntity>> {
+        return courseService.getAllCourses()
+                .map { it.courses }
+                .map {
+                    val entities = mutableListOf<CourseEntity>()
+                    it.forEach {
+                        entities.add(entityMapper.mapFromRemote(it))
+                    }
+                    entities
+                }
+    }
+
 }

@@ -17,8 +17,8 @@ import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.courses.SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener
 import com.philip.leeswijzer_app.sections.SelectSectionsFragment
-import com.philip.presentation.course.SelectCourseViewModel
-import com.philip.presentation.course.SelectCourseViewModelFactory
+import com.philip.presentation.course.GetAllCoursesViewModel
+import com.philip.presentation.course.GetAllCoursesViewModelFactory
 import com.philip.presentation.data.Resource
 import com.philip.presentation.data.ResourceState
 import com.philip.presentation.model.CourseView
@@ -32,7 +32,7 @@ import philip.com.data.models.SectionEntity
 import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.data.source.course.CourseRemoteDataStore
-import philip.com.domain.interactor.course.GetCourses
+import philip.com.domain.interactor.course.GetAllCourses
 import philip.com.remote.CourseRemoteImpl
 import philip.com.remote.CourseServiceFactory
 import philip.com.remote.mapper.CourseEntityMapper
@@ -44,8 +44,8 @@ import philip.com.remote.mapper.CourseEntityMapper
 class AddCourseFragment : Fragment() {
 
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
-    private lateinit var viewModelFactory: SelectCourseViewModelFactory
-    private lateinit var selectCourseViewModel: SelectCourseViewModel
+    private lateinit var viewModelFactory: GetAllCoursesViewModelFactory
+    private lateinit var getAllCoursesViewModel: GetAllCoursesViewModel
 
     companion object {
         val TAG = "addCourseFragment"
@@ -69,7 +69,7 @@ class AddCourseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        selectCourseViewModel.getCourses().observe(this,
+        getAllCoursesViewModel.getAllCourses().observe(this,
                 Observer<Resource<List<CourseView>>> {
                     if (it != null) this.handleDataState(it.status, it.data, it.message)
                 })
@@ -86,7 +86,7 @@ class AddCourseFragment : Fragment() {
                                 message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
-//            ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
+            ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
             ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: " + message)
         }
     }
@@ -97,15 +97,15 @@ class AddCourseFragment : Fragment() {
                 philip.com.cache.mapper.CourseEntityMapper(),
                 PreferencesHelper(context))
 
-        viewModelFactory = SelectCourseViewModelFactory(GetCourses(CourseDataRepository(
+        viewModelFactory = GetAllCoursesViewModelFactory(GetAllCourses(CourseDataRepository(
                 CourseDataStoreFactory(courseCache, CourseCacheDataStore(
                         courseCache), CourseRemoteDataStore(CourseRemoteImpl(
                         CourseServiceFactory.makeCourseService(true), CourseEntityMapper()
                 ))), CourseMapper()),
                 JobExecutor(), UiThread()), com.philip.presentation.mapper.CourseMapper())
 
-        selectCourseViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(SelectCourseViewModel::class.java)
+        getAllCoursesViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(GetAllCoursesViewModel::class.java)
     }
 
     private fun setupCoursesRecyclerView(parent: View) {

@@ -17,15 +17,9 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
         CourseRepository {
 
     override fun getAllCourses(): Flowable<List<Course>> {
-        return factory.retrieveCacheDataStore().isCached()
-                .flatMapPublisher {
-                    factory.retrieveDataStore(it).getCourses()
-                }
+        return factory.retrieveRemoteDataStore().getAllCourses()
                 .flatMap {
                     Flowable.just(it.map { courseMapper.mapFromEntity(it) })
-                }
-                .flatMap {
-                    saveCourses(it).toSingle { it }.toFlowable()
                 }
     }
 

@@ -27,7 +27,7 @@ open class GetAllCoursesViewModel(
         super.onCleared()
     }
 
-    fun getCourses(): LiveData<Resource<List<CourseView>>> {
+    fun getAllCourses(): LiveData<Resource<List<CourseView>>> {
         return coursesLiveData
     }
 

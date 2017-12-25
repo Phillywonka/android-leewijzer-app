@@ -30,7 +30,7 @@ open class CourseRemoteDataStore(private val courseRemote: CourseRemote)
     }
 
     override fun getAllCourses(): Flowable<List<CourseEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return courseRemote.getAllCourses()
     }
 
     override fun isCached(): Single<Boolean> {

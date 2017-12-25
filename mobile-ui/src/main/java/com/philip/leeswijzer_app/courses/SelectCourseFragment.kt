@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
@@ -28,7 +29,6 @@ import philip.com.cache.mapper.CourseEntityMapper
 import philip.com.data.CourseDataRepository
 import philip.com.data.executor.JobExecutor
 import philip.com.data.mapper.CourseMapper
-import philip.com.data.models.SectionEntity
 import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.data.source.course.CourseRemoteDataStore
@@ -45,6 +45,7 @@ class SelectCourseFragment : Fragment() {
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
     private lateinit var viewModelFactory: SelectCourseViewModelFactory
     private lateinit var selectCourseViewModel: SelectCourseViewModel
+    private lateinit var addCourseButton: FloatingActionButton
 
     companion object {
         val TAG = "selectCourseFragment"
@@ -80,6 +81,7 @@ class SelectCourseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.setupCoursesRecyclerView(view)
+        this.setupAddCourseButton(view)
     }
 
     private fun initViewModel() {
@@ -107,9 +109,12 @@ class SelectCourseFragment : Fragment() {
 
         coursesRecyclerView.adapter = coursesRecyclerViewAdapter
         coursesRecyclerView.layoutManager = LinearLayoutManager(this.activity)
+    }
 
-        val sections = ArrayList<SectionEntity>()
-        sections.add(SectionEntity(1L, "Polymorfism", false, "IOPR1"))
+    private fun setupAddCourseButton(parent: View) {
+        val addCourseButton = parent.findViewById<FloatingActionButton>(R.id.add_course_button)
+        addCourseButton.setOnClickListener(onAddCourseButtonClickListener)
+        this.addCourseButton = addCourseButton
     }
 
     fun buildDataBase(): CacheDatabase {
@@ -132,5 +137,18 @@ class SelectCourseFragment : Fragment() {
             fragmentTransaction.addToBackStack(SelectCourseFragment.TAG)
             fragmentTransaction.commit()
         }
+    }
+
+    private val onAddCourseButtonClickListener = View.OnClickListener {
+        val addCourseFragment = AddCourseFragment()
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragmentTransaction.add(R.id.fragment_container,
+                addCourseFragment,
+                AddCourseFragment.TAG)
+        fragmentTransaction.addToBackStack(SelectCourseFragment.TAG)
+        fragmentTransaction.commit()
     }
 }

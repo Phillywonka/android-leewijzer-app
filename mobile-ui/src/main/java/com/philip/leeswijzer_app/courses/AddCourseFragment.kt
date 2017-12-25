@@ -5,8 +5,8 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -46,7 +46,6 @@ class AddCourseFragment : Fragment() {
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
     private lateinit var viewModelFactory: SelectCourseViewModelFactory
     private lateinit var selectCourseViewModel: SelectCourseViewModel
-    private lateinit var addCourseButton: FloatingActionButton
 
     companion object {
         val TAG = "addCourseFragment"
@@ -58,6 +57,16 @@ class AddCourseFragment : Fragment() {
         this.initViewModel()
     }
 
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater!!.inflate(R.layout.fragment_add_course, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.setupCoursesRecyclerView(view)
+        this.setupActionBar()
+    }
+
     override fun onStart() {
         super.onStart()
         selectCourseViewModel.getCourses().observe(this,
@@ -66,22 +75,20 @@ class AddCourseFragment : Fragment() {
                 })
     }
 
+    private fun setupActionBar() {
+        val supportActionBar = (this.activity as AppCompatActivity).supportActionBar!!
+        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar.title = TITLE
+
+    }
+
     private fun handleDataState(resourceState: ResourceState, data: List<CourseView>?,
                                 message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
-            ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
+//            ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
             ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: " + message)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_select_course, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        this.setupCoursesRecyclerView(view)
     }
 
     private fun initViewModel() {

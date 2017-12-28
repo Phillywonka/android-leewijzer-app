@@ -8,11 +8,11 @@ import com.philip.presentation.data.ResourceState
 import com.philip.presentation.mapper.CourseMapper
 import com.philip.presentation.model.CourseView
 import io.reactivex.subscribers.DisposableSubscriber
-import philip.com.domain.interactor.course.GetCourses
+import philip.com.domain.interactor.course.GetSelectedCourses
 import philip.com.domain.model.Course
 
 open class SelectCourseViewModel(
-        private val getSelectedCourses: GetCourses,
+        private val getSelectedCourses: GetSelectedCourses,
         private val courseMapper: CourseMapper) : ViewModel() {
 
     private val coursesLiveData: MutableLiveData<Resource<List<CourseView>>> =
@@ -27,7 +27,7 @@ open class SelectCourseViewModel(
         super.onCleared()
     }
 
-    fun getCourses(): LiveData<Resource<List<CourseView>>> {
+    fun getSelectedCourses(): LiveData<Resource<List<CourseView>>> {
         return coursesLiveData
     }
 

@@ -32,6 +32,7 @@ import philip.com.data.mapper.CourseMapper
 import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.data.source.course.CourseRemoteDataStore
+import philip.com.domain.interactor.course.GetSelectedCourses
 import philip.com.remote.CourseRemoteImpl
 import philip.com.remote.CourseServiceFactory
 
@@ -58,7 +59,7 @@ class SelectCourseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        selectCourseViewModel.getCourses().observe(this,
+        selectCourseViewModel.getSelectedCourses().observe(this,
                 Observer<Resource<List<CourseView>>> {
                     if (it != null) this.handleDataState(it.status, it.data, it.message)
                 })
@@ -69,7 +70,7 @@ class SelectCourseFragment : Fragment() {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
             ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
-            ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: " + message)
+            ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: ERROR: " + message)
         }
     }
 

@@ -2,12 +2,12 @@ package com.philip.presentation.course
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockito_kotlin.*
+import com.philip.presentation.data.ResourceState
 import com.philip.presentation.mapper.CourseMapper
 import com.philip.presentation.model.CourseView
 import com.philip.presentation.test.factory.CourseFactory
 import com.philip.presentation.test.factory.DataFactory
 import io.reactivex.subscribers.DisposableSubscriber
-import com.philip.presentation.data.ResourceState
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 import org.mockito.Captor
 import org.mockito.Mock
 import org.robolectric.RobolectricTestRunner
-import philip.com.domain.interactor.course.GetCourses
+import philip.com.domain.interactor.course.GetSelectedCourses
 import philip.com.domain.model.Course
 
 @RunWith(RobolectricTestRunner::class)
@@ -25,7 +25,7 @@ class SelectCourseViewModelTest {
 
     @get:Rule var instanttaskexecutorrule = InstantTaskExecutorRule()
 
-    @Mock lateinit var getSelectedCourses: GetCourses
+    @Mock lateinit var getSelectedCourses: GetSelectedCourses
     @Mock lateinit var courseMapper: CourseMapper
 
     @Captor
@@ -43,7 +43,7 @@ class SelectCourseViewModelTest {
 
     @Test
     fun getCoursesExecutesUseCase() {
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
         verify(getSelectedCourses, times(1)).execute(any(), anyOrNull())
     }
@@ -56,12 +56,12 @@ class SelectCourseViewModelTest {
         stubCourseMapperMapToView(viewList[0], list[0])
         stubCourseMapperMapToView(viewList[1], list[1])
 
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        verify(getSelectedCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq("1085328"))
         captor.firstValue.onNext(list)
 
-        assertThat(coursesViewModel.getCourses().value?.status, `is`(ResourceState.SUCCESS))
+        assertThat(coursesViewModel.getSelectedCourses().value?.status, `is`(ResourceState.SUCCESS))
     }
 
     @Test
@@ -72,12 +72,12 @@ class SelectCourseViewModelTest {
         stubCourseMapperMapToView(viewList[0], list[0])
         stubCourseMapperMapToView(viewList[1], list[1])
 
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        verify(getSelectedCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq("1085328"))
         captor.firstValue.onNext(list)
 
-        assert(coursesViewModel.getCourses().value?.data == viewList)
+        assert(coursesViewModel.getSelectedCourses().value?.data == viewList)
     }
 
     @Test
@@ -88,68 +88,68 @@ class SelectCourseViewModelTest {
         stubCourseMapperMapToView(viewList[0], list[0])
         stubCourseMapperMapToView(viewList[1], list[1])
 
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        verify(getSelectedCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq("1085328"))
         captor.firstValue.onNext(list)
 
-        assert(coursesViewModel.getCourses().value?.message == null)
+        assert(coursesViewModel.getSelectedCourses().value?.message == null)
     }
     //</editor-fold>
 
     //<editor-fold desc="Error">
     @Test
     fun getCoursesReturnsError() {
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        verify(getSelectedCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq("1085328"))
         captor.firstValue.onError(RuntimeException())
 
-        assert(coursesViewModel.getCourses().value?.status == ResourceState.ERROR)
+        assert(coursesViewModel.getSelectedCourses().value?.status == ResourceState.ERROR)
     }
 
     @Test
     fun getCoursesFailsAndContainsNoData() {
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        verify(getSelectedCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq("1085328"))
         captor.firstValue.onError(RuntimeException())
 
-        assert(coursesViewModel.getCourses().value?.data == null)
+        assert(coursesViewModel.getSelectedCourses().value?.data == null)
     }
 
     @Test
     fun getCoursesFailsAndContainsMessage() {
         val errorMessage = DataFactory.randomUuid()
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        verify(getSelectedCourses).execute(captor.capture(), eq(null))
+        verify(getSelectedCourses).execute(captor.capture(), eq("1085328"))
         captor.firstValue.onError(RuntimeException(errorMessage))
 
-        assert(coursesViewModel.getCourses().value?.message == errorMessage)
+        assert(coursesViewModel.getSelectedCourses().value?.message == errorMessage)
     }
     //</editor-fold>
 
     //<editor-fold desc="Loading">
     @Test
     fun getCoursesReturnsLoading() {
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        assert(coursesViewModel.getCourses().value?.status == ResourceState.LOADING)
+        assert(coursesViewModel.getSelectedCourses().value?.status == ResourceState.LOADING)
     }
 
     @Test
     fun getCoursesContainsNoDataWhenLoading() {
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        assert(coursesViewModel.getCourses().value?.data == null)
+        assert(coursesViewModel.getSelectedCourses().value?.data == null)
     }
 
     @Test
     fun getCoursesContainsNoMessageWhenLoading() {
-        coursesViewModel.getCourses()
+        coursesViewModel.getSelectedCourses()
 
-        assert(coursesViewModel.getCourses().value?.data == null)
+        assert(coursesViewModel.getSelectedCourses().value?.data == null)
     }
     //</editor-fold>
 

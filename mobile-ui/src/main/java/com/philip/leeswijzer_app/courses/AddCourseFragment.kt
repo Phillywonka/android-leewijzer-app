@@ -1,6 +1,5 @@
 package com.philip.leeswijzer_app.courses
 
-import android.app.FragmentTransaction
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
@@ -13,10 +12,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.courses.SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener
-import com.philip.leeswijzer_app.sections.SelectSectionsFragment
+import com.philip.presentation.course.AddCourseViewModel
+import com.philip.presentation.course.AddCourseViewModelFactory
 import com.philip.presentation.course.GetAllCoursesViewModel
 import com.philip.presentation.course.GetAllCoursesViewModelFactory
 import com.philip.presentation.data.Resource
@@ -32,6 +33,7 @@ import philip.com.data.models.SectionEntity
 import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.data.source.course.CourseRemoteDataStore
+import philip.com.domain.interactor.course.AddCourse
 import philip.com.domain.interactor.course.GetAllCourses
 import philip.com.remote.CourseRemoteImpl
 import philip.com.remote.CourseServiceFactory
@@ -44,7 +46,9 @@ import philip.com.remote.mapper.CourseEntityMapper
 class AddCourseFragment : Fragment() {
 
     private lateinit var coursesRecyclerViewAdapter: SelectCourseRecyclerViewAdapter
-    private lateinit var viewModelFactory: GetAllCoursesViewModelFactory
+    private lateinit var addCourseViewModelFactory: AddCourseViewModelFactory
+    private lateinit var getAllCoursesViewModelFactory: GetAllCoursesViewModelFactory
+    private lateinit var addCourseViewModel: AddCourseViewModel
     private lateinit var getAllCoursesViewModel: GetAllCoursesViewModel
 
     companion object {
@@ -69,9 +73,10 @@ class AddCourseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         getAllCoursesViewModel.getAllCourses().observe(this,
                 Observer<Resource<List<CourseView>>> {
-                    if (it != null) this.handleDataState(it.status, it.data, it.message)
+                    if (it != null) this.handleGetAllCoursesDataState(it.status, it.data, it.message)
                 })
     }
 
@@ -82,8 +87,20 @@ class AddCourseFragment : Fragment() {
 
     }
 
-    private fun handleDataState(resourceState: ResourceState, data: List<CourseView>?,
+    private fun handleDataState(resourceState: ResourceState,
                                 message: String?) {
+        when (resourceState) {
+            ResourceState.LOADING -> Log.d("Application", ": handleDataState: loading")
+            ResourceState.SUCCESS -> {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                activity.supportFragmentManager.popBackStack()
+            }
+            ResourceState.ERROR -> Toast.makeText(context, "Deze course is al toegevoegd", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun handleGetAllCoursesDataState(resourceState: ResourceState, data: List<CourseView>?,
+                                             message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
             ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
@@ -97,15 +114,25 @@ class AddCourseFragment : Fragment() {
                 philip.com.cache.mapper.CourseEntityMapper(),
                 PreferencesHelper(context))
 
-        viewModelFactory = GetAllCoursesViewModelFactory(GetAllCourses(CourseDataRepository(
+        addCourseViewModelFactory = AddCourseViewModelFactory(AddCourse(CourseDataRepository(
+                CourseDataStoreFactory(courseCache, CourseCacheDataStore(
+                        courseCache), CourseRemoteDataStore(CourseRemoteImpl(
+                        CourseServiceFactory.makeCourseService(true), CourseEntityMapper()
+                ))), CourseMapper()),
+                JobExecutor(), UiThread()))
+
+        getAllCoursesViewModelFactory = GetAllCoursesViewModelFactory(GetAllCourses(CourseDataRepository(
                 CourseDataStoreFactory(courseCache, CourseCacheDataStore(
                         courseCache), CourseRemoteDataStore(CourseRemoteImpl(
                         CourseServiceFactory.makeCourseService(true), CourseEntityMapper()
                 ))), CourseMapper()),
                 JobExecutor(), UiThread()), com.philip.presentation.mapper.CourseMapper())
 
-        getAllCoursesViewModel = ViewModelProviders.of(this, viewModelFactory)
+        getAllCoursesViewModel = ViewModelProviders.of(this, getAllCoursesViewModelFactory)
                 .get(GetAllCoursesViewModel::class.java)
+
+        addCourseViewModel = ViewModelProviders.of(this, addCourseViewModelFactory)
+                .get(AddCourseViewModel::class.java)
     }
 
     private fun setupCoursesRecyclerView(parent: View) {
@@ -129,16 +156,10 @@ class AddCourseFragment : Fragment() {
 
     private val onCourseItemClickListener = object : OnCourseViewItemClickListener {
         override fun onClick(courseView: CourseView) {
-            val selectSectionsFragment = SelectSectionsFragment.newInstance(courseView.name)
-
-            val fragmentTransaction = fragmentManager.beginTransaction()
-
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            fragmentTransaction.add(R.id.fragment_container,
-                    selectSectionsFragment,
-                    SelectSectionsFragment.TAG)
-            fragmentTransaction.addToBackStack(SelectCourseFragment.TAG)
-            fragmentTransaction.commit()
+            addCourseViewModel.addNewCourse().observe(this@AddCourseFragment,
+                    Observer<Resource<Void>> {
+                        if (it != null) handleDataState(it.status, it.message)
+                    })
         }
     }
 }

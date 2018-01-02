@@ -7,6 +7,7 @@ import philip.com.data.models.CourseEntity
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.domain.model.Course
 import philip.com.domain.repository.CourseRepository
+import javax.xml.ws.http.HTTPException
 
 /**
  * Provides an implementation of the [CourseRepository] interface for communicating to and from
@@ -46,5 +47,12 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
                 }
     }
 
+    override fun addCourse(studentNumber: String, courseName: String): Completable {
+        return try {
+            factory.retrieveRemoteDataStore().addCourse(studentNumber, courseName)
+        } catch (error: HTTPException) {
+            Completable.error(error)
+        }
+    }
 
 }

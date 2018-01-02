@@ -29,6 +29,10 @@ open class CourseRemoteDataStore(private val courseRemote: CourseRemote)
         return courseRemote.getSelectedCourses(studentNumber)
     }
 
+    override fun addCourse(studentNumber: String, courseName: String): Completable {
+        return courseRemote.addCourse(studentNumber, courseName)
+    }
+
     override fun getAllCourses(): Flowable<List<CourseEntity>> {
         return courseRemote.getAllCourses()
     }
@@ -36,5 +40,4 @@ open class CourseRemoteDataStore(private val courseRemote: CourseRemote)
     override fun isCached(): Single<Boolean> {
         throw UnsupportedOperationException()
     }
-
 }

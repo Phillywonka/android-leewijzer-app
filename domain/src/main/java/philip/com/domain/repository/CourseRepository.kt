@@ -19,4 +19,6 @@ interface CourseRepository {
 
     fun getSelectedCourses(studentNumber: String): Flowable<List<Course>>
 
+    fun addCourse(studentNumber: String, courseName: String): Completable
+
 }

@@ -22,4 +22,5 @@ interface CourseDataStore {
 
     fun isCached(): Single<Boolean>
 
+    fun addCourse(studentNumber: String, courseName: String): Completable
 }

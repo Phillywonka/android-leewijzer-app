@@ -13,10 +13,10 @@ import philip.com.domain.repository.CourseRepository
 open class AddCourse(private val courseRepository: CourseRepository,
                      threadExecutor: ThreadExecutor,
                      postExecutionThread: PostExecutionThread) :
-        CompletableUseCase<List<Course>>(threadExecutor, postExecutionThread) {
+        CompletableUseCase<HashMap<String, String>>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: List<Course>): Completable {
-        return courseRepository.saveCourses(params)
+    public override fun buildUseCaseObservable(params: HashMap<String, String>): Completable {
+        return courseRepository.addCourse(params["student_number"]!!, params["course_name"]!!)
     }
 
 }

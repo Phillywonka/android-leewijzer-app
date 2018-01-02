@@ -51,4 +51,7 @@ open class CourseCacheDataStore(private val courseCache: CourseCache) : CourseDa
         return courseCache.isCached()
     }
 
+    override fun addCourse(studentNumber: String, courseName: String): Completable {
+        throw UnsupportedOperationException()
+    }
 }

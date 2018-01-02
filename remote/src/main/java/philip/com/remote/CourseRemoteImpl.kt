@@ -1,5 +1,6 @@
 package philip.com.remote
 
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import philip.com.data.models.CourseEntity
 import philip.com.data.repository.course.CourseRemote
@@ -42,6 +43,14 @@ class CourseRemoteImpl(private val courseService: CourseService,
                     }
                     entities
                 }
+    }
+
+    /**
+     * Add a new course to a student
+     */
+    override fun addCourse(studentNumber: String, courseName: String): Completable {
+
+            return courseService.addCourse(studentNumber, courseName)
     }
 
 }

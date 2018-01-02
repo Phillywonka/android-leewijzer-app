@@ -1,5 +1,6 @@
 package philip.com.data.repository.course
 
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import philip.com.data.models.CourseEntity
 
@@ -18,5 +19,10 @@ interface CourseRemote {
      * Retrieve a list all available of Courses, from the remote
      */
     fun getAllCourses(): Flowable<List<CourseEntity>>
+
+    /**
+     * Add a new course to a student
+     */
+    fun addCourse(studentNumber: String, courseName: String): Completable
 
 }

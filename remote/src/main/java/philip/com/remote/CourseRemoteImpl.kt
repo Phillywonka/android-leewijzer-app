@@ -5,6 +5,7 @@ import io.reactivex.Flowable
 import philip.com.data.models.CourseEntity
 import philip.com.data.repository.course.CourseRemote
 import philip.com.remote.mapper.CourseEntityMapper
+import javax.xml.ws.http.HTTPException
 
 /**
  * Remote implementation for retrieving Course instances. This class implements the
@@ -50,7 +51,11 @@ class CourseRemoteImpl(private val courseService: CourseService,
      */
     override fun addCourse(studentNumber: String, courseName: String): Completable {
 
-            return courseService.addCourse(studentNumber, courseName)
+        return try {
+            courseService.addCourse(studentNumber, courseName)
+        } catch (error: HTTPException) {
+            Completable.error(error)
+        }
     }
 
 }

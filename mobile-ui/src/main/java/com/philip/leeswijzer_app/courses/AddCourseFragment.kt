@@ -156,7 +156,7 @@ class AddCourseFragment : Fragment() {
 
     private val onCourseItemClickListener = object : OnCourseViewItemClickListener {
         override fun onClick(courseView: CourseView) {
-            addCourseViewModel.addNewCourse().observe(this@AddCourseFragment,
+            addCourseViewModel.addNewCourse(courseView).observe(this@AddCourseFragment,
                     Observer<Resource<Void>> {
                         if (it != null) handleDataState(it.status, it.message)
                     })

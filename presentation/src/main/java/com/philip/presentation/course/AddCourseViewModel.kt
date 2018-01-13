@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.philip.presentation.data.Resource
 import com.philip.presentation.data.ResourceState
+import com.philip.presentation.model.CourseView
 import philip.com.domain.interactor.course.AddCourse
 
 open class AddCourseViewModel(
@@ -12,16 +13,16 @@ open class AddCourseViewModel(
 
     private val addCourseLiveData: MutableLiveData<Resource<Void>> = MutableLiveData()
 
-    fun addNewCourse(): LiveData<Resource<Void>> {
-        executeAddCourseCompletable()
+    fun addNewCourse(courseView: CourseView): LiveData<Resource<Void>> {
+        executeAddCourseCompletable(courseView)
         return addCourseLiveData
     }
 
-    private fun executeAddCourseCompletable() {
+    private fun executeAddCourseCompletable(courseView: CourseView) {
         addCourseLiveData.postValue(Resource(ResourceState.LOADING, null, null))
         val map = HashMap<String, String>()
         map.put("student_number", "1085328")
-        map.put("course_name", "ikpmd")
+        map.put("course_name", courseView.name)
 
         addCourse.execute(map).
                 subscribe({

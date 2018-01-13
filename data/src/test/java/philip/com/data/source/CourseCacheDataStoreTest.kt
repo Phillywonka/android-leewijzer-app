@@ -10,7 +10,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import philip.com.data.models.CourseEntity
-import philip.com.data.repository.CourseCache
+import philip.com.data.repository.course.CourseCache
+import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.test.factory.CourseFactory
 
 @RunWith(JUnit4::class)
@@ -49,7 +50,7 @@ class CourseCacheDataStoreTest {
     @Test
     fun getCoursesCompletes() {
         stubCourseCacheGetCourses(Flowable.just(CourseFactory.makeCourseEntityList(2)))
-        val testObserver = courseCacheDataStore.getCourses().test()
+        val testObserver = courseCacheDataStore.getSelectedCourses("1085328").test()
         testObserver.assertComplete()
     }
     //</editor-fold>

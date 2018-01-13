@@ -33,6 +33,7 @@ class CourseCacheImpl(val coursesDatabase: CacheDatabase,
      */
     override fun clearCourses(): Completable {
         return Completable.defer {
+            Log.d("Application", "CourseCacheImpl: clear: ")
             coursesDatabase.cachedCourseDao().clearCourses()
             Completable.complete()
         }
@@ -52,18 +53,19 @@ class CourseCacheImpl(val coursesDatabase: CacheDatabase,
         }
     }
 
-    override fun getAllCourses(): Flowable<List<CourseEntity>> {
-        return Flowable.defer {
-            Flowable.just(coursesDatabase.cachedCourseDao().loadSelectedCourses())
-        }.map {
-            it.map { entityMapper.mapFromCached(it) }
-        }
-    }
+//    override fun getAllCourses(): Flowable<List<CourseEntity>> {
+//        return Flowable.defer {
+//            Flowable.just(coursesDatabase.cachedCourseDao().loadSelectedCourses())
+//        }.map {
+//            it.map { entityMapper.mapFromCached(it) }
+//        }
+//    }
 
     /**
      * Retrieve a list of [CourseEntity] instances from the database.
      */
     override fun getCourses(): Flowable<List<CourseEntity>> {
+        Log.d("Application", "CourseCacheImpl: get courses: ")
         return Flowable.defer {
             Flowable.just(coursesDatabase.cachedCourseDao().loadSelectedCourses())
         }.map {
@@ -76,6 +78,7 @@ class CourseCacheImpl(val coursesDatabase: CacheDatabase,
      */
     override fun isCached(): Single<Boolean> {
         return Single.defer {
+            Log.d("Application", "CourseCacheImpl: isCached: " + coursesDatabase.cachedCourseDao().loadSelectedCourses().isNotEmpty())
             Single.just(coursesDatabase.cachedCourseDao().loadSelectedCourses().isNotEmpty())
         }
     }

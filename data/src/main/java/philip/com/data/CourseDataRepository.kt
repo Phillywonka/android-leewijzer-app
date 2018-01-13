@@ -47,7 +47,11 @@ class CourseDataRepository(private val factory: CourseDataStoreFactory,
     }
 
     override fun addCourse(studentNumber: String, courseName: String): Completable {
-        return factory.retrieveRemoteDataStore().addCourse(studentNumber, courseName)
+        return factory.retrieveRemoteDataStore().addCourse(studentNumber, courseName).doOnComplete (
+                {
+                    clearCourses().subscribe()
+                }
+        )
     }
 
 }

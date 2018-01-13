@@ -10,7 +10,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import philip.com.data.mapper.CourseMapper
 import philip.com.data.models.CourseEntity
-import philip.com.data.repository.CourseDataStore
+import philip.com.data.source.course.CourseCacheDataStore
+import philip.com.data.source.course.CourseDataStoreFactory
+import philip.com.data.source.course.CourseRemoteDataStore
 import philip.com.data.test.factory.CourseFactory
 import philip.com.domain.model.Course
 
@@ -90,7 +92,7 @@ class CourseDataRepositoryTest {
         stubCourseCacheDataStoreGetCourses(Flowable.just(
                 CourseFactory.makeCourseEntityList(2)))
         stubCourseCacheSaveCourses(Completable.complete())
-        val testObserver = courseDataRepository.getSelectedCourses().test()
+        val testObserver = courseDataRepository.getSelectedCourses("1085328").test()
         testObserver.assertComplete()
     }
 
@@ -105,7 +107,7 @@ class CourseDataRepositoryTest {
             stubCourseMapperMapFromEntity(courseEntities[index], course) }
         stubCourseCacheDataStoreGetCourses(Flowable.just(courseEntities))
 
-        val testObserver = courseDataRepository.getSelectedCourses().test()
+        val testObserver = courseDataRepository.getSelectedCourses("1085328").test()
         testObserver.assertValue(courses)
     }
 
@@ -138,12 +140,12 @@ class CourseDataRepositoryTest {
     }
 
     private fun stubCourseCacheDataStoreGetCourses(single: Flowable<List<CourseEntity>>) {
-        whenever(courseCacheDataStore.getCourses())
+        whenever(courseCacheDataStore.getSelectedCourses("1085328"))
                 .thenReturn(single)
     }
 
     private fun stubCourseRemoteDataStoreGetCourses(single: Flowable<List<CourseEntity>>) {
-        whenever(courseRemoteDataStore.getCourses())
+        whenever(courseRemoteDataStore.getSelectedCourses("1085328"))
                 .thenReturn(single)
     }
 
@@ -162,7 +164,7 @@ class CourseDataRepositoryTest {
                 .thenReturn(courseCacheDataStore)
     }
 
-    private fun stubCourseDataStoreFactoryRetrieveDataStore(dataStore: CourseDataStore) {
+    private fun stubCourseDataStoreFactoryRetrieveDataStore(dataStore: philip.com.data.repository.course.CourseDataStore) {
         whenever(courseDataStoreFactory.retrieveDataStore(any()))
                 .thenReturn(dataStore)
     }

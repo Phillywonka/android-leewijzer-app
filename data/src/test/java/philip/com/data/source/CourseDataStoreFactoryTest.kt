@@ -7,7 +7,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import philip.com.data.repository.CourseCache
+import philip.com.data.repository.course.CourseCache
+import philip.com.data.source.course.CourseCacheDataStore
+import philip.com.data.source.course.CourseDataStoreFactory
+import philip.com.data.source.course.CourseRemoteDataStore
 
 @RunWith(JUnit4::class)
 class CourseDataStoreFactoryTest {

@@ -16,10 +16,7 @@ import android.widget.Toast
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.courses.SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener
-import com.philip.presentation.course.AddCourseViewModel
-import com.philip.presentation.course.AddCourseViewModelFactory
-import com.philip.presentation.course.GetAllCoursesViewModel
-import com.philip.presentation.course.GetAllCoursesViewModelFactory
+import com.philip.presentation.course.*
 import com.philip.presentation.data.Resource
 import com.philip.presentation.data.ResourceState
 import com.philip.presentation.model.CourseView
@@ -103,7 +100,11 @@ class AddCourseFragment : Fragment() {
                                              message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
-            ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
+            ResourceState.SUCCESS -> {
+                this.coursesRecyclerViewAdapter.addAll(data)
+                val model = ViewModelProviders.of(activity).get(SelectCourseViewModel::class.java)
+                model.getSelectedCourses()
+            }
             ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: " + message)
         }
     }

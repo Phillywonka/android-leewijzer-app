@@ -97,7 +97,7 @@ class SelectCourseFragment : Fragment() {
                 ))), CourseMapper()),
                 JobExecutor(), UiThread()), com.philip.presentation.mapper.CourseMapper())
 
-        selectCourseViewModel = ViewModelProviders.of(this, viewModelFactory)
+        selectCourseViewModel = ViewModelProviders.of(this.activity, viewModelFactory)
                 .get(SelectCourseViewModel::class.java)
     }
 

@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
-import com.philip.leeswijzer_app.courses.SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener
 import com.philip.presentation.course.*
 import com.philip.presentation.data.Resource
 import com.philip.presentation.data.ResourceState
@@ -89,6 +88,8 @@ class AddCourseFragment : Fragment() {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", ": handleDataState: loading")
             ResourceState.SUCCESS -> {
+                val model = ViewModelProviders.of(activity).get(SelectCourseViewModel::class.java)
+                model.fetchCourses()
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 activity.supportFragmentManager.popBackStack()
             }
@@ -101,9 +102,8 @@ class AddCourseFragment : Fragment() {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
             ResourceState.SUCCESS -> {
+                this.coursesRecyclerViewAdapter.clear()
                 this.coursesRecyclerViewAdapter.addAll(data)
-                val model = ViewModelProviders.of(activity).get(SelectCourseViewModel::class.java)
-                model.getSelectedCourses()
             }
             ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: " + message)
         }
@@ -155,7 +155,8 @@ class AddCourseFragment : Fragment() {
                 .build().getInstance(this.context)
     }
 
-    private val onCourseItemClickListener = object : OnCourseViewItemClickListener {
+    private val onCourseItemClickListener = object :
+            SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener {
         override fun onClick(courseView: CourseView) {
             addCourseViewModel.addNewCourse(courseView).observe(this@AddCourseFragment,
                     Observer<Resource<Void>> {

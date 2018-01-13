@@ -2,6 +2,7 @@ package com.philip.leeswijzer_app.courses
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.ViewGroup
 import com.philip.presentation.model.CourseView
 
@@ -36,7 +37,17 @@ class SelectCourseRecyclerViewAdapter(private val context: Context)
     }
 
     fun addAll(courseViews: List<CourseView>?) {
-        this.courses.addAll(courseViews!!)
+        Log.d("Application", "SelectCourseRecyclerViewAdapter: addAll: course list size is: " + courseViews!!.size)
+        for (item in courseViews)
+        {
+            Log.d("Application", "SelectCourseRecyclerViewAdapter: addAll: " + item.name)
+        }
+        this.courses.addAll(courseViews)
+        this.notifyDataSetChanged()
+    }
+
+    fun clear() {
+        this.courses.clear()
         this.notifyDataSetChanged()
     }
 

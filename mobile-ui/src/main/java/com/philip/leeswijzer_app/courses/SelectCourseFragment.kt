@@ -69,7 +69,11 @@ class SelectCourseFragment : Fragment() {
                                 message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
-            ResourceState.SUCCESS -> this.coursesRecyclerViewAdapter.addAll(data)
+            ResourceState.SUCCESS -> {
+                Log.d("Application", "SelectCourseFragment: handleDataState: course added")
+                this.coursesRecyclerViewAdapter.clear()
+                this.coursesRecyclerViewAdapter.addAll(data)
+            }
             ResourceState.ERROR -> Log.d("Application", "SelectCourseFragment: handleDataState: ERROR: " + message)
         }
     }

@@ -8,6 +8,7 @@ import android.arch.persistence.room.migration.Migration
 import android.content.Context
 import com.philip.leeswijzer_app.storage.cache.CachedStudentDao
 import philip.com.cache.dao.CachedCourseDao
+import philip.com.cache.dao.CachedSectionDao
 import philip.com.cache.model.CachedCourse
 import philip.com.cache.model.CachedSection
 import philip.com.cache.model.CachedStudent
@@ -22,6 +23,7 @@ abstract class CacheDatabase : RoomDatabase() {
 
     abstract fun cachedCourseDao(): CachedCourseDao
     abstract fun cachedStudentDao(): CachedStudentDao
+    abstract fun cachedSectionDao(): CachedSectionDao
 
     private var INSTANCE: philip.com.cache.database.CacheDatabase? = null
     val MIGRATION_1_2: Migration = object : Migration(1, 2) {

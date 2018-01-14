@@ -25,7 +25,6 @@ import philip.com.cache.database.CacheDatabase
 import philip.com.data.CourseDataRepository
 import philip.com.data.executor.JobExecutor
 import philip.com.data.mapper.CourseMapper
-import philip.com.data.models.SectionEntity
 import philip.com.data.source.course.CourseCacheDataStore
 import philip.com.data.source.course.CourseDataStoreFactory
 import philip.com.data.source.course.CourseRemoteDataStore
@@ -144,12 +143,9 @@ class AddCourseFragment : Fragment() {
 
         coursesRecyclerView.adapter = coursesRecyclerViewAdapter
         coursesRecyclerView.layoutManager = LinearLayoutManager(this.activity)
-
-        val sections = ArrayList<SectionEntity>()
-        sections.add(SectionEntity(1L, "Polymorfism", false, "IOPR1"))
     }
 
-    fun buildDataBase(): CacheDatabase {
+    private fun buildDataBase(): CacheDatabase {
         return Room.databaseBuilder(this.context,
                 CacheDatabase::class.java, "leeswijzer.db")
                 .build().getInstance(this.context)

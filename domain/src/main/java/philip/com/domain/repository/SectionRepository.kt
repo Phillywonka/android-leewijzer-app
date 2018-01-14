@@ -2,7 +2,7 @@ package philip.com.domain.repository
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import philip.com.domain.model.Course
+import philip.com.domain.model.Section
 
 /**
  * Interface defining methods for how the data layer can pass data to and from the Domain layer.
@@ -11,12 +11,10 @@ import philip.com.domain.model.Course
  */
 interface SectionRepository {
 
-    fun clearCourses(): Completable
+    fun clearSections(): Completable
 
-    fun saveCourses(courses: List<Course>): Completable
+    fun saveSections(sections: List<Section>): Completable
 
-    fun getCourses(): Flowable<List<Course>>
-
-    fun getCoursesForStudent(studentNumber: String): Flowable<List<Course>>
+    fun getSections(studentNumber: String, courseName: String): Flowable<List<Section>>
 
 }

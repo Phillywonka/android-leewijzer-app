@@ -17,7 +17,6 @@ open class CourseCacheDataStore(private val courseCache: CourseCache) : CourseDa
      * Clear all Courses from the cache
      */
     override fun clearCourses(): Completable {
-        println("Application: clear courses")
         return courseCache.clearCourses()
     }
 
@@ -25,7 +24,6 @@ open class CourseCacheDataStore(private val courseCache: CourseCache) : CourseDa
      * Save a given [List] of [CourseEntity] instances to the cache
      */
     override fun saveCourses(courses: List<CourseEntity>): Completable {
-        println("Application: save courses to cache")
         return courseCache.saveCourses(courses)
                 .doOnComplete {
                     courseCache.setLastCacheTime(System.currentTimeMillis())
@@ -36,7 +34,6 @@ open class CourseCacheDataStore(private val courseCache: CourseCache) : CourseDa
      * Retrieve a list of [CourseEntity] instance from the cache
      */
     override fun getSelectedCourses(studentNumber: String): Flowable<List<CourseEntity>> {
-        println("Application: get selected courses from cache")
         return courseCache.getCourses()
     }
 

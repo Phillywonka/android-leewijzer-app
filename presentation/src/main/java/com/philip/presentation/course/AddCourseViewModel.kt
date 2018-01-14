@@ -28,7 +28,6 @@ open class AddCourseViewModel(
                 subscribe({
                     addCourseLiveData.postValue(Resource(ResourceState.SUCCESS, null,
                             "Vak is toegevoegd"))
-
                 }, { error ->
                     addCourseLiveData.postValue(Resource(ResourceState.ERROR, null, error.message))
                 })

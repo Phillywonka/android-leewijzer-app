@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import philip.com.cache.constants.SectionConstants
-import philip.com.cache.model.CachedCourse
+import philip.com.cache.model.CachedSection
 
 
 /**
@@ -16,10 +16,10 @@ import philip.com.cache.model.CachedCourse
 interface CachedSectionDao {
 
     @Query(SectionConstants.QUERY_SECTIONS)
-    fun loadAllSections(): List<CachedCourse>
+    fun getSelectedSections(): List<CachedSection>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSection(student: CachedCourse)
+    fun insertSection(student: CachedSection)
 
     @Query(SectionConstants.DELETE_ALL_SECTIONS)
     fun clearSections()

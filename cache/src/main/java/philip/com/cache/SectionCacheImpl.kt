@@ -5,19 +5,19 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import philip.com.cache.database.CacheDatabase
-import philip.com.cache.mapper.CourseEntityMapper
-import philip.com.data.models.CourseEntity
-import philip.com.data.repository.course.CourseCache
+import philip.com.cache.mapper.SectionEntityMapper
+import philip.com.data.models.SectionEntity
+import philip.com.data.repository.section.SectionCache
 
 /**
- * Cached implementation for retrieving and saving Course instances. This class implements the
- * [CourseCache] from the Data layer as it is that layers responsibility for defining the
+ * Cached implementation for retrieving and saving Section instances. This class implements the
+ * [SectionCache] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class CourseCacheImpl(val coursesDatabase: CacheDatabase,
-                      private val entityMapper: CourseEntityMapper,
-                      private val preferencesHelper: PreferencesHelper) :
-        CourseCache {
+class SectionCacheImpl(val sectionsDatabase: CacheDatabase,
+                       private val entityMapper: SectionEntityMapper,
+                       private val preferencesHelper: PreferencesHelper) :
+        SectionCache {
 
     private val EXPIRATION_TIME = (60 * 10 * 1000).toLong()
 
@@ -25,61 +25,59 @@ class CourseCacheImpl(val coursesDatabase: CacheDatabase,
      * Retrieve an instance from the database, used for tests.
      */
     internal fun getDatabase(): CacheDatabase {
-        return coursesDatabase
+        return sectionsDatabase
     }
 
     /**
      * Remove all the data from all the tables in the database.
      */
-    override fun clearCourses(): Completable {
+    override fun clearSections(): Completable {
         return Completable.defer {
-            Log.d("Application", "CourseCacheImpl: clear: ")
-            coursesDatabase.cachedCourseDao().clearCourses()
+            sectionsDatabase.cachedSectionDao().clearSections()
             Completable.complete()
         }
     }
 
     /**
-     * Save the given list of [CourseEntity] instances to the database.
+     * Save the given list of [SectionEntity] instances to the database.
      */
-    override fun saveCourses(courses: List<CourseEntity>): Completable {
-        Log.d("Application", "CourseCacheImpl: saveCourses: ")
+    override fun saveSections(courses: List<SectionEntity>): Completable {
         return Completable.defer {
             courses.forEach {
-                coursesDatabase.cachedCourseDao().insertCourse(
+                sectionsDatabase.cachedSectionDao().insertSection(
                         entityMapper.mapToCached(it))
             }
             Completable.complete()
         }
     }
 
-//    override fun getAllCourses(): Flowable<List<CourseEntity>> {
+//    override fun getAllSections(): Flowable<List<SectionEntity>> {
 //        return Flowable.defer {
-//            Flowable.just(sectionsDatabase.cachedCourseDao().loadSelectedCourses())
+//            Flowable.just(sectionsDatabase.cachedSectionDao().loadSelectedSections())
 //        }.map {
 //            it.map { entityMapper.mapFromCached(it) }
 //        }
 //    }
 
     /**
-     * Retrieve a list of [CourseEntity] instances from the database.
+     * Retrieve a list of [SectionEntity] instances from the database.
      */
-    override fun getCourses(): Flowable<List<CourseEntity>> {
-        Log.d("Application", "CourseCacheImpl: get courses: ")
+    override fun getSections(): Flowable<List<SectionEntity>> {
+        Log.d("Application", "SectionCacheImpl: get courses: ")
         return Flowable.defer {
-            Flowable.just(coursesDatabase.cachedCourseDao().loadSelectedCourses())
+            Flowable.just(sectionsDatabase.cachedSectionDao().getSelectedSections())
         }.map {
             it.map { entityMapper.mapFromCached(it) }
         }
     }
 
     /**
-     * Check whether there are instances of [CachedCourse] stored in the cache.
+     * Check whether there are instances of [CachedSection] stored in the cache.
      */
     override fun isCached(): Single<Boolean> {
         return Single.defer {
-            Log.d("Application", "CourseCacheImpl: isCached: " + coursesDatabase.cachedCourseDao().loadSelectedCourses().isNotEmpty())
-            Single.just(coursesDatabase.cachedCourseDao().loadSelectedCourses().isNotEmpty())
+            Log.d("Application", "SectionCacheImpl: isCached: " + sectionsDatabase.cachedSectionDao().getSelectedSections().isNotEmpty())
+            Single.just(sectionsDatabase.cachedSectionDao().getSelectedSections().isNotEmpty())
         }
     }
 

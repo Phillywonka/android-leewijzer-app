@@ -28,12 +28,17 @@ class SelectSectionRecyclerViewAdapter(private val context: Context)
         return this.sections.size
     }
 
+    fun clear() {
+        this.sections.clear()
+        this.notifyDataSetChanged()
+    }
+
     fun add(section: SectionView) {
         this.sections.add(section)
         notifyItemChanged(this.sections.size)
     }
 
-    fun addAll(sections: ArrayList<SectionView>) {
+    fun addAll(sections: List<SectionView>) {
         this.sections.addAll(sections)
         notifyDataSetChanged()
     }

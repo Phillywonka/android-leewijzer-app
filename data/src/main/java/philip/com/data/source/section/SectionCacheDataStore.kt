@@ -25,10 +25,10 @@ open class SectionCacheDataStore(private val sectionCache: SectionCache) : Secti
     }
 
     override fun getSections(studentNumber: String, courseName: String): Flowable<List<SectionEntity>> {
-        return sectionCache.getSections();
+        return sectionCache.getSections(courseName)
     }
 
-    override fun isCached(): Single<Boolean> {
-        return sectionCache.isCached()
+    override fun isCached(courseName: String): Single<Boolean> {
+        return sectionCache.isCached(courseName)
     }
 }

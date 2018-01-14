@@ -18,6 +18,6 @@ interface SectionDataStore {
 
     fun getSections(studentNumber: String, courseName: String): Flowable<List<SectionEntity>>
 
-    fun isCached(): Single<Boolean>
+    fun isCached(courseName: String): Single<Boolean>
 
 }

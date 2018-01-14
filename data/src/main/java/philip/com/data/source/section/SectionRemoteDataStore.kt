@@ -26,7 +26,7 @@ open class SectionRemoteDataStore(private val sectionRemote: SectionRemote)
         return sectionRemote.getSelectedSectionsForCourse(studentNumber, courseName)
     }
 
-    override fun isCached(): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun isCached(courseName: String): Single<Boolean> {
+        throw UnsupportedOperationException()
     }
 }

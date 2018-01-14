@@ -1,6 +1,5 @@
 package philip.com.cache
 
-import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -62,10 +61,9 @@ class SectionCacheImpl(val sectionsDatabase: CacheDatabase,
     /**
      * Retrieve a list of [SectionEntity] instances from the database.
      */
-    override fun getSections(): Flowable<List<SectionEntity>> {
-        Log.d("Application", "SectionCacheImpl: get courses: ")
+    override fun getSections(courseName: String): Flowable<List<SectionEntity>> {
         return Flowable.defer {
-            Flowable.just(sectionsDatabase.cachedSectionDao().getSelectedSections())
+            Flowable.just(sectionsDatabase.cachedSectionDao().getSelectedSections(courseName))
         }.map {
             it.map { entityMapper.mapFromCached(it) }
         }
@@ -74,10 +72,9 @@ class SectionCacheImpl(val sectionsDatabase: CacheDatabase,
     /**
      * Check whether there are instances of [CachedSection] stored in the cache.
      */
-    override fun isCached(): Single<Boolean> {
+    override fun isCached(courseName: String): Single<Boolean> {
         return Single.defer {
-            Log.d("Application", "SectionCacheImpl: isCached: " + sectionsDatabase.cachedSectionDao().getSelectedSections().isNotEmpty())
-            Single.just(sectionsDatabase.cachedSectionDao().getSelectedSections().isNotEmpty())
+            Single.just(sectionsDatabase.cachedSectionDao().getSelectedSections(courseName).isNotEmpty())
         }
     }
 

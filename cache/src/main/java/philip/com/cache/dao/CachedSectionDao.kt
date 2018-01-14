@@ -16,7 +16,7 @@ import philip.com.cache.model.CachedSection
 interface CachedSectionDao {
 
     @Query(SectionConstants.QUERY_SECTIONS)
-    fun getSelectedSections(): List<CachedSection>
+    fun getSelectedSections(courseName: String): List<CachedSection>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSection(student: CachedSection)

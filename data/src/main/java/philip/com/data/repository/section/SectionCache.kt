@@ -25,14 +25,14 @@ interface SectionCache {
     /**
      * Retrieve a list of Sections, from the cache.
      */
-    fun getSections(): Flowable<List<SectionEntity>>
+    fun getSections(courseName: String): Flowable<List<SectionEntity>>
 
     /**
      * Check whether there is a list of Sections stored in the cache.
      *
      * @return true if the list is cached, otherwise false
      */
-    fun isCached(): Single<Boolean>
+    fun isCached(courseName: String): Single<Boolean>
 
     /**
      * Set a point in time at when the cache was last updated.

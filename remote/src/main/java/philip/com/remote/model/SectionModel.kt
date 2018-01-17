@@ -6,6 +6,5 @@ package philip.com.remote.model
 class SectionModel(
         val id: Long,
         val name: String,
-        val isSelected: Boolean,
         val courseName: String
 )

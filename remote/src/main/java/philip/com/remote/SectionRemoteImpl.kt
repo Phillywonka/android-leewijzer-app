@@ -2,6 +2,7 @@ package philip.com.remote
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.functions.BiFunction
 import philip.com.data.models.SectionEntity
 import philip.com.data.repository.section.SectionRemote
 import philip.com.remote.mapper.SectionEntityMapper
@@ -17,6 +18,22 @@ class SectionRemoteImpl(private val sectionService: SectionService,
     override fun getSelectedSectionsForCourse(studentNumber: String, courseName: String): Flowable<List<SectionEntity>> {
 
         return sectionService.getSections(studentNumber, courseName)
+                .map {
+                    val entities = mutableListOf<SectionEntity>()
+                    it.sections.forEach {
+                        val entity = entityMapper.mapFromRemote(it)
+                        entity.isChecked = true
+                        entities.add(entity)
+                    }
+                    entities
+                }.zipWith(getAllSectionsForCourse(courseName),
+                BiFunction<List<SectionEntity>, List<SectionEntity>, List<SectionEntity>> { a, b ->
+                    (a + b).distinctBy { it.id }
+               })
+    }
+
+    override fun getAllSectionsForCourse(courseName: String): Flowable<List<SectionEntity>> {
+        return sectionService.getAllSectionsForCourse(courseName)
                 .map { it.sections }
                 .map {
                     val entities = mutableListOf<SectionEntity>()
@@ -25,10 +42,6 @@ class SectionRemoteImpl(private val sectionService: SectionService,
                     }
                     entities
                 }
-    }
-
-    override fun getAllSectionsForCourse(courseName: String): Flowable<List<SectionEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun addSection(studentNumber: String, courseName: String): Completable {

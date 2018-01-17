@@ -16,7 +16,7 @@ open class SectionEntityMapper : EntityMapper<SectionModel, SectionEntity> {
      * Map an instance of a [CourseModel] to a [CourseEntity] model
      */
     override fun mapFromRemote(type: SectionModel): SectionEntity {
-        return SectionEntity(type.id, type.name, type.isSelected, type.courseName)
+        return SectionEntity(type.id, type.name, false, type.courseName)
     }
 
 }

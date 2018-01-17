@@ -22,8 +22,8 @@ interface SectionService {
                     studentNumber: String,
                     courseName: String): Completable
 
-    @GET("/student/{student}/courses")
-    fun getCoursesForStudent(): Flowable<SectionResponse>
+    @GET("/course/{course_name}/sections")
+    fun getAllSectionsForCourse(@Path("course_name") courseName: String): Flowable<SectionResponse>
 
     class SectionResponse {
         lateinit var sections: List<SectionModel>

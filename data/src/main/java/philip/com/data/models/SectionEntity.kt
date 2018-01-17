@@ -7,6 +7,6 @@ package philip.com.data.models
  data class SectionEntity(
         val id: Long,
         val name: String,
-        val isChecked: Boolean,
+        var isChecked: Boolean,
         val courseName: String)
 

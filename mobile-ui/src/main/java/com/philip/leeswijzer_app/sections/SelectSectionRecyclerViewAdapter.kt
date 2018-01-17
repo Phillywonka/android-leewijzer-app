@@ -2,6 +2,7 @@ package com.philip.leeswijzer_app.sections
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.ViewGroup
 import com.philip.presentation.model.SectionView
 
@@ -17,6 +18,7 @@ class SelectSectionRecyclerViewAdapter(private val context: Context)
     override fun onBindViewHolder(holder: SectionViewHolder, position: Int) {
         val section = sections[position]
         holder.nameTextView.text = section.name
+        Log.d("Application", "SelectSectionRecyclerViewAdapter: onBindViewHolder: isChecked: " + section.isChecked)
         holder.checkBox.isChecked = section.isChecked
     }
 

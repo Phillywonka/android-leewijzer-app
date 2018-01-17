@@ -14,7 +14,7 @@ open class SectionMapper : Mapper<SectionView, Section> {
      * Map a [Section] instance to a [SectionView] instance
      */
     override fun mapToView(type: Section): SectionView {
-        return SectionView(type.id, type.name, false, type.courseName)
+        return SectionView(type.id, type.name, type.isChecked, type.courseName)
     }
 
 

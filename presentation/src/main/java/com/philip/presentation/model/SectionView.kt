@@ -6,6 +6,6 @@ package com.philip.presentation.model
 class SectionView(
         val id: Long,
         val name: String,
-        val isChecked: Boolean,
+        var isChecked: Boolean,
         val courseName: String
 )

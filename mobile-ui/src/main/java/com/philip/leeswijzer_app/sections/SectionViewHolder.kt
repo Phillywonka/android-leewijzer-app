@@ -1,28 +1,29 @@
 package com.philip.leeswijzer_app.sections
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
-import android.widget.CheckBox
-import android.widget.TextView
-import com.philip.leeswijzer_app.R
+import com.philip.presentation.model.SectionView
 
 /**
  * @author Philip Wong
  * @since 01-12-17
  **/
-class SectionViewHolder(view: SectionRowView) : RecyclerView.ViewHolder(view), View.OnClickListener {
+class SectionViewHolder(private val sectionRowView: SectionRowView) : RecyclerView.ViewHolder(sectionRowView), View.OnClickListener {
 
-    var nameTextView: TextView
-    var checkBox: CheckBox
+    private lateinit var section: SectionView
 
     init {
-        nameTextView = view.findViewById(R.id.section_name_text_view)
-        checkBox = view.findViewById(R.id.section_checkbox)
+        sectionRowView.setOnClickListener(this)
+    }
+
+    fun setValues(sectionView: SectionView) {
+        this.section = sectionView
+        sectionRowView.nameTextView.text = sectionView.name
+        sectionRowView.checkBox.isChecked = sectionView.isChecked
     }
 
     override fun onClick(p0: View?) {
-        Log.d("Application", "SectionViewHolder: onClick: ")
+        this.section.isChecked = !this.section.isChecked
+        sectionRowView.checkBox.isChecked = !this.section.isChecked
     }
-
 }

@@ -2,7 +2,6 @@ package com.philip.leeswijzer_app.sections
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.ViewGroup
 import com.philip.presentation.model.SectionView
 
@@ -15,11 +14,15 @@ class SelectSectionRecyclerViewAdapter(private val context: Context)
 
     private var sections: MutableList<SectionView> = ArrayList()
 
+    private var onItemClickListener: OnSectionViewItemClickListener? = null
+
     override fun onBindViewHolder(holder: SectionViewHolder, position: Int) {
         val section = sections[position]
-        holder.nameTextView.text = section.name
-        Log.d("Application", "SelectSectionRecyclerViewAdapter: onBindViewHolder: isChecked: " + section.isChecked)
-        holder.checkBox.isChecked = section.isChecked
+        holder.setValues(section)
+
+        if (this.onItemClickListener != null) {
+            holder.itemView.setOnClickListener({ this.onItemClickListener!!.onClick(section) })
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionViewHolder {
@@ -45,5 +48,10 @@ class SelectSectionRecyclerViewAdapter(private val context: Context)
         notifyDataSetChanged()
     }
 
-
+    fun setOnItemClickListener(onItemClickListener: OnSectionViewItemClickListener) {
+        this.onItemClickListener = onItemClickListener
+    }
+    interface OnSectionViewItemClickListener {
+        fun onClick(sectionView: SectionView)
+    }
 }

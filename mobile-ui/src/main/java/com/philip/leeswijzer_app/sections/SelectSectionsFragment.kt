@@ -129,9 +129,18 @@ class SelectSectionsFragment : Fragment() {
 
         val sectionsRecyclerView = parent.findViewById<RecyclerView>(R.id.sections_recycler_view)
         sectionsRecyclerViewAdapter = SelectSectionRecyclerViewAdapter(this.activity)
+        sectionsRecyclerViewAdapter.setOnItemClickListener(onSectionItemClickListener)
         sectionsRecyclerView.adapter = sectionsRecyclerViewAdapter
         sectionsRecyclerView.layoutManager = LinearLayoutManager(this.activity)
     }
 
+    private val onSectionItemClickListener = object : SelectSectionRecyclerViewAdapter.OnSectionViewItemClickListener {
+
+        override fun onClick(sectionView: SectionView) {
+
+            Log.d("Application", "SelectSectionsFragment: onClick: ")
+
+        }
+    }
 
 }

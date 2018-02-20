@@ -18,7 +18,7 @@ interface SectionDataStore {
 
     fun getSections(studentNumber: String, courseName: String): Flowable<List<SectionEntity>>
 
-    fun selectSection(studentNumber: String, courseName: String, sectionId: Int): Flowable<Int>
+    fun selectSection(studentNumber: String, courseName: String, sectionId: Int, selected: Boolean): Flowable<Int>
 
     fun isCached(courseName: String): Single<Boolean>
 

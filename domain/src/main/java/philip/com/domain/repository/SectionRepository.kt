@@ -17,6 +17,9 @@ interface SectionRepository {
 
     fun getSections(studentNumber: String, courseName: String): Flowable<List<Section>>
 
-    fun selectSection(studentNumber: String, courseName: String, sectionId: Int): Flowable<Int>
+    fun selectSection(studentNumber: String,
+                      courseName: String,
+                      sectionId: Int,
+                      selected: Boolean): Flowable<Int>
 
 }

@@ -2,6 +2,7 @@ package philip.com.remote
 
 import io.reactivex.Flowable
 import philip.com.remote.model.SectionModel
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -20,12 +21,15 @@ interface SectionService {
                       @Path("course_name") courseName: String,
                       @Path("section_id") sectionId: Int): Flowable<Int>
 
+    @DELETE("student/{student_number}/section/{section_id}")
+    fun deSelectSection(@Path("student_number") studentNumber: String,
+                        @Path("section_id") sectionId: Int): Flowable<Int>
+
     @GET("course/{course_name}/sections")
     fun getAllSectionsForCourse(@Path("course_name") courseName: String): Flowable<SectionResponse>
 
     class SectionResponse {
         lateinit var sections: List<SectionModel>
-        lateinit var section: SectionModel
     }
 
 }

@@ -22,7 +22,9 @@ class SelectSectionRecyclerViewAdapter(private val context: Context)
 
         val sectionRowView = holder.itemView as SectionRowView
         if (this.onItemClickListener != null) {
-            sectionRowView.checkBox.setOnClickListener({ this.onItemClickListener!!.onClick(section) })
+            sectionRowView.checkBox.setOnClickListener({
+                this.onItemClickListener!!.onClick(section)
+            })
         }
     }
 
@@ -51,7 +53,7 @@ class SelectSectionRecyclerViewAdapter(private val context: Context)
 
     fun setItemSelected(sectionId: Int) {
         val sectionView = this.sections.find { it.id == sectionId }!!
-        sectionView.isChecked = true
+        sectionView.isChecked = !sectionView.isChecked
     }
 
     fun setOnItemClickListener(onItemClickListener: OnSectionViewItemClickListener) {

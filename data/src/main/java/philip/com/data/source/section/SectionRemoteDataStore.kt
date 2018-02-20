@@ -26,8 +26,8 @@ open class SectionRemoteDataStore(private val sectionRemote: SectionRemote)
         return sectionRemote.getSelectedSectionsForCourse(studentNumber, courseName)
     }
 
-    override fun selectSection(studentNumber: String, courseName:String, sectionId: Int): Flowable<Int> {
-        return sectionRemote.selectSection(studentNumber, courseName, sectionId)
+    override fun selectSection(studentNumber: String, courseName: String, sectionId: Int, selected: Boolean): Flowable<Int> {
+        return sectionRemote.selectSection(studentNumber, courseName, sectionId, selected)
     }
 
     override fun isCached(courseName: String): Single<Boolean> {

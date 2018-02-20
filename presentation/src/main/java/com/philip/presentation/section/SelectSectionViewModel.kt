@@ -27,6 +27,7 @@ open class SelectSectionViewModel(
         map.put("student_number", "1085328")
         map.put("course_name", sectionView.courseName)
         map.put("section_id", sectionView.id)
+        map.put("selected", sectionView.isChecked)
 
         selectSection.execute(SelectSectionSubscriber(), map)
     }

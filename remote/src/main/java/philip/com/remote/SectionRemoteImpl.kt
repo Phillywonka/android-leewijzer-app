@@ -26,9 +26,9 @@ class SectionRemoteImpl(private val sectionService: SectionService,
                     }
                     entities
                 }.zipWith(getAllSectionsForCourse(courseName),
-                BiFunction<List<SectionEntity>, List<SectionEntity>, List<SectionEntity>> { a, b ->
-                    (a + b).distinctBy { it.id }
-                })
+                        BiFunction<List<SectionEntity>, List<SectionEntity>, List<SectionEntity>> { a, b ->
+                            (a + b).distinctBy { it.id }
+                        })
     }
 
     override fun getAllSectionsForCourse(courseName: String): Flowable<List<SectionEntity>> {
@@ -45,8 +45,13 @@ class SectionRemoteImpl(private val sectionService: SectionService,
 
     override fun selectSection(studentNumber: String,
                                courseName: String,
-                               sectionId: Int): Flowable<Int> {
-        return sectionService.selectSection(studentNumber, courseName, sectionId)
+                               sectionId: Int,
+                               selected: Boolean): Flowable<Int> {
+        return if (selected) {
+            sectionService.selectSection(studentNumber, courseName, sectionId)
+        } else {
+            sectionService.deSelectSection(studentNumber, sectionId)
+        }
     }
 
 }

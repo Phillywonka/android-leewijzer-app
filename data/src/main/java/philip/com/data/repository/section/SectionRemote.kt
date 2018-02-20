@@ -18,8 +18,8 @@ interface SectionRemote {
     fun getAllSectionsForCourse(courseName: String): Flowable<List<SectionEntity>>
 
     /**
-     * Add a new section to a student
+     * Select or deselect a section
      */
-    fun selectSection(studentNumber: String, courseName: String, sectionId: Int): Flowable<Int>
+    fun selectSection(studentNumber: String, courseName: String, sectionId: Int, selected: Boolean): Flowable<Int>
 
 }

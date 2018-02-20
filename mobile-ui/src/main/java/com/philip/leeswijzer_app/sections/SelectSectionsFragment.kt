@@ -154,7 +154,7 @@ class SelectSectionsFragment : Fragment() {
     private fun setupSectionsRecyclerView(parent: View) {
 
         val sectionsRecyclerView = parent.findViewById<RecyclerView>(R.id.sections_recycler_view)
-        sectionsRecyclerViewAdapter = SelectSectionRecyclerViewAdapter(this.activity)
+        sectionsRecyclerViewAdapter = SelectSectionRecyclerViewAdapter(this.activity!!)
         sectionsRecyclerViewAdapter.setOnItemClickListener(onSectionItemClickListener)
         sectionsRecyclerView.adapter = sectionsRecyclerViewAdapter
         sectionsRecyclerView.layoutManager = LinearLayoutManager(this.activity)
@@ -163,11 +163,12 @@ class SelectSectionsFragment : Fragment() {
     private val onSectionItemClickListener = object : SelectSectionRecyclerViewAdapter.OnSectionViewItemClickListener {
 
         override fun onClick(sectionView: SectionView) {
+            sectionView.isChecked = !sectionView.isChecked
+
             selectSectionViewModel.selectSection(
                     sectionView).observe(this@SelectSectionsFragment,
                     Observer<Resource<Int>> {
-                        if (it != null) this@SelectSectionsFragment.
-                                handleSelectSectionState(it.status, it.data, it.message)
+                        if (it != null) this@SelectSectionsFragment.handleSelectSectionState(it.status, it.data, it.message)
                     })
         }
     }

@@ -20,7 +20,8 @@ open class SelectSection(private val sectionRepository: SectionRepository,
         return sectionRepository.selectSection(
                 params["student_number"]!! as String,
                 params["course_name"]!! as String,
-                params["section_id"]!! as Int)
+                params["section_id"]!! as Int,
+                params["selected"]!! as Boolean)
     }
 
 }

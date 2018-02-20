@@ -10,7 +10,7 @@ import com.philip.presentation.model.SectionView
  **/
 class SectionViewHolder(private val sectionRowView: SectionRowView) : RecyclerView.ViewHolder(sectionRowView), View.OnClickListener {
 
-    private lateinit var section: SectionView
+    lateinit var section: SectionView
 
     init {
         sectionRowView.setOnClickListener(this)

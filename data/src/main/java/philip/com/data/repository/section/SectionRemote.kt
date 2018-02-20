@@ -1,6 +1,5 @@
 package philip.com.data.repository.section
 
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import philip.com.data.models.SectionEntity
 
@@ -15,11 +14,12 @@ interface SectionRemote {
      */
     fun getSelectedSectionsForCourse(studentNumber: String, courseName: String): Flowable<List<SectionEntity>>
 
+
     fun getAllSectionsForCourse(courseName: String): Flowable<List<SectionEntity>>
 
     /**
-     * Add a new course to a student
+     * Add a new section to a student
      */
-    fun addSection(studentNumber: String, courseName: String): Completable
+    fun selectSection(studentNumber: String, courseName: String, sectionId: Int): Flowable<Int>
 
 }

@@ -1,6 +1,5 @@
 package philip.com.remote
 
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import philip.com.data.models.SectionEntity
@@ -29,7 +28,7 @@ class SectionRemoteImpl(private val sectionService: SectionService,
                 }.zipWith(getAllSectionsForCourse(courseName),
                 BiFunction<List<SectionEntity>, List<SectionEntity>, List<SectionEntity>> { a, b ->
                     (a + b).distinctBy { it.id }
-               })
+                })
     }
 
     override fun getAllSectionsForCourse(courseName: String): Flowable<List<SectionEntity>> {
@@ -44,8 +43,10 @@ class SectionRemoteImpl(private val sectionService: SectionService,
                 }
     }
 
-    override fun addSection(studentNumber: String, courseName: String): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun selectSection(studentNumber: String,
+                               courseName: String,
+                               sectionId: Int): Flowable<Int> {
+        return sectionService.selectSection(studentNumber, courseName, sectionId)
     }
 
 }

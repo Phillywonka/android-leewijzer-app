@@ -1,8 +1,6 @@
 package philip.com.remote
 
-import io.reactivex.Completable
 import io.reactivex.Flowable
-import philip.com.data.models.SectionEntity
 import philip.com.remote.model.SectionModel
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -13,20 +11,21 @@ import retrofit2.http.Path
  */
 interface SectionService {
 
-    @GET("/student/{student_number}/course/{course_name}/sections")
+    @GET("student/{student_number}/course/{course_name}/sections")
     fun getSections(@Path("student_number") studentNumber: String,
                     @Path("course_name") courseName: String): Flowable<SectionResponse>
 
-    @POST("/student/{student}/sections")
-    fun setSections(sections: List<SectionEntity>,
-                    studentNumber: String,
-                    courseName: String): Completable
+    @POST("student/{student_number}/course/{course_name}/section/{section_id}")
+    fun selectSection(@Path("student_number") studentNumber: String,
+                      @Path("course_name") courseName: String,
+                      @Path("section_id") sectionId: Int): Flowable<Int>
 
-    @GET("/course/{course_name}/sections")
+    @GET("course/{course_name}/sections")
     fun getAllSectionsForCourse(@Path("course_name") courseName: String): Flowable<SectionResponse>
 
     class SectionResponse {
         lateinit var sections: List<SectionModel>
+        lateinit var section: SectionModel
     }
 
 }

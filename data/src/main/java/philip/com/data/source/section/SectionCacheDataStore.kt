@@ -13,6 +13,10 @@ import philip.com.data.repository.section.SectionDataStore
  */
 open class SectionCacheDataStore(private val sectionCache: SectionCache) : SectionDataStore {
 
+    override fun selectSection(studentNumber: String, courseName: String, sectionId: Int): Flowable<Int> {
+        throw UnsupportedOperationException()
+    }
+
     override fun clearSections(): Completable {
         return sectionCache.clearSections()
     }

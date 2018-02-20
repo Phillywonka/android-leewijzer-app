@@ -12,13 +12,13 @@ import retrofit2.http.Path
  */
 interface CourseService {
 
-    @GET("/courses/{student_number}")
+    @GET("courses/{student_number}")
     fun getSelectedCourses(@Path("student_number") studentNumber: String): Flowable<CourseResponse>
 
-    @GET("/courses")
+    @GET("courses")
     fun getAllCourses(): Flowable<CourseResponse>
 
-    @POST("/student/{student_number}/course/{course_name}")
+    @POST("student/{student_number}/course/{course_name}")
     fun addCourse(@Path("student_number") studentNumber: String,
                   @Path("course_name") courseName: String): Completable
 

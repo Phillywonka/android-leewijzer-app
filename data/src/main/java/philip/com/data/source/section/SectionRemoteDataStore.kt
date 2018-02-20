@@ -26,6 +26,10 @@ open class SectionRemoteDataStore(private val sectionRemote: SectionRemote)
         return sectionRemote.getSelectedSectionsForCourse(studentNumber, courseName)
     }
 
+    override fun selectSection(studentNumber: String, courseName:String, sectionId: Int): Flowable<Int> {
+        return sectionRemote.selectSection(studentNumber, courseName, sectionId)
+    }
+
     override fun isCached(courseName: String): Single<Boolean> {
         throw UnsupportedOperationException()
     }

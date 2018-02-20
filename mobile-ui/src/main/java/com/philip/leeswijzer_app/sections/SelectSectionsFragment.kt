@@ -20,6 +20,8 @@ import com.philip.presentation.mapper.SectionMapper
 import com.philip.presentation.model.SectionView
 import com.philip.presentation.section.GetSectionsViewModel
 import com.philip.presentation.section.GetSelectedSectionsViewModelFactory
+import com.philip.presentation.section.SelectSectionViewModel
+import com.philip.presentation.section.SelectSectionsViewModelFactory
 import philip.com.cache.PreferencesHelper
 import philip.com.cache.SectionCacheImpl
 import philip.com.cache.database.CacheDatabase
@@ -29,6 +31,7 @@ import philip.com.data.source.section.SectionCacheDataStore
 import philip.com.data.source.section.SectionDataStoreFactory
 import philip.com.data.source.section.SectionRemoteDataStore
 import philip.com.domain.interactor.sections.GetSections
+import philip.com.domain.interactor.sections.SelectSection
 import philip.com.remote.SectionRemoteImpl
 import philip.com.remote.SectionServiceFactory
 import philip.com.remote.mapper.SectionEntityMapper
@@ -40,8 +43,10 @@ import philip.com.remote.mapper.SectionEntityMapper
 class SelectSectionsFragment : Fragment() {
 
     private lateinit var sectionsRecyclerViewAdapter: SelectSectionRecyclerViewAdapter
-    private lateinit var viewModelFactory: GetSelectedSectionsViewModelFactory
-    private lateinit var selectSectionViewModel: GetSectionsViewModel
+    private lateinit var getSelectedSectionsViewModelFactory: GetSelectedSectionsViewModelFactory
+    private lateinit var selectSectionsViewModelFactory: SelectSectionsViewModelFactory
+    private lateinit var getSectionsViewModel: GetSectionsViewModel
+    private lateinit var selectSectionViewModel: SelectSectionViewModel
 
     companion object {
         val TAG = "selectSectionFragment"
@@ -74,7 +79,7 @@ class SelectSectionsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        selectSectionViewModel.getSelectedSections("1085328",
+        getSectionsViewModel.getSelectedSections("1085328",
                 arguments.getString("course_name")).observe(this,
                 Observer<Resource<List<SectionView>>> {
                     if (it != null) this.handleDataState(it.status, it.data, it.message)
@@ -95,21 +100,42 @@ class SelectSectionsFragment : Fragment() {
         }
     }
 
+    private fun handleSelectSectionState(resourceState: ResourceState, data: Int?, message: String?) {
+        when (resourceState) {
+            ResourceState.LOADING -> Log.d("Application", "SelectSectionFragment: handleDataState: loading")
+            ResourceState.SUCCESS -> {
+                this.sectionsRecyclerViewAdapter.setItemSelected(data!!)
+                Log.d("Application", "SelectSectionFragment: handleDataState: section added")
+            }
+            ResourceState.ERROR -> Log.d("Application", "SelectSectionFragment: handleDataState: ERROR: " + message)
+        }
+    }
+
     private fun initViewModel() {
         val sectionCache = SectionCacheImpl(
                 this.buildDataBase(),
                 philip.com.cache.mapper.SectionEntityMapper(),
                 PreferencesHelper(context))
 
-        viewModelFactory = GetSelectedSectionsViewModelFactory(GetSections(SectionDataRepository(
+        getSelectedSectionsViewModelFactory = GetSelectedSectionsViewModelFactory(GetSections(SectionDataRepository(
                 SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
                         sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
                         SectionServiceFactory.makeSectionService(true), SectionEntityMapper()
                 ))), philip.com.data.mapper.SectionMapper()),
                 JobExecutor(), UiThread()), SectionMapper())
 
-        selectSectionViewModel = ViewModelProviders.of(this, viewModelFactory)
+        selectSectionsViewModelFactory = SelectSectionsViewModelFactory(SelectSection(SectionDataRepository(
+                SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
+                        sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
+                        SectionServiceFactory.makeSectionService(true), SectionEntityMapper()
+                ))), philip.com.data.mapper.SectionMapper()),
+                JobExecutor(), UiThread()), SectionMapper())
+
+        getSectionsViewModel = ViewModelProviders.of(this, getSelectedSectionsViewModelFactory)
                 .get(GetSectionsViewModel::class.java)
+
+        selectSectionViewModel = ViewModelProviders.of(this, selectSectionsViewModelFactory)
+                .get(SelectSectionViewModel::class.java)
     }
 
     fun buildDataBase(): CacheDatabase {
@@ -137,9 +163,12 @@ class SelectSectionsFragment : Fragment() {
     private val onSectionItemClickListener = object : SelectSectionRecyclerViewAdapter.OnSectionViewItemClickListener {
 
         override fun onClick(sectionView: SectionView) {
-
-            Log.d("Application", "SelectSectionsFragment: onClick: ")
-
+            selectSectionViewModel.selectSection(
+                    sectionView).observe(this@SelectSectionsFragment,
+                    Observer<Resource<Int>> {
+                        if (it != null) this@SelectSectionsFragment.
+                                handleSelectSectionState(it.status, it.data, it.message)
+                    })
         }
     }
 

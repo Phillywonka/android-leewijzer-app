@@ -24,7 +24,7 @@ object SectionServiceFactory {
 
     private fun makeSectionService(okHttpClient: OkHttpClient, gson: Gson): SectionService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.64.2/")
+                .baseUrl("http://192.168.64.3/leeswijzer-api/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))

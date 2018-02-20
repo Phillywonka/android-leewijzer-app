@@ -16,6 +16,11 @@ class SectionDataRepository(private val factory: SectionDataStoreFactory,
                             private val sectionMapper: SectionMapper) :
         SectionRepository {
 
+    override fun selectSection(studentNumber: String, courseName: String, sectionId: Int): Flowable<Int> {
+        return factory.retrieveRemoteDataStore().selectSection(studentNumber, courseName, sectionId)
+                .flatMap { clearSections().toSingle { it }.toFlowable() }
+    }
+
     override fun clearSections(): Completable {
         return factory.retrieveCacheDataStore().clearSections()
     }

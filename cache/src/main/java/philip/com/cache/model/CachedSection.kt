@@ -13,7 +13,7 @@ import philip.com.cache.constants.SectionConstants
 data class CachedSection(
 
         @PrimaryKey
-        val id: Long,
+        val id: Int,
         @ColumnInfo(name = "name")
         val name: String,
         @ColumnInfo(name = "isChecked")

@@ -32,10 +32,7 @@ class SectionDataRepository(private val factory: SectionDataStoreFactory,
     }
 
     override fun getSections(studentNumber: String, courseName: String): Flowable<List<Section>> {
-        return factory.retrieveCacheDataStore().isCached(courseName)
-                .flatMapPublisher {
-                    factory.retrieveDataStore(it).getSections(studentNumber, courseName)
-                }
+        return factory.retrieveRemoteDataStore().getSections(studentNumber, courseName)
                 .flatMap {
                     Flowable.just(it.map { sectionMapper.mapFromEntity(it) })
                 }

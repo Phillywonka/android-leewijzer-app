@@ -17,7 +17,7 @@ class StatisticsActivity : BaseActivity() {
 
         val statisticsOverViewFragment = StatisticsOverViewFragment()
 
-        this.fragmentManager
+        this.supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, statisticsOverViewFragment, StatisticsOverViewFragment.TAG)
                 .commit();

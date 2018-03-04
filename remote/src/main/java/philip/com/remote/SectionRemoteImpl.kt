@@ -25,7 +25,7 @@ class SectionRemoteImpl(private val sectionService: SectionService,
                         entities.add(entity)
                     }
                     entities
-                }.zipWith(getAllSectionsForCourse(courseName),
+                }.zipWith(this.getAllSectionsForCourse(courseName),
                         BiFunction<List<SectionEntity>, List<SectionEntity>, List<SectionEntity>> { a, b ->
                             (a + b).distinctBy { it.id }
                         })

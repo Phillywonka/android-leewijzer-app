@@ -1,45 +1,82 @@
 package com.philip.leeswijzer_app.statistics
 
-import android.app.Fragment
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.arch.persistence.room.Room
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.philip.leeswijzer_app.R
+import com.philip.leeswijzer_app.UiThread
+import com.philip.presentation.data.Resource
+import com.philip.presentation.data.ResourceState
+import com.philip.presentation.model.SectionView
+import com.philip.presentation.section.GetSectionsViewModel
+import com.philip.presentation.section.GetSelectedSectionsViewModelFactory
+import com.philip.presentation.section.SelectSectionViewModel
+import com.philip.presentation.section.SelectSectionsViewModelFactory
+import philip.com.cache.PreferencesHelper
+import philip.com.cache.SectionCacheImpl
+import philip.com.cache.database.CacheDatabase
+import philip.com.cache.mapper.SectionEntityMapper
+import philip.com.data.SectionDataRepository
+import philip.com.data.executor.JobExecutor
+import philip.com.data.mapper.SectionMapper
+import philip.com.data.source.section.SectionCacheDataStore
+import philip.com.data.source.section.SectionDataStoreFactory
+import philip.com.data.source.section.SectionRemoteDataStore
+import philip.com.domain.interactor.sections.GetSections
+import philip.com.domain.interactor.sections.SelectSection
+import philip.com.remote.SectionRemoteImpl
+import philip.com.remote.SectionServiceFactory
 
 
 /**
  * @author Philip Wong
  * @since 25-11-17
  **/
-class StatisticsOverViewFragment : Fragment() {
+open class StatisticsOverViewFragment : Fragment() {
 
     companion object {
         val TAG = "statisticsFragment"
     }
 
+    private lateinit var getSelectedSectionsViewModelFactory: GetSelectedSectionsViewModelFactory
+    private lateinit var selectSectionsViewModelFactory: SelectSectionsViewModelFactory
+    private lateinit var getSectionsViewModel: GetSectionsViewModel
+    private lateinit var selectSectionViewModel: SelectSectionViewModel
+
     lateinit var mChart: PieChart
     private val mLabels = arrayOf("Company A", "Company B", "Company C", "Company D", "Company E", "Company F")
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        this.initViewModels()
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val view = inflater!!.inflate(R.layout.fragment_statistics_overview, container, false)
+
         this.mChart = view.findViewById(R.id.pieChart1)
 
         mChart = view.findViewById(R.id.pieChart1) as PieChart
         mChart.getDescription().setEnabled(false)
-
 
         mChart.setCenterText(generateCenterText())
         mChart.setCenterTextSize(10f)
@@ -54,34 +91,82 @@ class StatisticsOverViewFragment : Fragment() {
         l.setOrientation(Legend.LegendOrientation.VERTICAL)
         l.setDrawInside(false)
 
-        mChart.setData(this.generatePieData())
-
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSectionsViewModel.getSelectedSections("1085328",
+                "all").observe(this,
+                Observer<Resource<List<SectionView>>> {
+                    if (it != null) this.handleDataState(it.status, it.data, it.message)
+                })
+    }
+
+    private fun initViewModels() {
+        val sectionCache = SectionCacheImpl(
+                this.buildDataBase(),
+                SectionEntityMapper(),
+                PreferencesHelper(context))
+
+        getSelectedSectionsViewModelFactory = GetSelectedSectionsViewModelFactory(GetSections(SectionDataRepository(
+                SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
+                        sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
+                        SectionServiceFactory.makeSectionService(true), philip.com.remote.mapper.SectionEntityMapper()
+                ))), SectionMapper()),
+                JobExecutor(), UiThread()), com.philip.presentation.mapper.SectionMapper())
+
+        selectSectionsViewModelFactory = SelectSectionsViewModelFactory(SelectSection(SectionDataRepository(
+                SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
+                        sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
+                        SectionServiceFactory.makeSectionService(true), philip.com.remote.mapper.SectionEntityMapper()
+                ))), SectionMapper()),
+                JobExecutor(), UiThread()), com.philip.presentation.mapper.SectionMapper())
+
+        getSectionsViewModel = ViewModelProviders.of(this, getSelectedSectionsViewModelFactory)
+                .get(GetSectionsViewModel::class.java)
+
+        selectSectionViewModel = ViewModelProviders.of(this, selectSectionsViewModelFactory)
+                .get(SelectSectionViewModel::class.java)
+    }
+
+    private fun handleDataState(resourceState: ResourceState, data: List<SectionView>?,
+                                message: String?) {
+        when (resourceState) {
+            ResourceState.LOADING -> Log.d("Application", "SelectSectionFragment: handleDataState: loading")
+            ResourceState.SUCCESS -> {
+                Toast.makeText(context, "Sections loaded", Toast.LENGTH_LONG).show()
+                if (data != null) {
+                    mChart.data = this.generatePieData(data)
+                    mChart.refreshDrawableState()
+                    Log.d("Application", "StatisticsOverViewFragment: handleDataState: $data")
+                } else {
+                    Log.d("Application", "Data is null")
+                }
+            }
+            ResourceState.ERROR -> Log.d("Application", "SelectSectionFragment: handleDataState: ERROR: $message")
+        }
     }
 
     /**
      * generates less data (1 DataSet, 4 values)
-     * @return
+     * @return the generated PieData
      */
-    protected fun generatePieData(): PieData {
+    private fun generatePieData(data: List<SectionView>): PieData {
 
-        val count = 2
+        val entries = ArrayList<PieEntry>()
 
-        val entries1 = ArrayList<PieEntry>()
+        entries.add(PieEntry(data.count { it.isChecked }.toFloat(), "Behaald"))
+        entries.add(PieEntry(data.count { !it.isChecked }.toFloat(), "Nog te doen"))
 
-        for (i in 0 until count) {
-            entries1.add(PieEntry((Math.random() * 60 + 40).toFloat(), "Quarter " + (i + 1)))
-        }
+        val pieDataSet = PieDataSet(entries, null)
+        pieDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        pieDataSet.sliceSpace = 2f
+        pieDataSet.valueTextColor = Color.WHITE
+        pieDataSet.valueTextSize = 12f
 
-        val ds1 = PieDataSet(entries1, "Quarterly Revenues 2015")
-        ds1.setColors(*ColorTemplate.COLORFUL_COLORS)
-        ds1.sliceSpace = 2f
-        ds1.valueTextColor = Color.WHITE
-        ds1.valueTextSize = 12f
-
-        val d = PieData(ds1)
-
-        return d
+        return PieData(pieDataSet)
     }
 
     private fun generateCenterText(): SpannableString {
@@ -91,33 +176,10 @@ class StatisticsOverViewFragment : Fragment() {
         return s
     }
 
-    private fun generateBarData(dataSets: Int, range: Float, count: Int): BarData {
-
-        val tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-
-        val sets = ArrayList<IBarDataSet>()
-
-        for (i in 0 until dataSets) {
-
-            val entries = ArrayList<BarEntry>()
-
-            //            entries = FileUtils.loadEntriesFromAssets(getActivity().getAssets(), "stacked_bars.txt");
-
-            for (j in 0 until count) {
-                entries.add(BarEntry(j.toFloat(), (Math.random() * range).toFloat() + range / 4))
-            }
-
-            val ds = BarDataSet(entries, getLabel(i))
-            ds.setColors(*ColorTemplate.VORDIPLOM_COLORS)
-            sets.add(ds)
-        }
-
-        val d = BarData(sets)
-        d.setValueTypeface(tf)
-        return d
+    fun buildDataBase(): CacheDatabase {
+        return Room.databaseBuilder(this.context,
+                CacheDatabase::class.java, "leeswijzer.db")
+                .build().getInstance(this.context)
     }
 
-    private fun getLabel(i: Int): String {
-        return mLabels[i]
-    }
 }

@@ -139,11 +139,9 @@ open class StatisticsOverViewFragment : Fragment() {
                 Toast.makeText(context, "Sections loaded", Toast.LENGTH_LONG).show()
                 if (data != null) {
                     mChart.data = this.generatePieData(data)
-                    mChart.refreshDrawableState()
-                    Log.d("Application", "StatisticsOverViewFragment: handleDataState: $data")
-                } else {
-                    Log.d("Application", "Data is null")
                 }
+
+                mChart.invalidate()
             }
             ResourceState.ERROR -> Log.d("Application", "SelectSectionFragment: handleDataState: ERROR: $message")
         }

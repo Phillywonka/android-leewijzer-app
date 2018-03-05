@@ -14,11 +14,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
@@ -61,7 +62,7 @@ open class StatisticsOverViewFragment : Fragment() {
     private lateinit var selectSectionViewModel: SelectSectionViewModel
 
     lateinit var mChart: PieChart
-    private val mLabels = arrayOf("Company A", "Company B", "Company C", "Company D", "Company E", "Company F")
+    lateinit var mChart2: BarChart
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,23 +74,8 @@ open class StatisticsOverViewFragment : Fragment() {
 
         val view = inflater!!.inflate(R.layout.fragment_statistics_overview, container, false)
 
-        this.mChart = view.findViewById(R.id.pieChart1)
-
-        mChart = view.findViewById(R.id.pieChart1) as PieChart
-        mChart.getDescription().setEnabled(false)
-
-        mChart.setCenterText(generateCenterText())
-        mChart.setCenterTextSize(10f)
-
-        // radius of the center hole in percent of maximum radius
-        mChart.setHoleRadius(45f)
-        mChart.setTransparentCircleRadius(50f)
-
-        val l = mChart.getLegend()
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP)
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT)
-        l.setOrientation(Legend.LegendOrientation.VERTICAL)
-        l.setDrawInside(false)
+        this.setupPieChart(view)
+        this.setupBarChart(view)
 
         return view
     }
@@ -131,6 +117,47 @@ open class StatisticsOverViewFragment : Fragment() {
                 .get(SelectSectionViewModel::class.java)
     }
 
+    private fun setupPieChart(parent: View) {
+        mChart = parent.findViewById(R.id.pieChart1) as PieChart
+        mChart.getDescription().setEnabled(false)
+
+        mChart.setCenterText(generateCenterText())
+        mChart.setCenterTextSize(10f)
+
+        // radius of the center hole in percent of maximum radius
+        mChart.setHoleRadius(45f)
+        mChart.setTransparentCircleRadius(50f)
+
+        val legend1 = mChart.getLegend()
+        legend1.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP)
+        legend1.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT)
+        legend1.orientation = Legend.LegendOrientation.VERTICAL
+        legend1.setDrawInside(false)
+        mChart.transparentCircleRadius = 50f
+    }
+
+    private fun setupBarChart(parent: View) {
+
+        mChart2 = parent.findViewById(R.id.pieChart2) as BarChart
+        mChart2.description.isEnabled = false
+        mChart2.isClickable = false
+
+        this.mChart2.xAxis.granularity = 1f
+        this.mChart2.axisLeft.isEnabled = false
+        this.mChart2.axisRight.isEnabled = false
+        mChart2.legend.isEnabled = false
+        val description = Description()
+        description.textColor = Color.WHITE
+        description.text = "Behaalde leerdoelen per vak"
+        mChart2.description = description
+//        val legend2 = mChart2.legend
+//        legend2.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+//        legend2.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+//        legend2.orientation = Legend.LegendOrientation.VERTICAL
+//        legend2.setDrawInside(false)
+
+    }
+
     private fun handleDataState(resourceState: ResourceState, data: List<SectionView>?,
                                 message: String?) {
         when (resourceState) {
@@ -139,9 +166,11 @@ open class StatisticsOverViewFragment : Fragment() {
                 Toast.makeText(context, "Sections loaded", Toast.LENGTH_LONG).show()
                 if (data != null) {
                     mChart.data = this.generatePieData(data)
+                    mChart2.data = this.generateBarChartData(data)
                 }
 
                 mChart.invalidate()
+                mChart2.invalidate()
             }
             ResourceState.ERROR -> Log.d("Application", "SelectSectionFragment: handleDataState: ERROR: $message")
         }
@@ -165,6 +194,33 @@ open class StatisticsOverViewFragment : Fragment() {
         pieDataSet.valueTextSize = 12f
 
         return PieData(pieDataSet)
+    }
+
+    /**
+     * generates less data (1 DataSet, 4 values)
+     * @return the generated PieData
+     */
+    private fun generateBarChartData(data: List<SectionView>): BarData {
+
+        val entries = ArrayList<BarEntry>()
+        val courseNames: List<String> = data.distinctBy { it.courseName }.map { it.courseName }
+        courseNames.forEachIndexed({ index, element ->
+            entries.add(BarEntry(index.toFloat(), data.count {
+                it.isChecked && element == it.courseName
+            }.toFloat()))
+        })
+
+        // Tel voor alle verschillende courses de hoeveelheden bij elkaar op.
+
+
+        val barDataSet = BarDataSet(entries, null)
+        barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        barDataSet.valueTextColor = Color.WHITE
+        barDataSet.valueTextSize = 12f
+        barDataSet.stackLabels = courseNames.toTypedArray()
+        this.mChart2.xAxis.valueFormatter = IndexAxisValueFormatter(courseNames)
+
+        return BarData(barDataSet)
     }
 
     private fun generateCenterText(): SpannableString {

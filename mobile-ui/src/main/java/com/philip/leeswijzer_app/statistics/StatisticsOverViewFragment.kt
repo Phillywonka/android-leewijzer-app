@@ -150,11 +150,7 @@ open class StatisticsOverViewFragment : Fragment() {
         description.textColor = Color.WHITE
         description.text = "Behaalde leerdoelen per vak"
         mChart2.description = description
-//        val legend2 = mChart2.legend
-//        legend2.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-//        legend2.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-//        legend2.orientation = Legend.LegendOrientation.VERTICAL
-//        legend2.setDrawInside(false)
+        mChart2.setDrawGridBackground(false)
 
     }
 

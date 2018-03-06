@@ -51,11 +51,11 @@ class SelectSectionsFragment : Fragment() {
     companion object {
         val TAG = "selectSectionFragment"
 
-        fun newInstance(sectionName: String): SelectSectionsFragment {
+        fun newInstance(courseName: String): SelectSectionsFragment {
 
             val selectSectionsFragment = SelectSectionsFragment()
             val bundle = Bundle()
-            bundle.putString("course_name", sectionName)
+            bundle.putString("course_name", courseName)
             selectSectionsFragment.arguments = bundle
 
             return selectSectionsFragment

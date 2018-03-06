@@ -16,7 +16,7 @@ class CoursesActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addSelectCourseFragment()
+        this.addSelectCourseFragment()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

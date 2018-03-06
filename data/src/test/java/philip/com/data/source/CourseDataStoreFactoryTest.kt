@@ -1,4 +1,4 @@
-package org.buffer.android.boilerplate.data.source
+package philip.com.data.source
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -33,23 +33,23 @@ class CourseDataStoreFactoryTest {
     //<editor-fold desc="Retrieve Data Store">
     @Test
     fun retrieveDataStoreWhenNotCachedReturnsRemoteDataStore() {
-        stubBufferooCacheIsCached(Single.just(false))
+        stubCourseCacheIsCached(Single.just(false))
         val courseDataStore = courseDataStoreFactory.retrieveDataStore(false)
         assert(courseDataStore is CourseRemoteDataStore)
     }
 
     @Test
     fun retrieveDataStoreWhenCacheExpiredReturnsRemoteDataStore() {
-        stubBufferooCacheIsCached(Single.just(true))
-        stubBufferooCacheIsExpired(true)
+        stubCourseCacheIsCached(Single.just(true))
+        stubCourseCacheIsExpired(true)
         val courseDataStore = courseDataStoreFactory.retrieveDataStore(true)
         assert(courseDataStore is CourseRemoteDataStore)
     }
 
     @Test
     fun retrieveDataStoreReturnsCacheDataStore() {
-        stubBufferooCacheIsCached(Single.just(true))
-        stubBufferooCacheIsExpired(false)
+        stubCourseCacheIsCached(Single.just(true))
+        stubCourseCacheIsExpired(false)
         val courseDataStore = courseDataStoreFactory.retrieveDataStore(true)
         assert(courseDataStore is CourseCacheDataStore)
     }
@@ -72,12 +72,12 @@ class CourseDataStoreFactoryTest {
     //</editor-fold>
 
     //<editor-fold desc="Stub helper methods">
-    private fun stubBufferooCacheIsCached(single: Single<Boolean>) {
+    private fun stubCourseCacheIsCached(single: Single<Boolean>) {
         whenever(courseCache.isCached())
                 .thenReturn(single)
     }
 
-    private fun stubBufferooCacheIsExpired(isExpired: Boolean) {
+    private fun stubCourseCacheIsExpired(isExpired: Boolean) {
         whenever(courseCache.isExpired())
                 .thenReturn(isExpired)
     }

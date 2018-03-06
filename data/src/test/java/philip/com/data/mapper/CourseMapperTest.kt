@@ -24,18 +24,18 @@ class CourseMapperTest {
         val courseEntity = CourseFactory.makeCourseEntity()
         val course = courseMapper.mapFromEntity(courseEntity)
 
-        assertBufferooDataEquality(courseEntity, course)
+        assertCourseDataEquality(courseEntity, course)
     }
 
     @Test
     fun mapToEntityMapsData() {
-        val cachedBufferoo = CourseFactory.makeCourse()
-        val courseEntity = courseMapper.mapToEntity(cachedBufferoo)
+        val cachedCourse = CourseFactory.makeCourse()
+        val courseEntity = courseMapper.mapToEntity(cachedCourse)
 
-        assertBufferooDataEquality(courseEntity, cachedBufferoo)
+        assertCourseDataEquality(courseEntity, cachedCourse)
     }
 
-    private fun assertBufferooDataEquality(courseEntity: CourseEntity,
+    private fun assertCourseDataEquality(courseEntity: CourseEntity,
                                            course: Course) {
         assertEquals(courseEntity.name, course.name)
         assertEquals(courseEntity.fieldOfStudy, course.fieldOfStudy)

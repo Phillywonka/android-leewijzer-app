@@ -86,12 +86,16 @@ class AddCourseFragment : Fragment() {
                                 message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", ": handleDataState: loading")
+
             ResourceState.SUCCESS -> {
+
                 val model = ViewModelProviders.of(activity).get(SelectCourseViewModel::class.java)
                 model.fetchCourses()
+
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 activity.supportFragmentManager.popBackStack()
             }
+
             ResourceState.ERROR -> Toast.makeText(context, "Deze course is al toegevoegd", Toast.LENGTH_SHORT).show()
         }
     }

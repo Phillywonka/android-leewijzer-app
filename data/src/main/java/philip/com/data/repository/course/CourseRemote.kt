@@ -5,8 +5,7 @@ import io.reactivex.Flowable
 import philip.com.data.models.CourseEntity
 
 /**
- * Interface defining methods for the caching of Courses. This is to be implemented by the
- * cache layer, using this interface as a way of communicating.
+ * Interface defining methods for retrieving courses from the cloud.
  */
 interface CourseRemote {
 

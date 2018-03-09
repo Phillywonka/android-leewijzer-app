@@ -6,7 +6,7 @@ package philip.com.data.models
  * @since 09-12-17
  */
 class StudentEntity(
-        var number: String,
+        val number: String,
         val fistName: String,
         val lastName: String,
         val password: String

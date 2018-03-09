@@ -27,11 +27,6 @@ interface CourseCache {
      */
     fun getCourses(): Flowable<List<CourseEntity>>
 
-//    /**
-//     * Retrieve a list all available of Courses, from the remote
-//     */
-//    fun getAllCourses(): Flowable<List<CourseEntity>>
-
     /**
      * Check whether there is a list of Courses stored in the cache.
      *

@@ -1,7 +1,7 @@
 package philip.com.remote
 
 import io.reactivex.Completable
-import retrofit2.http.POST
+import retrofit2.http.GET
 import retrofit2.http.Path
 
 /**
@@ -10,7 +10,7 @@ import retrofit2.http.Path
  **/
 interface StudentService {
 
-    @POST("login/{student_number}/{student_password}")
+    @GET("login/{student_number}/{password}")
     fun login(@Path("student_number") studentNumber: String,
               @Path("password") password: String): Completable
 }

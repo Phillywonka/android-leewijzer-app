@@ -1,8 +1,6 @@
 package philip.com.data.repository.student
 
-import io.reactivex.Flowable
 import io.reactivex.Single
-import philip.com.domain.model.Course
 
 
 /**
@@ -10,8 +8,6 @@ import philip.com.domain.model.Course
  * cache layer, using this interface as a way of communicating.
  */
 interface StudentCache {
-
-    fun getCoursesForStudent(studentNumber: String): Flowable<List<Course>>
 
     /**
      * Check whether there is a Student stored in the cache.

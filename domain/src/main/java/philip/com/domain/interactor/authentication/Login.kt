@@ -17,7 +17,7 @@ open class Login(private val studentRepository: StudentRepository,
 
     public override fun buildUseCaseObservable(params: HashMap<String, String>): Completable {
         return studentRepository.askForLogin(
-                params.getValue("studentNumber"),
+                params.getValue("student_number"),
                 params.getValue("password")
         )
     }

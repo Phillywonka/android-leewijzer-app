@@ -7,6 +7,7 @@ import philip.com.data.source.student.StudentDataStoreFactory
 import philip.com.domain.model.Course
 import philip.com.domain.model.Student
 import philip.com.domain.repository.StudentRepository
+import javax.naming.OperationNotSupportedException
 
 /**
  * Provides an implementation of the [StudentRepository] interface for communicating to and from
@@ -21,15 +22,15 @@ class StudentDataRepository(private val factory: StudentDataStoreFactory,
     }
 
     override fun askForLogout(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Completable.complete()
     }
 
     override fun getCoursesForStudent(studentNumber: String): Flowable<List<Course>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw OperationNotSupportedException()
     }
 
     override fun askForLogin(studentNumber: String, password: String): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return factory.retrieveDataStore(false).askForLogin(studentNumber, password)
     }
 
 }

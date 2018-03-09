@@ -13,7 +13,7 @@ data class CachedStudent(
 
         @PrimaryKey
         val number: String,
-        val name: String,
-        val password: String,
-        val fieldOfStudy: String
+        val firstName: String,
+        val lastName: String,
+        val password: String
 )

@@ -8,8 +8,7 @@ import com.philip.presentation.data.ResourceState
 import com.philip.presentation.model.CourseView
 import philip.com.domain.interactor.course.AddCourse
 
-open class AddCourseViewModel(
-        private val addCourse: AddCourse) : ViewModel() {
+open class AddCourseViewModel(private val addCourse: AddCourse) : ViewModel() {
 
     private val addCourseLiveData: MutableLiveData<Resource<Void>> = MutableLiveData()
 
@@ -24,13 +23,12 @@ open class AddCourseViewModel(
         map.put("student_number", "1085328")
         map.put("course_name", courseView.name)
 
-        addCourse.execute(map).
-                subscribe({
-                    addCourseLiveData.postValue(Resource(ResourceState.SUCCESS, null,
-                            "Vak is toegevoegd"))
-                }, { error ->
-                    addCourseLiveData.postValue(Resource(ResourceState.ERROR, null, error.message))
-                })
+        addCourse.execute(map).subscribe({
+            addCourseLiveData.postValue(Resource(ResourceState.SUCCESS, null,
+                    "Vak is toegevoegd"))
+        }, { error ->
+            addCourseLiveData.postValue(Resource(ResourceState.ERROR, null, error.message))
+        })
     }
 
 }

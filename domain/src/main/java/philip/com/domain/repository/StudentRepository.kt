@@ -2,8 +2,8 @@ package philip.com.domain.repository
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import philip.com.domain.model.Student
 import philip.com.domain.model.Course
+import philip.com.domain.model.Student
 
 /**
  * Interface defining methods for how the data layer can pass data to and from the Domain layer.

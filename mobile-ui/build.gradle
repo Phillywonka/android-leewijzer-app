@@ -105,5 +105,9 @@ dependencies {
         exclude module: 'recyclerview-v7'
         exclude module: 'design'
     }
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

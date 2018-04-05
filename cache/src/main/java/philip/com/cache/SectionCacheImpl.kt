@@ -50,14 +50,6 @@ class SectionCacheImpl(val sectionsDatabase: CacheDatabase,
         }
     }
 
-//    override fun getAllSections(): Flowable<List<SectionEntity>> {
-//        return Flowable.defer {
-//            Flowable.just(sectionsDatabase.cachedSectionDao().loadSelectedSections())
-//        }.map {
-//            it.map { entityMapper.mapFromCached(it) }
-//        }
-//    }
-
     /**
      * Retrieve a list of [SectionEntity] instances from the database.
      */

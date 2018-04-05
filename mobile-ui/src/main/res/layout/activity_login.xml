@@ -8,36 +8,10 @@
               android:orientation="vertical"
               tools:context=".student.LoginActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
-        android:text="Welcome!"
-        android:textColor="@color/white"
-        android:textSize="36sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:text="DroidTuts4You.com"
-        android:textColor="@color/white"
-        android:textSize="25sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="25dp"
-        android:text="SignIn"
-        android:textColor="@color/white"
-        android:textSize="20sp"/>
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
 
         <EditText
             android:id="@+id/student_number_edit_text"
@@ -47,7 +21,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:hint="Email"
+            android:hint="student nummer"
             android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textColorHint="@color/white"/>
@@ -65,31 +39,31 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:hint="Password"
+            android:hint="Wachtwoord"
             android:inputType="textPassword"
             android:singleLine="true"
             android:textColorHint="@color/white"/>
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="22dp"
-        android:background="#d67601"
-        android:text="Sign in"
-        android:textAllCaps="false"
-        android:textColor="#fff"
-        android:textSize="18sp"/>
-    <Button
-        android:id="@+id/btnReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#00000000"
-        android:text="Register!"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorAccent"/>
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#d67601"
+            android:text="Inloggen"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+        <Button
+            android:id="@+id/btnReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:text="Registeren"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorAccent"/>
+
 
 </LinearLayout>

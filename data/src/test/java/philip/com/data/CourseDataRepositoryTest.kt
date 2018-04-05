@@ -28,11 +28,13 @@ class CourseDataRepositoryTest {
 
     @Before
     fun setUp() {
+
         courseDataStoreFactory = mock()
         courseMapper = mock()
         courseCacheDataStore = mock()
         courseRemoteDataStore = mock()
         courseDataRepository = CourseDataRepository(courseDataStoreFactory, courseMapper)
+
         stubCourseDataStoreFactoryRetrieveCacheDataStore()
         stubCourseDataStoreFactoryRetrieveRemoteDataStore()
     }

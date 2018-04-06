@@ -21,6 +21,7 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.philip.leeswijzer_app.CredentialProvider
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.presentation.data.Resource
@@ -83,7 +84,7 @@ open class StatisticsOverViewFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        getSectionsViewModel.getSelectedSections("1085328",
+        getSectionsViewModel.getSelectedSections(
                 "all").observe(this,
                 Observer<Resource<List<SectionView>>> {
                     if (it != null) this.handleDataState(it.status, it.data, it.message)
@@ -96,19 +97,23 @@ open class StatisticsOverViewFragment : Fragment() {
                 SectionEntityMapper(),
                 PreferencesHelper(context))
 
-        getSelectedSectionsViewModelFactory = GetSelectedSectionsViewModelFactory(GetSections(SectionDataRepository(
+        getSelectedSectionsViewModelFactory = GetSelectedSectionsViewModelFactory(
+                CredentialProvider(context).getStudentNumber(),
+                GetSections(SectionDataRepository(
                 SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
                         sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
                         SectionServiceFactory.makeSectionService(true), philip.com.remote.mapper.SectionEntityMapper()
                 ))), SectionMapper()),
                 JobExecutor(), UiThread()), com.philip.presentation.mapper.SectionMapper())
 
-        selectSectionsViewModelFactory = SelectSectionsViewModelFactory(SelectSection(SectionDataRepository(
-                SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
-                        sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
-                        SectionServiceFactory.makeSectionService(true), philip.com.remote.mapper.SectionEntityMapper()
-                ))), SectionMapper()),
-                JobExecutor(), UiThread()), com.philip.presentation.mapper.SectionMapper())
+        selectSectionsViewModelFactory = SelectSectionsViewModelFactory(
+                CredentialProvider(context).getStudentNumber(),
+                SelectSection(SectionDataRepository(
+                        SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
+                                sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
+                                SectionServiceFactory.makeSectionService(true), philip.com.remote.mapper.SectionEntityMapper()
+                        ))), SectionMapper()),
+                        JobExecutor(), UiThread()), com.philip.presentation.mapper.SectionMapper())
 
         getSectionsViewModel = ViewModelProviders.of(this, getSelectedSectionsViewModelFactory)
                 .get(GetSectionsViewModel::class.java)

@@ -11,20 +11,23 @@ import io.reactivex.subscribers.DisposableSubscriber
 import philip.com.domain.interactor.sections.SelectSection
 
 open class SelectSectionViewModel(
+        private val studentNumber: String,
         private val selectSection: SelectSection,
         private val sectionMapper: SectionMapper) : ViewModel() {
 
     private val selectSectionLiveData: MutableLiveData<Resource<Int>> = MutableLiveData()
 
     fun selectSection(sectionView: SectionView): LiveData<Resource<Int>> {
-        executeSelectSectionCompletable(sectionView)
+        executeSelectSectionCompletable(studentNumber, sectionView)
         return selectSectionLiveData
     }
 
-    private fun executeSelectSectionCompletable(sectionView: SectionView) {
+    private fun executeSelectSectionCompletable(
+            studentNumber: String,
+            sectionView: SectionView) {
         selectSectionLiveData.postValue(Resource(ResourceState.LOADING, null, null))
         val map = HashMap<String, Any>()
-        map.put("student_number", "1085328")
+        map.put("student_number", studentNumber)
         map.put("course_name", sectionView.courseName)
         map.put("section_id", sectionView.id)
         map.put("selected", sectionView.isChecked)

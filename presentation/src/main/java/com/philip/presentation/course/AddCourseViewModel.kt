@@ -8,7 +8,7 @@ import com.philip.presentation.data.ResourceState
 import com.philip.presentation.model.CourseView
 import philip.com.domain.interactor.course.AddCourse
 
-open class AddCourseViewModel(private val addCourse: AddCourse) : ViewModel() {
+open class AddCourseViewModel(private val studentNumber: String, private val addCourse: AddCourse) : ViewModel() {
 
     private val addCourseLiveData: MutableLiveData<Resource<Void>> = MutableLiveData()
 
@@ -20,8 +20,8 @@ open class AddCourseViewModel(private val addCourse: AddCourse) : ViewModel() {
     private fun executeAddCourseCompletable(courseView: CourseView) {
         addCourseLiveData.postValue(Resource(ResourceState.LOADING, null, null))
         val map = HashMap<String, String>()
-        map.put("student_number", "1085328")
-        map.put("course_name", courseView.name)
+        map["student_number"] = studentNumber
+        map["course_name"] = courseView.name
 
         addCourse.execute(map).subscribe({
             addCourseLiveData.postValue(Resource(ResourceState.SUCCESS, null,

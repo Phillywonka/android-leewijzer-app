@@ -6,12 +6,13 @@ import com.philip.presentation.mapper.SectionMapper
 import philip.com.domain.interactor.sections.SelectSection
 
 open class SelectSectionsViewModelFactory(
+        private val studentNumber: String,
         private val selectSections: SelectSection,
         private val sectionMapper: SectionMapper) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SelectSectionViewModel::class.java)) {
-            return SelectSectionViewModel(selectSections, sectionMapper) as T
+            return SelectSectionViewModel(studentNumber, selectSections, sectionMapper) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

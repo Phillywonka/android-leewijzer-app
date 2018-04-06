@@ -12,6 +12,7 @@ import philip.com.domain.interactor.sections.GetSections
 import philip.com.domain.model.Section
 
 open class GetSectionsViewModel(
+        private val studentNumber: String,
         private val getSections: GetSections,
         private val sectionMapper: SectionMapper) : ViewModel() {
 
@@ -23,7 +24,7 @@ open class GetSectionsViewModel(
         super.onCleared()
     }
 
-    fun getSelectedSections(studentNumber: String, courseName: String): LiveData<Resource<List<SectionView>>> {
+    fun getSelectedSections(courseName: String): LiveData<Resource<List<SectionView>>> {
         this.fetchSection(studentNumber, courseName)
         return sectionsLiveData
     }

@@ -12,6 +12,7 @@ import philip.com.domain.interactor.course.GetSelectedCourses
 import philip.com.domain.model.Course
 
 open class SelectCourseViewModel(
+        private val studentNumber: String,
         private val getSelectedCourses: GetSelectedCourses,
         private val courseMapper: CourseMapper) : ViewModel() {
 
@@ -33,7 +34,7 @@ open class SelectCourseViewModel(
 
     fun fetchCourses() {
         coursesLiveData.postValue(Resource(ResourceState.LOADING, null, null))
-        return getSelectedCourses.execute(CourseSubscriber(),"1085328")
+        return getSelectedCourses.execute(CourseSubscriber(), studentNumber)
     }
 
     inner class CourseSubscriber : DisposableSubscriber<List<Course>>() {

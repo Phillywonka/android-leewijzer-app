@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philip.leeswijzer_app.CredentialProvider
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.courses.SelectCourseRecyclerViewAdapter.OnCourseViewItemClickListener
@@ -70,7 +71,6 @@ class SelectCourseFragment : Fragment() {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectCourseFragment: handleDataState: loading")
             ResourceState.SUCCESS -> {
-                Log.d("Application", "SelectCourseFragment: handleDataState: course added")
                 this.coursesRecyclerViewAdapter.clear()
                 this.coursesRecyclerViewAdapter.addAll(data)
             }
@@ -94,12 +94,14 @@ class SelectCourseFragment : Fragment() {
                 CourseEntityMapper(),
                 PreferencesHelper(context))
 
-        viewModelFactory = SelectCourseViewModelFactory(GetSelectedCourses(CourseDataRepository(
-                CourseDataStoreFactory(courseCache, CourseCacheDataStore(
-                        courseCache), CourseRemoteDataStore(CourseRemoteImpl(
-                        CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()
-                ))), CourseMapper()),
-                JobExecutor(), UiThread()), com.philip.presentation.mapper.CourseMapper())
+        viewModelFactory = SelectCourseViewModelFactory(
+                CredentialProvider(context).getStudentNumber(),
+                GetSelectedCourses(CourseDataRepository(
+                        CourseDataStoreFactory(courseCache, CourseCacheDataStore(
+                                courseCache), CourseRemoteDataStore(CourseRemoteImpl(
+                                CourseServiceFactory.makeCourseService(true), philip.com.remote.mapper.CourseEntityMapper()
+                        ))), CourseMapper()),
+                        JobExecutor(), UiThread()), com.philip.presentation.mapper.CourseMapper())
 
         selectCourseViewModel = ViewModelProviders.of(this.activity, viewModelFactory)
                 .get(SelectCourseViewModel::class.java)

@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philip.leeswijzer_app.CredentialProvider
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.presentation.data.Resource
@@ -79,7 +80,7 @@ class SelectSectionsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        getSectionsViewModel.getSelectedSections("1085328",
+        getSectionsViewModel.getSelectedSections(
                 arguments.getString("course_name")).observe(this,
                 Observer<Resource<List<SectionView>>> {
                     if (it != null) this.handleDataState(it.status, it.data, it.message)
@@ -117,19 +118,23 @@ class SelectSectionsFragment : Fragment() {
                 philip.com.cache.mapper.SectionEntityMapper(),
                 PreferencesHelper(context))
 
-        getSelectedSectionsViewModelFactory = GetSelectedSectionsViewModelFactory(GetSections(SectionDataRepository(
+        getSelectedSectionsViewModelFactory = GetSelectedSectionsViewModelFactory(
+                CredentialProvider(context).getStudentNumber(),
+                GetSections(SectionDataRepository(
                 SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
                         sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
                         SectionServiceFactory.makeSectionService(true), SectionEntityMapper()
                 ))), philip.com.data.mapper.SectionMapper()),
                 JobExecutor(), UiThread()), SectionMapper())
 
-        selectSectionsViewModelFactory = SelectSectionsViewModelFactory(SelectSection(SectionDataRepository(
-                SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
-                        sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
-                        SectionServiceFactory.makeSectionService(true), SectionEntityMapper()
-                ))), philip.com.data.mapper.SectionMapper()),
-                JobExecutor(), UiThread()), SectionMapper())
+        selectSectionsViewModelFactory = SelectSectionsViewModelFactory(
+                CredentialProvider(context).getStudentNumber(),
+                SelectSection(SectionDataRepository(
+                        SectionDataStoreFactory(sectionCache, SectionCacheDataStore(
+                                sectionCache), SectionRemoteDataStore(SectionRemoteImpl(
+                                SectionServiceFactory.makeSectionService(true), SectionEntityMapper()
+                        ))), philip.com.data.mapper.SectionMapper()),
+                        JobExecutor(), UiThread()), SectionMapper())
 
         getSectionsViewModel = ViewModelProviders.of(this, getSelectedSectionsViewModelFactory)
                 .get(GetSectionsViewModel::class.java)

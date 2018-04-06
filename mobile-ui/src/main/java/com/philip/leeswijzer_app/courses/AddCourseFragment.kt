@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.philip.leeswijzer_app.CredentialProvider
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.presentation.course.*
@@ -118,12 +119,14 @@ class AddCourseFragment : Fragment() {
                 philip.com.cache.mapper.CourseEntityMapper(),
                 PreferencesHelper(context))
 
-        addCourseViewModelFactory = AddCourseViewModelFactory(AddCourse(CourseDataRepository(
-                CourseDataStoreFactory(courseCache, CourseCacheDataStore(
-                        courseCache), CourseRemoteDataStore(CourseRemoteImpl(
-                        CourseServiceFactory.makeCourseService(true), CourseEntityMapper()
-                ))), CourseMapper()),
-                JobExecutor(), UiThread()))
+        addCourseViewModelFactory = AddCourseViewModelFactory(
+                CredentialProvider(context).getStudentNumber(),
+                AddCourse(CourseDataRepository(
+                        CourseDataStoreFactory(courseCache, CourseCacheDataStore(
+                                courseCache), CourseRemoteDataStore(CourseRemoteImpl(
+                                CourseServiceFactory.makeCourseService(true), CourseEntityMapper()
+                        ))), CourseMapper()),
+                        JobExecutor(), UiThread()))
 
         getAllCoursesViewModelFactory = GetAllCoursesViewModelFactory(GetAllCourses(CourseDataRepository(
                 CourseDataStoreFactory(courseCache, CourseCacheDataStore(

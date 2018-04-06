@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.philip.leeswijzer_app.CredentialProvider
 import com.philip.leeswijzer_app.R
 import com.philip.leeswijzer_app.UiThread
 import com.philip.leeswijzer_app.courses.CoursesActivity
@@ -125,6 +126,7 @@ class LoginActivity : AppCompatActivity() {
 
             ResourceState.SUCCESS -> {
                 Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                CredentialProvider(applicationContext).setStudentNumber(this.studentNumberEditText.text.toString())
                 val intent = Intent(this.applicationContext, CoursesActivity::class.java)
                 this.startActivity(intent)
             }

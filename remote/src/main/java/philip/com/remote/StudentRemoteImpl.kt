@@ -18,6 +18,18 @@ class StudentRemoteImpl(private val studentService: StudentService,
         StudentRemote {
 
     /**
+     * Register a new student
+     */
+    override fun register(studentNumber: String, firstName: String, lastName: String, password: String)
+            : Completable {
+        return try {
+            studentService.register(studentNumber, firstName, lastName, password)
+        } catch (error: HTTPException) {
+            Completable.error(error)
+        }
+    }
+
+    /**
      * Log in a student
      */
     override fun login(studentNumber: String, password: String): Completable {

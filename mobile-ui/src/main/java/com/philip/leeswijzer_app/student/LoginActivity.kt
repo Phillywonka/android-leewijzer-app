@@ -46,11 +46,18 @@ class LoginActivity : AppCompatActivity() {
     lateinit var passwordEditText: EditText
     lateinit var loginButton: Button
 
+    lateinit var registerButton: Button
+
+    companion object {
+        const val REQUEST_REGISTER = 0
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_login)
 
         this.setupLoginButton()
+        this.setupRegisterButton()
         this.setupStudentNumberEditText()
         this.setupPasswordEditText()
     }
@@ -93,12 +100,23 @@ class LoginActivity : AppCompatActivity() {
         this.loginButton.setOnClickListener(this.onLoginButtonClickListener)
     }
 
-    private fun askForLogin() {
+    private fun setupRegisterButton() {
+        this.registerButton = this.findViewById(R.id.register_button)
+        this.registerButton.setOnClickListener(this.onRegisterButtonClickListener)
+    }
+
+    private fun askForLogin(): Boolean {
         if (this.studentNumberEditText.text.isEmpty() && this.studentNumberEditText.hasFocus()) {
             this.studentNumberEditText.error = "Dit veld is verplicht"
+            return false
         } else if (this.passwordEditText.text.isEmpty() && this.passwordEditText.hasFocus()) {
             this.passwordEditText.error = "Dit veld is verplicht"
+            return false
+        } else if (this.studentNumberEditText.text.isEmpty() || this.passwordEditText.text.isEmpty()) {
+            return false
         }
+
+        return true
     }
 
     private fun handleDataState(resourceState: ResourceState,
@@ -118,15 +136,21 @@ class LoginActivity : AppCompatActivity() {
 
 
     private val onLoginButtonClickListener = View.OnClickListener {
-        this.askForLogin()
 
-        this.loginViewModel.login(studentNumberEditText.text.toString(),
-                passwordEditText.text.toString()).observe(this,
-                Observer<Resource<Void>> {
-                    if (it != null) this.handleDataState(it.status, it.message)
-                })
+        if (this.askForLogin()) {
+            this.loginViewModel.login(studentNumberEditText.text.toString(),
+                    passwordEditText.text.toString()).observe(this,
+                    Observer<Resource<Void>> {
+                        if (it != null) this.handleDataState(it.status, it.message)
+                    })
+        }
+
     }
 
+    private val onRegisterButtonClickListener = View.OnClickListener {
+        val intent = Intent(applicationContext, RegisterStudentActivity::class.java)
+        startActivityForResult(intent, REQUEST_REGISTER)
+    }
 
     class LoginFieldTextWatcher(val field: EditText) : TextWatcher {
 

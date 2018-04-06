@@ -5,7 +5,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import philip.com.data.models.StudentEntity
 import philip.com.data.repository.student.StudentCache
-import philip.com.data.repository.student.StudentDatastore
+import philip.com.data.repository.student.StudentDataStore
 import philip.com.domain.model.Student
 
 /**
@@ -13,7 +13,12 @@ import philip.com.domain.model.Student
  * with the local data source
  */
 open class StudentCacheDataStore(private val studentCache: StudentCache) :
-        StudentDatastore {
+        StudentDataStore {
+
+    override fun register(studentNumber: String, firstName: String, lastName: String, password: String)
+            : Completable {
+        throw UnsupportedOperationException()
+    }
 
     override fun getSignedInStudent(): Flowable<Student> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

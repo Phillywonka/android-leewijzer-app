@@ -3,7 +3,7 @@ package philip.com.data.source.student
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import philip.com.data.repository.student.StudentDatastore
+import philip.com.data.repository.student.StudentDataStore
 import philip.com.data.repository.student.StudentRemote
 import philip.com.domain.model.Student
 
@@ -12,7 +12,12 @@ import philip.com.domain.model.Student
  * with the remote data source
  */
 open class StudentRemoteDataStore(private val studentRemote: StudentRemote) :
-        StudentDatastore {
+        StudentDataStore {
+
+    override fun register(studentNumber: String, firstName: String, lastName: String, password: String)
+            : Completable {
+        return studentRemote.register(studentNumber, firstName, lastName, password)
+    }
 
     override fun getSignedInStudent(): Flowable<Student> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

@@ -12,4 +12,8 @@ interface StudentRemote {
      */
     fun login(studentNumber: String, password: String): Completable
 
+    /**
+     * Register a new student
+     */
+    fun register(studentNumber: String, firstName: String, lastName: String, password: String): Completable
 }

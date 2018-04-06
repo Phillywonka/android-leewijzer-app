@@ -14,6 +14,8 @@ interface StudentRepository {
 
     fun askForLogin(studentNumber: String, password: String): Completable
 
+    fun register(studentNumber: String, firstName: String, lastName: String, password: String): Completable
+
     fun askForLogout(): Completable
 
     fun getStudentSignedIn(): Flowable<Student>

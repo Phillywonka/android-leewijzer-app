@@ -10,9 +10,11 @@ import philip.com.domain.model.Student
  * This is to be implemented by external data source layers, setting the requirements for the
  * operations that need to be implemented
  */
-interface StudentDatastore {
+interface StudentDataStore {
 
     fun getSignedInStudent(): Flowable<Student>
+
+    fun register(studentNumber: String, firstName: String, lastName: String, password: String): Completable
 
     fun askForLogin(studentNumber: String, password: String): Completable
 

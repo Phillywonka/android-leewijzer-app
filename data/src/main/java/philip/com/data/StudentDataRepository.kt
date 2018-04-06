@@ -33,4 +33,8 @@ class StudentDataRepository(private val factory: StudentDataStoreFactory,
         return factory.retrieveDataStore(false).askForLogin(studentNumber, password)
     }
 
+    override fun register(studentNumber: String, firstName: String, lastName: String,
+                          password: String): Completable {
+        return factory.retrieveDataStore(false).register(studentNumber, firstName, password, password)
+    }
 }

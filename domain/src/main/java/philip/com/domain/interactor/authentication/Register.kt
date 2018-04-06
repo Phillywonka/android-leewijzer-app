@@ -16,8 +16,11 @@ open class Register(private val studentRepository: StudentRepository,
         CompletableUseCase<HashMap<String, String>>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(params: HashMap<String, String>): Completable {
-        return studentRepository.askForLogin(
+
+        return studentRepository.register(
                 params.getValue("student_number"),
+                params.getValue("first_name") ,
+                params.getValue("last_name"),
                 params.getValue("password")
         )
     }

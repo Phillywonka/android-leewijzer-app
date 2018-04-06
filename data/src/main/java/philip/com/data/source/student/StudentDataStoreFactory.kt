@@ -7,16 +7,16 @@ import philip.com.data.repository.student.StudentDataStore
  * Create an instance of a StudentDataStore
  */
 open class StudentDataStoreFactory(
-        private val studentCache: StudentCache,
-        private val studentCacheDataStore: StudentCacheDataStore,
-        private val studentRemoteDataStore: StudentRemoteDataStore) {
+        private val studentCache: StudentCache?,
+        private val studentCacheDataStore: StudentCacheDataStore?,
+        private val studentRemoteDataStore: StudentRemoteDataStore?) {
 
     /**
      * Returns a DataStore based on whether or not there is content in the cache and the cache
      * has not expired
      */
-    open fun retrieveDataStore(isCached: Boolean): StudentDataStore {
-        if (isCached && !studentCache.isExpired()) {
+    open fun retrieveDataStore(isCached: Boolean): StudentDataStore? {
+        if (isCached && !studentCache!!.isExpired()) {
             return retrieveCacheDataStore()
         }
         return retrieveRemoteDataStore()
@@ -25,14 +25,14 @@ open class StudentDataStoreFactory(
     /**
      * Return an instance of the Cache Data Store
      */
-    open fun retrieveCacheDataStore(): StudentDataStore {
+    open fun retrieveCacheDataStore(): StudentDataStore? {
         return studentCacheDataStore
     }
 
     /**
      * Return an instance of the Remote Data Store
      */
-    open fun retrieveRemoteDataStore(): StudentDataStore {
+    open fun retrieveRemoteDataStore(): StudentDataStore? {
         return studentRemoteDataStore
     }
 

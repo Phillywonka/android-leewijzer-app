@@ -1,6 +1,7 @@
 package com.philip.leeswijzer_app.student
 
-import android.arch.persistence.room.Room
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -9,13 +10,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.philip.leeswijzer_app.R
+import com.philip.leeswijzer_app.UiThread
+import com.philip.presentation.data.Resource
 import com.philip.presentation.data.ResourceState
-import com.philip.presentation.model.SectionView
-import com.philip.presentation.section.GetSectionsViewModel
-import com.philip.presentation.section.GetSelectedSectionsViewModelFactory
-import com.philip.presentation.section.SelectSectionViewModel
-import com.philip.presentation.section.SelectSectionsViewModelFactory
-import philip.com.cache.database.CacheDatabase
+import com.philip.presentation.student.RegisterViewModel
+import com.philip.presentation.student.RegisterViewModelFactory
+import philip.com.data.StudentDataRepository
+import philip.com.data.executor.JobExecutor
+import philip.com.data.mapper.StudentMapper
+import philip.com.data.source.student.StudentDataStoreFactory
+import philip.com.data.source.student.StudentRemoteDataStore
+import philip.com.domain.interactor.authentication.Register
+import philip.com.remote.StudentRemoteImpl
+import philip.com.remote.StudentServiceFactory
 
 /**
  * @author Philip Wong
@@ -27,10 +34,8 @@ open class RegisterStudentActivity : AppCompatActivity() {
         const val TAG = "registerStudentActivity"
     }
 
-    private lateinit var getSelectedSectionsViewModelFactory: GetSelectedSectionsViewModelFactory
-    private lateinit var selectSectionsViewModelFactory: SelectSectionsViewModelFactory
-    private lateinit var getSectionsViewModel: GetSectionsViewModel
-    private lateinit var selectSectionViewModel: SelectSectionViewModel
+    private lateinit var registerViewModelFactory: RegisterViewModelFactory
+    private lateinit var registerViewModel: RegisterViewModel
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
@@ -52,6 +57,16 @@ open class RegisterStudentActivity : AppCompatActivity() {
     }
 
     private fun initViewModels() {
+        registerViewModelFactory = RegisterViewModelFactory(Register(StudentDataRepository(
+                StudentDataStoreFactory(null, null, StudentRemoteDataStore(StudentRemoteImpl(
+                        StudentServiceFactory.makeStudentService(true),
+                        philip.com.remote.mapper.StudentEntityMapper()
+                ))), StudentMapper()),
+                JobExecutor(), UiThread()))
+
+
+        registerViewModel = ViewModelProviders.of(this, registerViewModelFactory)
+                .get(RegisterViewModel::class.java)
 
     }
 
@@ -68,26 +83,28 @@ open class RegisterStudentActivity : AppCompatActivity() {
         this.passwordVerificationEditText.onFocusChangeListener = this.onFocusChangeListener
     }
 
-    private fun handleDataState(resourceState: ResourceState, data: List<SectionView>?,
-                                message: String?) {
+    private fun handleDataState(resourceState: ResourceState, message: String?) {
         when (resourceState) {
             ResourceState.LOADING -> Log.d("Application", "SelectSectionFragment: handleDataState: loading")
             ResourceState.SUCCESS -> {
-//                Toast.makeText(context, "Sections loaded", Toast.LENGTH_LONG).show()
+                this.setResult(android.app.Activity.RESULT_OK)
+                this.finish()
             }
-            ResourceState.ERROR -> Log.d("Application", "SelectSectionFragment: handleDataState: ERROR: $message")
+            ResourceState.ERROR -> Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
         }
-    }
-
-    private fun onRegisterSuccess() {
-
-        this.setResult(android.app.Activity.RESULT_OK)
-        this.finish()
     }
 
     private val onRegisterButtonClickListener = View.OnClickListener {
         if (this.validate()) {
-            this.onRegisterSuccess()
+            this.registerViewModel.register(
+                    this.firstNameEditText.text.toString(),
+                    this.lastNameEditText.text.toString(),
+                    this.studentNumberNameEditText.text.toString(),
+                    this.passwordEditText.text.toString()
+            ).observe(this,
+                    Observer<Resource<Void>> {
+                        if (it != null) this.handleDataState(it.status, it.message)
+                    })
         } else {
             Toast.makeText(applicationContext, "Account aanmaken mislukt", Toast.LENGTH_LONG).show()
         }
@@ -99,37 +116,34 @@ open class RegisterStudentActivity : AppCompatActivity() {
         }
     }
 
-
-    fun buildDataBase(): CacheDatabase {
-        return Room.databaseBuilder(applicationContext,
-                CacheDatabase::class.java, "leeswijzer.db")
-                .build().getInstance(applicationContext)
-    }
-
-
     private fun validate(): Boolean {
 
-        val warningText = "Veld mag niet leeg zijn"
+        val emptyFieldWarningText = "Veld mag niet leeg zijn"
+        val invalidPasswordWarningText = "Wachtwoorden komen niet overeen"
 
         return when {
             this.firstNameEditText.text.isBlank() -> {
-                this.firstNameEditText.error = warningText
+                this.firstNameEditText.error = emptyFieldWarningText
                 false
             }
             this.lastNameEditText.text.isBlank() -> {
-                this.lastNameEditText.error = warningText
+                this.lastNameEditText.error = emptyFieldWarningText
                 false
             }
             this.studentNumberNameEditText.text.isBlank() -> {
-                this.studentNumberNameEditText.error = warningText
+                this.studentNumberNameEditText.error = emptyFieldWarningText
                 false
             }
             this.passwordEditText.text.isBlank() -> {
-                this.passwordEditText.error = warningText
+                this.passwordEditText.error = emptyFieldWarningText
                 false
             }
             this.passwordVerificationEditText.text.isBlank() -> {
-                this.passwordVerificationEditText.error = warningText
+                this.passwordVerificationEditText.error = emptyFieldWarningText
+                false
+            }
+            this.passwordEditText.text.toString() != passwordVerificationEditText.text.toString() -> {
+                this.passwordEditText.error = invalidPasswordWarningText
                 false
             }
             else -> true

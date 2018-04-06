@@ -18,7 +18,7 @@ class StudentDataRepository(private val factory: StudentDataStoreFactory,
         StudentRepository {
 
     override fun getStudentSignedIn(): Flowable<Student> {
-        return factory.retrieveCacheDataStore().getSignedInStudent()
+        return factory.retrieveCacheDataStore()!!.getSignedInStudent()
     }
 
     override fun askForLogout(): Completable {
@@ -30,11 +30,11 @@ class StudentDataRepository(private val factory: StudentDataStoreFactory,
     }
 
     override fun askForLogin(studentNumber: String, password: String): Completable {
-        return factory.retrieveDataStore(false).askForLogin(studentNumber, password)
+        return factory.retrieveRemoteDataStore()!!.askForLogin(studentNumber, password)
     }
 
     override fun register(studentNumber: String, firstName: String, lastName: String,
                           password: String): Completable {
-        return factory.retrieveDataStore(false).register(studentNumber, firstName, password, password)
+        return factory.retrieveRemoteDataStore()!!.register(studentNumber, firstName, lastName, password)
     }
 }

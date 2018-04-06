@@ -11,7 +11,7 @@ import retrofit2.http.Path
  **/
 interface StudentService {
 
-    @POST("login/{student_number}/{first_name}/{last_name}/{password}")
+    @POST("register/{student_number}/{first_name}/{last_name}/{password}")
     fun register(@Path("student_number") studentNumber: String,
               @Path("first_name") firstName: String,
               @Path("last_name") lastName: String,

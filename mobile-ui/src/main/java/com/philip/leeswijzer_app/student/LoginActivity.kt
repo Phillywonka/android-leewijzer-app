@@ -6,8 +6,6 @@ import android.arch.persistence.room.Room
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -88,11 +86,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupStudentNumberEditText() {
         this.studentNumberEditText = this.findViewById(R.id.student_number_edit_text)
-        this.studentNumberEditText.addTextChangedListener(LoginFieldTextWatcher(studentNumberEditText))
+        this.studentNumberEditText.onFocusChangeListener = this.onFocusChangeListener
     }
 
     private fun setupPasswordEditText() {
         this.passwordEditText = this.findViewById(R.id.password_edit_text)
+        this.passwordEditText.onFocusChangeListener = this.onFocusChangeListener
     }
 
     private fun setupLoginButton() {
@@ -134,6 +133,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private val onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        if (!hasFocus) {
+            (view as EditText).error = null
+        }
+    }
+
 
     private val onLoginButtonClickListener = View.OnClickListener {
 
@@ -150,21 +155,6 @@ class LoginActivity : AppCompatActivity() {
     private val onRegisterButtonClickListener = View.OnClickListener {
         val intent = Intent(applicationContext, RegisterStudentActivity::class.java)
         startActivityForResult(intent, REQUEST_REGISTER)
-    }
-
-    class LoginFieldTextWatcher(val field: EditText) : TextWatcher {
-
-        override fun afterTextChanged(s: Editable) {
-            if (s.isEmpty()) {
-                field.error = "Veld mag niet leeg zijn"
-            }
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
     }
 
     private fun buildDataBase(): CacheDatabase {
